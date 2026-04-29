@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBBA TMT Daily News</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f3ef; --surface: #ffffff; --border: #d8d4cc; --accent: #8B6914;
+    --green: #2e6b2c; --blue: #1a4f8a; --text: #1a1916; --sub: #4a4744;
+    --muted: #8a8580; --checked-bg: #eef4ee; --checked-border: #a8cca6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; line-height: 1.5; }
+  .header { background: #1a1916; padding: 16px 20px 0; position: sticky; top: 0; z-index: 10; }
+  .header-top { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #c8a96e; }
+  .date { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #7a7570; }
+  .tabs { display: flex; }
+  .tab { padding: 11px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; border: none; background: transparent; color: #6a6560; border-bottom: 3px solid transparent; transition: all 0.15s; position: relative; top: 1px; user-select: none; }
+  .tab.active { color: #fff; border-bottom-color: #c8a96e; }
+  .tab-brazil.active { color: #7ec87c; border-bottom-color: #7ec87c; }
+  .tab-global.active { color: #7ab0e0; border-bottom-color: #7ab0e0; }
+  .tab-whats.active { color: #c8a96e; border-bottom-color: #c8a96e; }
+  .content { padding: 16px 16px 48px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+  .panel-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--text); }
+  .panel-meta { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); background: var(--surface); padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); }
+  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 5px 10px; border-radius: 3px; display: inline-block; margin-bottom: 8px; margin-top: 20px; font-weight: 500; }
+  .section-label.brazil { background: #e8f4e8; color: var(--green); }
+  .section-label.global { background: #e8eef8; color: var(--blue); }
+  .section-label.others { background: #f0ede8; color: var(--sub); }
+  .native-cb { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+  .card-wrapper { display: flex; align-items: stretch; margin-bottom: 6px; }
+  .news-card { flex: 1; display: flex; align-items: stretch; background: var(--surface); border: 1px solid var(--border); border-radius: 6px 0 0 6px; cursor: pointer; transition: border-color 0.12s, background 0.12s; user-select: none; border-right: none; }
+  .news-card.checked { background: var(--checked-bg); border-color: var(--checked-border); }
+  .card-check-box { width: 52px; min-height: 60px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .check-visual { width: 24px; height: 24px; border: 2px solid #c0bdb8; border-radius: 4px; background: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.12s; }
+  .news-card.checked .check-visual { background: var(--green); border-color: var(--green); }
+  .news-card.checked .check-visual::after { content: '\2713'; font-size: 14px; color: white; font-weight: bold; line-height: 1; }
+  .card-body { flex: 1; padding: 11px 8px 11px 0; min-width: 0; }
+  .news-title { font-size: 13px; font-weight: 500; line-height: 1.45; }
+  .news-title a { color: var(--text); text-decoration: none; }
+  .news-title a:hover { color: var(--accent); text-decoration: underline; }
+  .news-source { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-prio-wrap { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-left: none; border-radius: 0 6px 6px 0; padding: 0 10px; flex-shrink: 0; transition: background 0.12s, border-color 0.12s; }
+  .card-prio-wrap.checked { background: var(--checked-bg); border-color: var(--checked-border); }
+  .prio-select { border: none; background: transparent; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); cursor: pointer; outline: none; padding: 2px 0; width: 32px; }
+  .prio-select.has-value { color: var(--accent); font-weight: 500; }
+  .whats-meta { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .stat-chip { font-family: 'IBM Plex Mono', monospace; font-size: 11px; background: var(--surface); border: 1px solid var(--border); padding: 4px 10px; border-radius: 20px; }
+  .whats-news-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .whats-section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 6px 0; color: var(--muted); margin-top: 8px; }
+  .whats-section-label.brazil { color: var(--green); }
+  .whats-section-label.global { color: var(--blue); }
+  .whats-item { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+  .whats-item-order { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
+  .whats-item-title { border: none; outline: none; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 500; resize: none; width: 100%; line-height: 1.45; color: var(--text); background: transparent; }
+  .whats-item-url { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); word-break: break-all; }
+  .btn-copy { width: 100%; padding: 14px; background: #1a1916; color: #c8a96e; border: none; border-radius: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: background 0.15s; }
+  .btn-copy:hover { background: #2a2926; }
+  .btn-copy.copied { background: var(--green); color: #fff; }
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-top">
+    <span class="logo">IBBA TMT</span>
+    <span class="date" id="data-hoje"></span>
+  </div>
+  <div class="tabs">
+    <button class="tab tab-brazil active" onclick="switchTab('brazil')">Brazil</button>
+    <button class="tab tab-global" onclick="switchTab('global')">Global</button>
+    <button class="tab tab-whats" onclick="switchTab('whats')">WhatsApp</button>
+  </div>
+</div>
+<div class="content">
+  <div id="panel-brazil" class="tab-panel active">
+    <div class="panel-header">
+      <div class="panel-title">Brazil</div>
+      <div class="panel-meta" id="brazil-count">0 selecionadas</div>
+    </div>
+    <div class="section-label brazil">Official Brazil</div>
+    <div id="list-brazil-official"></div>
+    <div class="section-label others">Other News &mdash; Brazil</div>
+    <div id="list-brazil-others"></div>
+  </div>
+  <div id="panel-global" class="tab-panel">
+    <div class="panel-header">
+      <div class="panel-title">Global</div>
+      <div class="panel-meta" id="global-count">0 selecionadas</div>
+    </div>
+    <div class="section-label global">Official Global</div>
+    <div id="list-global-official"></div>
+    <div class="section-label others">Other News &mdash; Global</div>
+    <div id="list-global-others"></div>
+  </div>
+  <div id="panel-whats" class="tab-panel">
+    <div class="panel-header">
+      <div class="panel-title">WhatsApp</div>
+      <div class="panel-meta" id="whats-count">0 noticias</div>
+    </div>
+    <div class="whats-meta">
+      <div class="stat-chip">Brazil: <b id="stat-brazil">0</b></div>
+      <div class="stat-chip">Global: <b id="stat-global">0</b></div>
+      <div class="stat-chip">Total: <b id="stat-total">0</b></div>
+    </div>
+    <div id="whats-news-list" class="whats-news-list"></div>
+    <button class="btn-copy" id="btn-copy" onclick="copyClipping()">Copiar para area de transferencia</button>
+  </div>
+</div>
+<script>
+var RAW = {
+  brazil: {
+    official: [
+      ["Duas marcas, dois resultados: a ascensão da Vivo, que se torna case no Brasil e no mundo, e a Queda da Oi","https://telesintese.com.br/duas-marcas-dois-resultados-a-ascensao-da-vivo-que-se-torna-case-no-brasil-e-no-mundo-e-a-queda-da-oi/"],
+      ["Vivo nomeia María Rotondo Urcola para o conselho de administração","https://teletime.com.br/27/04/2026/vivo-nomeia-maria-rotondo-urcola-para-o-conselho-de-administracao/"],
+      ["Intelbras vai investir R$ 200 milhões em nova fábrica em Manaus","https://teletime.com.br/27/04/2026/intelbras-vai-investir-r-200-milhoes-em-nova-fabrica-em-manaus/"],
+      ["Veja no Boletim TELETIME: escassez de equipamentos e tributos da Vivo","https://teletime.com.br/27/04/2026/veja-no-boletim-teletime-escassez-de-equipamentos-e-impostos-da-vivo/"]
+    ],
+    others: [
+      ["Ações da Telefônica (VIVT3), dona da Vivo, e da TIM (TIMS3) deixaram de ser ‘atrativas’ para o Bradesco BBI","https://www.moneytimes.com.br/acoes-da-telefonica-vivo-vivt3-e-tim-tims3-deixam-de-ser-atrativas-e-bradesco-bbi-corta-recomendacao-para-neutra-lils/"],
+      ["Rápidas: Petrobras, Prio, Vale, JHSF, Usiminas, Gerdau, Intelbras, Telefônica Brasil, Stone, PagBank","https://financenews.com.br/2026/04/rapidas-petrobras-prio-vale-jhsf-usiminas-gerdau-intelbras-telefonica-brasil-stone-pagbank/"],
+      ["T-Mobile packages 5G and Starlink into a single managed broadband offer for business continuity","https://iotbusinessnews.com/2026/04/28/t-mobile-packages-5g-and-starlink-into-a-single-managed-broadband-offer-for-business-continuity/"],
+      ["TCU autoriza outorgas da Tim e cobra maior rigor fiscalizatório da Anatel","https://jurinews.com.br/instituicoes/tcu-autoriza-outorgas-da-tim-e-cobra-maior-rigor-fiscalizatorio-da-anatel"],
+      ["VTEX chama Michel Tauil para o topo","https://www.baguete.com.br/noticias/vtex-chama-michel-tauil-para-o-topo"],
+      ["Bemobi Nomeia Leonardo Gomes como VP de Marketplaces e Amplia Atração em Pagamentos B2B com Aquisição da Fintech Paytime","https://reportermaceio.com.br/bemobi-nomeia-leonardo-gomes-como-vp-de-marketplaces-e-amplia-atracao-em-pagamentos-b2b-com-aquisicao-da-fintech-paytime/"],
+      ["VTEX anuncia nova estrutura com saída de Rafaela Rezende","https://itforum.com.br/noticias/vtex-anuncia-estrutura-saida-de-rafaela-rezende/"],
+      ["TIM recebe multa de R$ 500 mil por falhas nos serviços","https://www.minhaoperadora.com.br/2026/04/tim-recebe-multa-de-r-500-mil-por-falhas-nos-servicos.html"],
+      ["Anatel disputa prêmio internacional com projetos de inclusão digital","https://teletime.com.br/27/04/2026/anatel-disputa-premio-internacional-de-tecnologia-com-projetos-de-inclusao-digital/"],
+      ["Anatel leva à UIT projetos de 4G, fiscalização digital e TV 3.0","https://telesintese.com.br/anatel-leva-a-uit-projetos-de-4g-fiscalizacao-digital-e-tv-3-0/"],
+      ["Anatel avalia 'grupos estrat&eacute;gicos' para medir competi&ccedil;&atilde;o em telecom","https://teletime.com.br/27/04/2026/anatel-grupos-estrategicos/"],
+      ["Entenda o bloqueio do governo às plataformas de previsão no Brasil","https://teletime.com.br/27/04/2026/governo-bloqueia-apostas-previsao/"],
+      ["Oracle vê telcos como base da nuvem soberana no Brasil","https://telesintese.com.br/oracle-ve-telcos-como-base-da-nuvem-soberana-no-brasil/"],
+      ["Justiça autoriza venda da Oi Soluções e marca leilão para junho","https://telesintese.com.br/justica-autoriza-venda-da-oi-solucoes-e-marca-leilao-para-junho-de-2026/"],
+      ["Veja no Boletim TELETIME: venda da Oi Soluções e competição em telecom","https://teletime.com.br/28/04/2026/veja-no-boletim-teletime-venda-da-oi-solucoes-e-competicao-em-telecom/"]
+    ]
+  },
+  global: {
+    official: [
+      ["Meta's new AI model shows early promise, but investors want to see Zuckerberg's strategy","https://www.cnbc.com/2026/04/28/meta-muse-spark-has-promise-wall-street-wants-zuckerberg-ai-strategy.html"],
+      ["Musk and Altman go to trial, GM earnings, Spotify's fitness push and more in Morning Squawk","https://www.cnbc.com/2026/04/28/5-things-to-know-before-the-market-opens.html"],
+      ["Google Signs A.I. Deal With the Pentagon","https://www.nytimes.com/2026/04/28/technology/google-ai-deal-pentagon.html"],
+      ["Microsoft and OpenAI’s Split May Help Both","https://www.wsj.com/tech/ai/microsoft-and-openais-split-may-help-both-75dcf589"]
+    ],
+    others: [
+      ["FT: Google conta com IA para alcançar Amazon e Microsoft em nuvem computacional","https://valor.globo.com/empresas/noticia/2026/04/27/ft-google-conta-com-ia-para-alcancar-amazon-e-microsoft-em-nuvem-computacional.ghtml"],
+      ["Oracle Stock Slides as OpenAI Misses Put $300 Billion AI Deal Under Pressure - TechStock²","https://ts2.tech/en/oracle-stock-slides-as-openai-misses-put-300-billion-ai-deal-under-pressure/"],
+      ["ORCL stock drops premarket: OpenAI reportedly misses targets, raising concerns over Oracle’s $300B cloud deal","https://www.msn.com/en-us/money/topstocks/orcl-stock-drops-premarket-openai-reportedly-misses-targets-raising-concerns-over-oracle-s-300b-cloud-deal/ar-AA21TYNH?ocid=finance-verthp-feeds"],
+      ["Accenture deploys Microsoft Copilot to 743,000 staff in the largest enterprise AI rollout yet","https://startupfortune.com/accenture-deploys-microsoft-copilot-to-743000-staff-in-the-largest-enterprise-ai-rollout-yet/"],
+      ["OpenAI Revenue Report Stings AI Stocks. Why Oracle Stock Is Falling Sharply. - Investor's Business Daily","https://www.investors.com/news/technology/oracle-stock-ai-stocks-openai-revenue-miss/"],
+      ["Oracle signs $1.65bn Datapod deal for AI expansion – report","https://www.investmentmonitor.ai/news/oracle-signs-a2-3bn-datapod-deal/"],
+      ["OpenAI rompe acordo de exclusividade com Microsoft","https://tiinside.com.br/27/04/2026/openai-rompe-acordo-de-exclusividade-com-microsoft/"],
+      ["OpenAI muda acordo com Microsoft que permite ChatGPT em outras nuvens","https://www.mobiletime.com.br/noticias/27/04/2026/acordo-openai-microsoft/"],
+      ["Google assina acordo de IA secreta com o Pentágono, diz site","https://valor.globo.com/empresas/noticia/2026/04/28/google-assina-acordo-de-ia-secreta-com-o-pentgono-diz-site.ghtml"],
+      ["OpenAI e Microsoft partem para ‘casamento aberto’","https://braziljournal.com/openai-e-microsoft-rompem-exclusividade-agora-e-casamento-aberto/"],
+      ["CrowdStrike lança o Project QuiltWorks com foco em cibersegurança","https://tiinside.com.br/27/04/2026/crowdstrike-lanca-o-project-quiltworks-com-foco-em-ciberseguranca/"]
+    ]
+  }
+};
+
+document.getElementById('data-hoje').textContent = new Date().toLocaleDateString('pt-BR', {weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+var state={};var selectionCounter=0;
+function init(){state={brazil:{official:[],others:[]},global:{official:[],others:[]}};var secs=["brazil","global"],types=["official","others"];for(var s=0;s<secs.length;s++){for(var t=0;t<types.length;t++){var sec=secs[s],typ=types[t],arr=RAW[sec][typ];for(var i=0;i<arr.length;i++){var isOff=(typ==="official");var prefix=sec[0]+(isOff?"f":"t")+i;state[sec][typ].push({title:arr[i][0],editedTitle:arr[i][0],url:arr[i][1],checked:isOff,prio:null,selectedAt:isOff?(selectionCounter++):null,id:prefix,section:sec});}}}}
+function getSource(url){try{return url.replace("https://","").replace("http://","").split("/")[0].replace("www.","");}catch(e){return "";}}
+function allItems(){return state.brazil.official.concat(state.brazil.others,state.global.official,state.global.others);}
+function findItem(id){var all=allItems();for(var i=0;i<all.length;i++){if(all[i].id===id)return all[i];}return null;}
+function renderList(listId,items){var container=document.getElementById(listId);container.innerHTML="";for(var i=0;i<items.length;i++){var item=items[i];var cbId="cb-"+item.id;var wrapper=document.createElement("div");wrapper.className="card-wrapper";var cb=document.createElement("input");cb.type="checkbox";cb.id=cbId;cb.className="native-cb";cb.checked=item.checked;cb.setAttribute("data-id",item.id);cb.addEventListener("change",(function(id){return function(){onCheck(id,this.checked);};})(item.id));wrapper.appendChild(cb);var lbl=document.createElement("label");lbl.htmlFor=cbId;lbl.className="news-card"+(item.checked?" checked":"");lbl.id="card-"+item.id;var checkBox=document.createElement("div");checkBox.className="card-check-box";var visual=document.createElement("div");visual.className="check-visual";checkBox.appendChild(visual);var body=document.createElement("div");body.className="card-body";var titleDiv=document.createElement("div");titleDiv.className="news-title";var a=document.createElement("a");a.href=item.url;a.target="_blank";a.rel="noopener";a.textContent=item.title;a.addEventListener("click",function(e){e.stopPropagation();});titleDiv.appendChild(a);var srcDiv=document.createElement("div");srcDiv.className="news-source";srcDiv.textContent=getSource(item.url);body.appendChild(titleDiv);body.appendChild(srcDiv);lbl.appendChild(checkBox);lbl.appendChild(body);wrapper.appendChild(lbl);var prioWrap=document.createElement("div");prioWrap.className="card-prio-wrap"+(item.checked?" checked":"");prioWrap.id="priowrap-"+item.id;var sel=document.createElement("select");sel.className="prio-select"+(item.prio?" has-value":"");sel.id="prio-"+item.id;var opts=[["--",""],["1","1"],["2","2"],["3","3"],["4","4"],["5","5"]];for(var o=0;o<opts.length;o++){var op=document.createElement("option");op.value=opts[o][1];op.textContent=opts[o][0];if(String(item.prio)===opts[o][1])op.selected=true;sel.appendChild(op);}sel.onchange=(function(id){return function(){setPrio(id,this.value);};})(item.id);prioWrap.appendChild(sel);wrapper.appendChild(prioWrap);container.appendChild(wrapper);}}
+function onCheck(id,checked){var item=findItem(id);if(!item)return;item.checked=checked;item.editedTitle=item.title;if(checked){item.selectedAt=selectionCounter++;}else{item.selectedAt=null;item.prio=null;}var card=document.getElementById("card-"+id);if(card){if(checked)card.classList.add("checked");else card.classList.remove("checked");}var pw=document.getElementById("priowrap-"+id);if(pw){if(checked)pw.classList.add("checked");else pw.classList.remove("checked");}updateCounts();renderWhatsApp();}
+function renderAll(){renderList("list-brazil-official",state.brazil.official);renderList("list-brazil-others",state.brazil.others);renderList("list-global-official",state.global.official);renderList("list-global-others",state.global.others);updateCounts();renderWhatsApp();}
+function setPrio(id,val){var item=findItem(id);if(!item)return;item.prio=val||null;var sel=document.getElementById("prio-"+id);if(sel)sel.className="prio-select"+(val?" has-value":"");renderWhatsApp();}
+function updateCounts(){var b=state.brazil.official.concat(state.brazil.others).filter(function(i){return i.checked;}).length;var g=state.global.official.concat(state.global.others).filter(function(i){return i.checked;}).length;function el(id){return document.getElementById(id);}if(el("brazil-count"))el("brazil-count").textContent=b+" selecionada"+(b!==1?"s":"");if(el("global-count"))el("global-count").textContent=g+" selecionada"+(g!==1?"s":"");if(el("stat-brazil"))el("stat-brazil").textContent=b;if(el("stat-global"))el("stat-global").textContent=g;if(el("stat-total"))el("stat-total").textContent=b+g;if(el("whats-count"))el("whats-count").textContent=(b+g)+" noticias";}
+function sortItems(items){var checked=items.filter(function(i){return i.checked;});var withP=checked.filter(function(i){return i.prio;});withP.sort(function(a,b){return Number(a.prio)-Number(b.prio);});var noP=checked.filter(function(i){return !i.prio;});noP.sort(function(a,b){return(a.selectedAt||0)-(b.selectedAt||0);});return withP.concat(noP);}
+function renderWhatsApp(){var bItems=sortItems(state.brazil.official.concat(state.brazil.others));var gItems=sortItems(state.global.official.concat(state.global.others));var container=document.getElementById("whats-news-list");if(!container)return;container.innerHTML="";if(!bItems.length&&!gItems.length){container.innerHTML='<div class="empty-state">Nenhuma noticia selecionada.</div>';return;}function renderSection(label,cssClass,items){if(!items.length)return;var lbl=document.createElement("div");lbl.className="whats-section-label "+cssClass;lbl.textContent=label;container.appendChild(lbl);for(var i=0;i<items.length;i++){var item=items[i];var card=document.createElement("div");card.className="whats-item";var orderDiv=document.createElement("div");orderDiv.className="whats-item-order";orderDiv.textContent=(item.prio?"TOP "+item.prio:"#"+(i+1))+" \u00B7 "+getSource(item.url);card.appendChild(orderDiv);var ta=document.createElement("textarea");ta.className="whats-item-title";ta.value=item.editedTitle;ta.rows=2;ta.addEventListener("input",(function(id){return function(){var it=findItem(id);if(it)it.editedTitle=this.value;};})(item.id));card.appendChild(ta);var urlDiv=document.createElement("div");urlDiv.className="whats-item-url";urlDiv.textContent=item.url;card.appendChild(urlDiv);container.appendChild(card);}}renderSection("> Brazil","brazil",bItems);renderSection("> Global","global",gItems);}
+function copyClipping(){var bItems=sortItems(state.brazil.official.concat(state.brazil.others));var gItems=sortItems(state.global.official.concat(state.global.others));var lines=["*IBBA TMT Daily News*"];if(bItems.length){lines.push("");lines.push("> Brazil");lines.push("");for(var i=0;i<bItems.length;i++){lines.push("- *"+bItems[i].editedTitle+"*");lines.push(bItems[i].url);lines.push("");}}if(gItems.length){lines.push("");lines.push("> Global");lines.push("");for(var j=0;j<gItems.length;j++){lines.push("- *"+gItems[j].editedTitle+"*");lines.push(gItems[j].url);lines.push("");}}var text=lines.join("\n").trim();var btn=document.getElementById("btn-copy");function done(){if(btn){btn.textContent="Copiado!";btn.classList.add("copied");}setTimeout(function(){if(btn){btn.textContent="Copiar para area de transferencia";btn.classList.remove("copied");}},2000);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(function(){fallback(text,done);});}else{fallback(text,done);}}
+function fallback(text,cb){var ta=document.createElement("textarea");ta.value=text;ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand("copy");cb();}catch(e){}document.body.removeChild(ta);}
+function switchTab(name){var panels=document.querySelectorAll(".tab-panel");var tabs=document.querySelectorAll(".tab");for(var i=0;i<panels.length;i++)panels[i].classList.remove("active");for(var j=0;j<tabs.length;j++)tabs[j].classList.remove("active");var p=document.getElementById("panel-"+name);var t=document.querySelector(".tab-"+name);if(p)p.classList.add("active");if(t)t.classList.add("active");}
+init();renderAll();
+</script>
+
+<details style="margin:24px 16px;font-family:'IBM Plex Sans',sans-serif;color:#4a4744;">
+<summary style="cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#8a8580;padding:8px 0;border-top:1px solid #d8d4cc;">Diagnostico do run (clica pra abrir)</summary>
+<div style="background:#fff;border:1px solid #d8d4cc;border-radius:6px;padding:14px;margin-top:8px;">
+<div style="background:#fef0e0;border:1px solid #c84;padding:8px;border-radius:4px;margin-bottom:10px;font-family:monospace;font-size:11px;color:#a52;">ATENCAO: Fontes com erro: E-commerce Brasil (Chrome)</div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8a8580;margin-bottom:10px;">
+Pipeline v5.0 | Janela: 2026-04-27 09:30:00 -> 2026-04-28 14:08:44 | Gerado: 2026-04-28 14:10:58
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+<div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8a8580;margin-bottom:6px;">Fontes</div>
+<div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">  3 finais |  290 brutos | TMT-Global-Filtrado</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;"> 15 finais |  284 brutos | TMT-Cobertura-Filtrado</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">  4 finais |  100 brutos | TeleSintese (direto)</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">  7 finais |   30 brutos | TELETIME (direto)</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">  2 finais |   30 brutos | TI Inside (direto)</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">  1 finais |   19 brutos | Mobile Time (direto)</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">  1 finais |    8 brutos | Valor Tecnologia (Chrome)</div><div style="font-family:monospace;font-size:11px;color:#c84;padding:2px 0;">  0 finais |    7 brutos | Valor Telecom (Chrome)</div><div style="font-family:monospace;font-size:11px;color:#c44;padding:2px 0;">      ERRO |    0 brutos | E-commerce Brasil (Chrome) — Page.goto: Timeout 20000ms exceeded.
+Call log:
+  - navigating to "https://www.ec</div>
+</div>
+<div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8a8580;margin-bottom:6px;">Quotas por bucket</div>
+<div style="font-family:monospace;font-size:11px;color:#c84;padding:2px 0;">BR Off: 4/10 (threshold score >= 8, candidatos pre-quota: 4)</div><div style="font-family:monospace;font-size:11px;color:#888;padding:2px 0;">BR Oth: 15/20 (threshold score >= 5, candidatos pre-quota: 28)</div><div style="font-family:monospace;font-size:11px;color:#c84;padding:2px 0;">GL Off: 4/10 (threshold score >= 7, candidatos pre-quota: 10)</div><div style="font-family:monospace;font-size:11px;color:#888;padding:2px 0;">GL Oth: 11/17 (threshold score >= 7, candidatos pre-quota: 51)</div>
+<div style="font-family:monospace;font-size:11px;color:#888;padding:8px 0 0 0;border-top:1px solid #eee;margin-top:8px;">
+Funil: 768 brutos -> 608 dedup -> 542 pos-desc -> 135 pos-regra -> 34 finais
+</div>
+</div>
+</div>
+</div>
+</details>
+
+</body>
+</html>
