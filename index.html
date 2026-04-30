@@ -32,9 +32,11 @@
   #run-btn { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.5px; padding: 8px 16px; background: #1a1916; color: #c8a96e; border: 1px solid #1a1916; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
   #run-btn:hover:not(:disabled) { background: #2a2826; border-color: #c8a96e; }
   #run-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  #run-status { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
+  #run-status { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
   #run-status.ok { color: var(--accent); }
   #run-status.err { color: #b03030; }
+  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(139,105,20,0.2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
@@ -47,9 +49,10 @@
     <button id="run-btn" onclick="runClipping()">Rodar agora</button>
     <span id="run-status"></span>
   </div>
-  <h2>Edições publicadas (11)</h2>
+  <h2>Edições publicadas (12)</h2>
   <ul>
-    <li class="date-row"><span class="date">2026-04-30</span><span class="label">Quinta-feira</span><span class="count">4 edições</span></li>
+    <li class="date-row"><span class="date">2026-04-30</span><span class="label">Quinta-feira</span><span class="count">5 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-04-30-1845.html"><span class="time">18:45</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-04-30-1838.html"><span class="time">18:38</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-04-30-1832.html"><span class="time">18:32</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-04-30-1830.html"><span class="time">18:30</span><span class="arrow">→</span></a></li>
@@ -72,28 +75,63 @@
 </div>
 <script>
 const TRIGGER_URL = "https://ibba-clipping-trigger.leonardojdesousa.workers.dev";
+const REPO_API = "https://api.github.com/repos/leocintra01/clipping/commits?per_page=1";
+const POLL_MS = 8000;        // 8s entre checks
+const MAX_WAIT_MS = 5 * 60 * 1000;  // 5 min de espera maxima
+
+function setStatus(msg, kind, withSpinner) {
+  const status = document.getElementById("run-status");
+  status.className = kind || "";
+  let inner = "";
+  if (withSpinner) inner += '<span class="spinner"></span>';
+  status.innerHTML = inner + '<span>' + msg + '</span>';
+}
+
+async function getLatestCommitSha() {
+  const r = await fetch(REPO_API, { headers: { "Accept": "application/vnd.github+json" } });
+  if (!r.ok) return null;
+  const j = await r.json();
+  return j[0] && j[0].sha;
+}
+
 async function runClipping() {
   const btn = document.getElementById("run-btn");
-  const status = document.getElementById("run-status");
   btn.disabled = true;
-  status.className = "";
-  status.textContent = "Disparando...";
+
+  // 1. Snapshot do commit atual pra detectar publicacao nova
+  setStatus("Capturando estado atual...", "", true);
+  const shaInicial = await getLatestCommitSha();
+
+  // 2. Dispara
+  setStatus("Disparando workflow no GitHub Actions...", "", true);
+  let dispatched = false;
   try {
     const r = await fetch(TRIGGER_URL, { method: "POST" });
     const j = await r.json();
-    if (j.ok) {
-      status.className = "ok";
-      status.textContent = "Disparado. Edição nova em ~2 min — recarregue a página.";
-    } else {
-      status.className = "err";
-      status.textContent = "Erro: " + (j.msg || r.status);
-      btn.disabled = false;
-    }
+    if (j.ok) dispatched = true;
+    else { setStatus("Erro ao disparar: " + (j.msg || r.status), "err"); btn.disabled = false; return; }
   } catch (e) {
-    status.className = "err";
-    status.textContent = "Erro de rede: " + e.message;
+    setStatus("Erro de rede: " + e.message, "err");
     btn.disabled = false;
+    return;
   }
+
+  // 3. Polling: espera novo commit no repo publico
+  setStatus("Rodando coleta + filtros + dedup (~2 min)...", "", true);
+  const inicio = Date.now();
+  while (Date.now() - inicio < MAX_WAIT_MS) {
+    await new Promise(r => setTimeout(r, POLL_MS));
+    const sha = await getLatestCommitSha();
+    if (sha && sha !== shaInicial) {
+      setStatus("Pronto! Recarregando...", "ok");
+      setTimeout(() => location.reload(), 1500);
+      return;
+    }
+    const elapsed = Math.floor((Date.now() - inicio) / 1000);
+    setStatus(`Rodando coleta + filtros + dedup (${elapsed}s)...`, "", true);
+  }
+  setStatus("Demorou mais de 5 min. Verifique o GitHub Actions.", "err");
+  btn.disabled = false;
 }
 </script>
 </body>
