@@ -28,6 +28,13 @@
   .time { font-family: 'IBM Plex Mono', monospace; font-size: 13px; }
   .arrow { margin-left: auto; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
   li.empty { background: var(--surface); padding: 40px; text-align: center; color: var(--muted); border: 1px dashed var(--border); border-radius: 4px; }
+  .run-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding: 14px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; }
+  #run-btn { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.5px; padding: 8px 16px; background: #1a1916; color: #c8a96e; border: 1px solid #1a1916; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
+  #run-btn:hover:not(:disabled) { background: #2a2826; border-color: #c8a96e; }
+  #run-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  #run-status { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
+  #run-status.ok { color: var(--accent); }
+  #run-status.err { color: #b03030; }
 </style>
 </head>
 <body>
@@ -36,9 +43,14 @@
   <div class="sub">Daily News — Arquivo</div>
 </div>
 <div class="container">
-  <h2>Edições publicadas (9)</h2>
+  <div class="run-bar">
+    <button id="run-btn" onclick="runClipping()">Rodar agora</button>
+    <span id="run-status"></span>
+  </div>
+  <h2>Edições publicadas (10)</h2>
   <ul>
-    <li class="date-row"><span class="date">2026-04-30</span><span class="label">Quinta-feira</span><span class="count">2 edições</span></li>
+    <li class="date-row"><span class="date">2026-04-30</span><span class="label">Quinta-feira</span><span class="count">3 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-04-30-1832.html"><span class="time">18:32</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-04-30-1830.html"><span class="time">18:30</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-04-30-1645.html"><span class="time">16:45</span><span class="arrow">→</span></a></li>
     <li class="date-row"><span class="date">2026-04-29</span><span class="label">Quarta-feira</span><span class="count">1 edições</span></li>
@@ -57,5 +69,31 @@
     <li class="version-row"><a href="clipping-2026-04-23.html"><span class="time">Fechamento do dia</span><span class="arrow">→</span></a></li>
   </ul>
 </div>
+<script>
+const TRIGGER_URL = "https://ibba-clipping-trigger.leonardojdesousa.workers.dev";
+async function runClipping() {
+  const btn = document.getElementById("run-btn");
+  const status = document.getElementById("run-status");
+  btn.disabled = true;
+  status.className = "";
+  status.textContent = "Disparando...";
+  try {
+    const r = await fetch(TRIGGER_URL, { method: "POST" });
+    const j = await r.json();
+    if (j.ok) {
+      status.className = "ok";
+      status.textContent = "Disparado. Edição nova em ~2 min — recarregue a página.";
+    } else {
+      status.className = "err";
+      status.textContent = "Erro: " + (j.msg || r.status);
+      btn.disabled = false;
+    }
+  } catch (e) {
+    status.className = "err";
+    status.textContent = "Erro de rede: " + e.message;
+    btn.disabled = false;
+  }
+}
+</script>
 </body>
 </html>
