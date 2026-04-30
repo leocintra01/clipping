@@ -15,15 +15,19 @@
   .header { background: #1a1916; padding: 20px; }
   .logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #c8a96e; }
   .sub { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: #7a7570; margin-top: 4px; }
-  .container { max-width: 720px; margin: 0 auto; padding: 24px 20px 60px; }
+  .container { max-width: 760px; margin: 0 auto; padding: 24px 20px 60px; }
   h2 { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; font-weight: 500; }
   ul { list-style: none; }
-  li { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; margin-bottom: 8px; }
-  a { display: block; padding: 14px 18px; color: var(--text); text-decoration: none; transition: background 0.1s; }
-  a:hover { background: #efece5; }
-  .date { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; color: var(--text); }
-  .label { font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; color: var(--sub); margin-left: 8px; }
-  .arrow { float: right; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
+  li.date-row { background: #1a1916; color: #c8a96e; padding: 10px 18px; margin-top: 18px; margin-bottom: 4px; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; display: flex; align-items: center; gap: 12px; }
+  li.date-row .date { font-weight: 500; letter-spacing: 0.5px; }
+  li.date-row .label { color: #c8a96e; opacity: 0.7; font-family: 'IBM Plex Sans', sans-serif; }
+  li.date-row .count { margin-left: auto; opacity: 0.6; font-size: 11px; }
+  li.version-row { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; margin-bottom: 4px; }
+  li.version-row a { display: flex; align-items: center; padding: 12px 18px; color: var(--text); text-decoration: none; transition: background 0.1s; }
+  li.version-row a:hover { background: #efece5; }
+  .time { font-family: 'IBM Plex Mono', monospace; font-size: 13px; }
+  .arrow { margin-left: auto; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
+  li.empty { background: var(--surface); padding: 40px; text-align: center; color: var(--muted); border: 1px dashed var(--border); border-radius: 4px; }
 </style>
 </head>
 <body>
@@ -32,15 +36,24 @@
   <div class="sub">Daily News — Arquivo</div>
 </div>
 <div class="container">
-  <h2>Edições recentes</h2>
+  <h2>Edições publicadas (8)</h2>
   <ul>
-    <li><a href="clipping-2026-04-29.html"><span class="date">2026-04-29</span><span class="label">Quarta-feira</span><span class="arrow">→</span></a></li>
-    <li><a href="clipping-2026-04-28.html"><span class="date">2026-04-28</span><span class="label">Terça-feira</span><span class="arrow">→</span></a></li>
-    <li><a href="clipping-2026-04-27.html"><span class="date">2026-04-27</span><span class="label">Segunda-feira</span><span class="arrow">→</span></a></li>
-    <li><a href="clipping-2026-04-26.html"><span class="date">2026-04-26</span><span class="label">Domingo</span><span class="arrow">→</span></a></li>
-    <li><a href="clipping-2026-04-25.html"><span class="date">2026-04-25</span><span class="label">Sábado</span><span class="arrow">→</span></a></li>
-    <li><a href="clipping-2026-04-24.html"><span class="date">2026-04-24</span><span class="label">Sexta-feira</span><span class="arrow">→</span></a></li>
-    <li><a href="clipping-2026-04-23.html"><span class="date">2026-04-23</span><span class="label">Quinta-feira</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-04-30</span><span class="label">Quinta-feira</span><span class="count">1 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-04-30-1645.html"><span class="time">16:45</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-04-29</span><span class="label">Quarta-feira</span><span class="count">1 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-04-29.html"><span class="time">Fechamento do dia</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-04-28</span><span class="label">Terça-feira</span><span class="count">1 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-04-28.html"><span class="time">Fechamento do dia</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-04-27</span><span class="label">Segunda-feira</span><span class="count">1 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-04-27.html"><span class="time">Fechamento do dia</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-04-26</span><span class="label">Domingo</span><span class="count">1 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-04-26.html"><span class="time">Fechamento do dia</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-04-25</span><span class="label">Sábado</span><span class="count">1 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-04-25.html"><span class="time">Fechamento do dia</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-04-24</span><span class="label">Sexta-feira</span><span class="count">1 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-04-24.html"><span class="time">Fechamento do dia</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-04-23</span><span class="label">Quinta-feira</span><span class="count">1 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-04-23.html"><span class="time">Fechamento do dia</span><span class="arrow">→</span></a></li>
   </ul>
 </div>
 </body>
