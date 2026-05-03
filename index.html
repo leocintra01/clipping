@@ -32,11 +32,15 @@
   #run-btn { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.5px; padding: 8px 16px; background: #1a1916; color: #c8a96e; border: 1px solid #1a1916; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
   #run-btn:hover:not(:disabled) { background: #2a2826; border-color: #c8a96e; }
   #run-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  #run-status { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+  #run-status { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 8px; flex: 1; }
   #run-status.ok { color: var(--accent); }
   #run-status.err { color: #b03030; }
-  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(139,105,20,0.2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(139,105,20,0.2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
   @keyframes spin { to { transform: rotate(360deg); } }
+  #run-progress { display: none; height: 4px; background: rgba(139,105,20,0.15); border-radius: 2px; overflow: hidden; margin-top: 8px; }
+  #run-progress.visible { display: block; }
+  #run-progress .bar { height: 100%; background: var(--accent); width: 0%; transition: width 0.5s linear; }
+  .run-bar-wrap { flex: 1; display: flex; flex-direction: column; }
 </style>
 </head>
 <body>
@@ -47,11 +51,15 @@
 <div class="container">
   <div class="run-bar">
     <button id="run-btn" onclick="runClipping()">Rodar agora</button>
-    <span id="run-status"></span>
+    <div class="run-bar-wrap">
+      <span id="run-status"></span>
+      <div id="run-progress"><div class="bar"></div></div>
+    </div>
   </div>
-  <h2>Edições publicadas (27)</h2>
+  <h2>Edições publicadas (28)</h2>
   <ul>
-    <li class="date-row"><span class="date">2026-05-03</span><span class="label">Domingo</span><span class="count">7 edições</span></li>
+    <li class="date-row"><span class="date">2026-05-03</span><span class="label">Domingo</span><span class="count">8 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1616.html"><span class="time">16:16</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-05-03-1612.html"><span class="time">16:12</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-05-03-1610.html"><span class="time">16:10</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-05-03-1604.html"><span class="time">16:04</span><span class="arrow">→</span></a></li>
@@ -93,9 +101,11 @@
 </div>
 <script>
 const TRIGGER_URL = "https://ibba-clipping-trigger.leonardojdesousa.workers.dev";
+const AVG_URL = "https://ibba-clipping-cron.leonardojdesousa.workers.dev/avg-duration";
 const REPO_API = "https://api.github.com/repos/leocintra01/clipping/commits?per_page=1";
-const POLL_MS = 8000;        // 8s entre checks
+const POLL_MS = 4000;        // 4s entre checks (mais responsivo pra barra)
 const MAX_WAIT_MS = 5 * 60 * 1000;  // 5 min de espera maxima
+const FALLBACK_AVG_SEC = 90;
 
 function setStatus(msg, kind, withSpinner) {
   const status = document.getElementById("run-status");
@@ -124,48 +134,89 @@ async function getNovoClippingHtml(sha) {
 
 function fmtTime(elapsedSec) {
   const m = Math.floor(elapsedSec / 60);
-  const s = elapsedSec % 60;
-  return m > 0 ? `${m}:${s.toString().padStart(2, '0')}` : `${s}s`;
+  const s = Math.max(0, Math.floor(elapsedSec % 60));
+  return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
+async function getAvgDuration() {
+  try {
+    const r = await fetch(AVG_URL);
+    if (!r.ok) return FALLBACK_AVG_SEC;
+    const j = await r.json();
+    return (j && j.avg) || FALLBACK_AVG_SEC;
+  } catch (e) {
+    return FALLBACK_AVG_SEC;
+  }
+}
+
+function setProgress(pct) {
+  const wrap = document.getElementById("run-progress");
+  const bar = wrap.querySelector(".bar");
+  wrap.classList.add("visible");
+  bar.style.width = Math.min(100, Math.max(0, pct)) + "%";
+}
+
+function hideProgress() {
+  document.getElementById("run-progress").classList.remove("visible");
 }
 
 async function runClipping() {
   const btn = document.getElementById("run-btn");
   btn.disabled = true;
+  hideProgress();
 
-  // 1. Snapshot do commit atual pra detectar publicacao nova
+  // 1. Snapshot do commit atual + busca duracao tipica
   setStatus("Capturando estado atual...", "", true);
-  const shaInicial = await getLatestCommitSha();
+  const [shaInicial, avgSec] = await Promise.all([
+    getLatestCommitSha(),
+    getAvgDuration(),
+  ]);
 
   // 2. Dispara
   setStatus("Disparando workflow no GitHub Actions...", "", true);
-  let dispatched = false;
   try {
     const r = await fetch(TRIGGER_URL, { method: "POST" });
     const j = await r.json();
-    if (j.ok) dispatched = true;
-    else { setStatus("Erro ao disparar: " + (j.msg || r.status), "err"); btn.disabled = false; return; }
+    if (!j.ok) { setStatus("Erro ao disparar: " + (j.msg || r.status), "err"); btn.disabled = false; return; }
   } catch (e) {
     setStatus("Erro de rede: " + e.message, "err");
     btn.disabled = false;
     return;
   }
 
-  // 3. Polling: espera novo commit no repo publico
-  setStatus("Rodando coleta + filtros + dedup (~2 min)...", "", true);
+  // 3. Polling: espera novo commit no repo publico, atualizando barra
   const inicio = Date.now();
-  while (Date.now() - inicio < MAX_WAIT_MS) {
-    await new Promise(r => setTimeout(r, POLL_MS));
-    const sha = await getLatestCommitSha();
-    if (sha && sha !== shaInicial) {
-      setStatus("Pronto! Abrindo edição nova...", "ok");
-      const novoHtml = await getNovoClippingHtml(sha);
-      setTimeout(() => {
-        location.href = novoHtml || ".";  // Fallback: recarrega o indice
-      }, 1200);
-      return;
+  setProgress(0);
+
+  // Tick visual independente do polling (atualiza a cada 250ms)
+  let tickHandle = setInterval(() => {
+    const elapsed = (Date.now() - inicio) / 1000;
+    // Cap em 95% ate detectar commit novo (os ultimos 5% sao "publicando")
+    const pct = Math.min(95, (elapsed / avgSec) * 95);
+    setProgress(pct);
+    setStatus(
+      `Rodando coleta + filtros + dedup ${fmtTime(elapsed)} / ~${fmtTime(avgSec)}`,
+      "", true
+    );
+  }, 250);
+
+  try {
+    while (Date.now() - inicio < MAX_WAIT_MS) {
+      await new Promise(r => setTimeout(r, POLL_MS));
+      const sha = await getLatestCommitSha();
+      if (sha && sha !== shaInicial) {
+        clearInterval(tickHandle);
+        setProgress(100);
+        setStatus("Pronto! Abrindo edição nova...", "ok");
+        const novoHtml = await getNovoClippingHtml(sha);
+        setTimeout(() => {
+          location.href = novoHtml || ".";
+        }, 1000);
+        return;
+      }
     }
-    const elapsed = Math.floor((Date.now() - inicio) / 1000);
-    setStatus(`Rodando coleta + filtros + dedup (${fmtTime(elapsed)})...`, "", true);
+  } finally {
+    clearInterval(tickHandle);
   }
   setStatus("Demorou mais de 5 min. Verifique o GitHub Actions.", "err");
   btn.disabled = false;
