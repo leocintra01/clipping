@@ -56,9 +56,10 @@
       <div id="run-progress"><div class="bar"></div></div>
     </div>
   </div>
-  <h2>Edições publicadas (33)</h2>
+  <h2>Edições publicadas (34)</h2>
   <ul>
-    <li class="date-row"><span class="date">2026-05-03</span><span class="label">Domingo</span><span class="count">13 edições</span></li>
+    <li class="date-row"><span class="date">2026-05-03</span><span class="label">Domingo</span><span class="count">14 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1643.html"><span class="time">16:43</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-05-03-1637.html"><span class="time">16:37</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-05-03-1632.html"><span class="time">16:32</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-05-03-1628.html"><span class="time">16:28</span><span class="arrow">→</span></a></li>
@@ -165,6 +166,20 @@ function hideProgress() {
   document.getElementById("run-progress").classList.remove("visible");
 }
 
+// GitHub Pages tem delay de 30s-2min entre git push e arquivo disponivel no CDN.
+// Pollamos HEAD ate dar 200 antes de redirecionar (max 90s).
+async function waitForPagesUrl(url, maxMs = 90000, intervalMs = 4000) {
+  const inicio = Date.now();
+  while (Date.now() - inicio < maxMs) {
+    try {
+      const r = await fetch(url, { method: 'HEAD', cache: 'no-store' });
+      if (r.ok) return true;
+    } catch (e) { /* network/cors blip, tenta de novo */ }
+    await new Promise(r => setTimeout(r, intervalMs));
+  }
+  return false;
+}
+
 async function runClipping() {
   const btn = document.getElementById("run-btn");
   btn.disabled = true;
@@ -214,7 +229,6 @@ async function runClipping() {
         setProgress(100);
         const novoHtml = await getNovoClippingHtml(sha);
         if (novoHtml) {
-          setStatus("Pronto! Abrindo edição nova...", "ok");
           // Resolve URL absoluta. Casos cobertos:
           //   /clipping/          -> dir = /clipping/
           //   /clipping           -> dir = /clipping/  (sem slash, sem extensao = dir)
@@ -228,7 +242,17 @@ async function runClipping() {
           } else {
             dir = location.pathname + '/';
           }
-          setTimeout(() => { location.href = location.origin + dir + novoHtml; }, 800);
+          const targetUrl = location.origin + dir + novoHtml;
+          // Aguarda o GitHub Pages publicar o arquivo no CDN antes de redirecionar
+          setStatus("Aguardando publicação no GitHub Pages...", "ok", true);
+          const ready = await waitForPagesUrl(targetUrl);
+          if (ready) {
+            setStatus("Pronto! Abrindo edição nova...", "ok");
+            setTimeout(() => { location.href = targetUrl; }, 500);
+          } else {
+            setStatus("Pages demorou pra publicar. Recarregando lista...", "err");
+            setTimeout(() => location.reload(), 2000);
+          }
         } else {
           // Fallback seguro: recarrega o indice (lista de edicoes)
           setStatus("Pronto! Recarregando lista...", "ok");
