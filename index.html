@@ -56,9 +56,10 @@
       <div id="run-progress"><div class="bar"></div></div>
     </div>
   </div>
-  <h2>Edições publicadas (29)</h2>
+  <h2>Edições publicadas (30)</h2>
   <ul>
-    <li class="date-row"><span class="date">2026-05-03</span><span class="label">Domingo</span><span class="count">9 edições</span></li>
+    <li class="date-row"><span class="date">2026-05-03</span><span class="label">Domingo</span><span class="count">10 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1626.html"><span class="time">16:26</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-05-03-1620.html"><span class="time">16:20</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-05-03-1616.html"><span class="time">16:16</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-05-03-1612.html"><span class="time">16:12</span><span class="arrow">→</span></a></li>
@@ -208,11 +209,18 @@ async function runClipping() {
       if (sha && sha !== shaInicial) {
         clearInterval(tickHandle);
         setProgress(100);
-        setStatus("Pronto! Abrindo edição nova...", "ok");
         const novoHtml = await getNovoClippingHtml(sha);
-        setTimeout(() => {
-          location.href = novoHtml || ".";
-        }, 1000);
+        if (novoHtml) {
+          setStatus("Pronto! Abrindo edição nova...", "ok");
+          // URL absoluta resolvida a partir do caminho atual (evita
+          // colapsar pra "/" se a URL nao tiver trailing slash)
+          const base = location.href.replace(/[^/]*$/, "");
+          setTimeout(() => { location.href = base + novoHtml; }, 800);
+        } else {
+          // Fallback seguro: recarrega o indice (lista de edicoes)
+          setStatus("Pronto! Recarregando lista...", "ok");
+          setTimeout(() => location.reload(), 800);
+        }
         return;
       }
     }
