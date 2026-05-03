@@ -56,9 +56,10 @@
       <div id="run-progress"><div class="bar"></div></div>
     </div>
   </div>
-  <h2>Edições publicadas (31)</h2>
+  <h2>Edições publicadas (32)</h2>
   <ul>
-    <li class="date-row"><span class="date">2026-05-03</span><span class="label">Domingo</span><span class="count">11 edições</span></li>
+    <li class="date-row"><span class="date">2026-05-03</span><span class="label">Domingo</span><span class="count">12 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1632.html"><span class="time">16:32</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-05-03-1628.html"><span class="time">16:28</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-05-03-1626.html"><span class="time">16:26</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-05-03-1620.html"><span class="time">16:20</span><span class="arrow">→</span></a></li>
@@ -213,10 +214,20 @@ async function runClipping() {
         const novoHtml = await getNovoClippingHtml(sha);
         if (novoHtml) {
           setStatus("Pronto! Abrindo edição nova...", "ok");
-          // URL absoluta resolvida a partir do caminho atual (evita
-          // colapsar pra "/" se a URL nao tiver trailing slash)
-          const base = location.href.replace(/[^/]*$/, "");
-          setTimeout(() => { location.href = base + novoHtml; }, 800);
+          // Resolve URL absoluta. Casos cobertos:
+          //   /clipping/          -> dir = /clipping/
+          //   /clipping           -> dir = /clipping/  (sem slash, sem extensao = dir)
+          //   /clipping/foo.html  -> dir = /clipping/  (com extensao = arquivo)
+          const lastSeg = location.pathname.split('/').pop();
+          let dir;
+          if (location.pathname.endsWith('/')) {
+            dir = location.pathname;
+          } else if (lastSeg && lastSeg.includes('.')) {
+            dir = location.pathname.replace(/[^/]*$/, '');
+          } else {
+            dir = location.pathname + '/';
+          }
+          setTimeout(() => { location.href = location.origin + dir + novoHtml; }, 800);
         } else {
           // Fallback seguro: recarrega o indice (lista de edicoes)
           setStatus("Pronto! Recarregando lista...", "ok");
