@@ -49,9 +49,10 @@
     <button id="run-btn" onclick="runClipping()">Rodar agora</button>
     <span id="run-status"></span>
   </div>
-  <h2>Edições publicadas (25)</h2>
+  <h2>Edições publicadas (26)</h2>
   <ul>
-    <li class="date-row"><span class="date">2026-05-03</span><span class="label">Domingo</span><span class="count">5 edições</span></li>
+    <li class="date-row"><span class="date">2026-05-03</span><span class="label">Domingo</span><span class="count">6 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1610.html"><span class="time">16:10</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-05-03-1604.html"><span class="time">16:04</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-05-03-1603.html"><span class="time">16:03</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-05-03-1555.html"><span class="time">15:55</span><span class="arrow">→</span></a></li>
@@ -110,6 +111,22 @@ async function getLatestCommitSha() {
   return j[0] && j[0].sha;
 }
 
+async function getNovoClippingHtml(sha) {
+  // Olha os arquivos do commit e retorna o nome do clipping-*.html publicado
+  const r = await fetch(`https://api.github.com/repos/leocintra01/clipping/commits/${sha}`,
+    { headers: { "Accept": "application/vnd.github+json" } });
+  if (!r.ok) return null;
+  const j = await r.json();
+  const fileObj = (j.files || []).find(f => /^clipping-.*\.html$/.test(f.filename));
+  return fileObj ? fileObj.filename : null;
+}
+
+function fmtTime(elapsedSec) {
+  const m = Math.floor(elapsedSec / 60);
+  const s = elapsedSec % 60;
+  return m > 0 ? `${m}:${s.toString().padStart(2, '0')}` : `${s}s`;
+}
+
 async function runClipping() {
   const btn = document.getElementById("run-btn");
   btn.disabled = true;
@@ -139,12 +156,15 @@ async function runClipping() {
     await new Promise(r => setTimeout(r, POLL_MS));
     const sha = await getLatestCommitSha();
     if (sha && sha !== shaInicial) {
-      setStatus("Pronto! Recarregando...", "ok");
-      setTimeout(() => location.reload(), 1500);
+      setStatus("Pronto! Abrindo edição nova...", "ok");
+      const novoHtml = await getNovoClippingHtml(sha);
+      setTimeout(() => {
+        location.href = novoHtml || ".";  // Fallback: recarrega o indice
+      }, 1200);
       return;
     }
     const elapsed = Math.floor((Date.now() - inicio) / 1000);
-    setStatus(`Rodando coleta + filtros + dedup (${elapsed}s)...`, "", true);
+    setStatus(`Rodando coleta + filtros + dedup (${fmtTime(elapsed)})...`, "", true);
   }
   setStatus("Demorou mais de 5 min. Verifique o GitHub Actions.", "err");
   btn.disabled = false;
