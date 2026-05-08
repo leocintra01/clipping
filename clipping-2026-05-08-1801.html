@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBBA TMT Daily News</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f3ef; --surface: #ffffff; --border: #d8d4cc; --accent: #8B6914;
+    --green: #2e6b2c; --blue: #1a4f8a; --text: #1a1916; --sub: #4a4744;
+    --muted: #8a8580; --checked-bg: #eef4ee; --checked-border: #a8cca6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; line-height: 1.5; }
+  .header { background: #1a1916; padding: 16px 20px 0; position: sticky; top: 0; z-index: 10; }
+  .header-top { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #c8a96e; }
+  .date { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #7a7570; }
+  .run-controls { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+  .run-controls-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: #7a7570; margin-right: 4px; }
+  .run-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.5px; padding: 6px 11px; background: #2a2826; color: #c8a96e; border: 1px solid #3a3835; border-radius: 4px; text-decoration: none; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .run-btn:hover { background: #3a3530; border-color: #c8a96e; color: #e0c896; }
+  .run-btn.default-do-dia { background: #c8a96e; color: #1a1916; border-color: #c8a96e; font-weight: 500; }
+  .run-btn.default-do-dia:hover { background: #d8b97e; color: #1a1916; }
+  .run-btn-arrow { opacity: 0.7; margin-right: 3px; }
+  /* Grupo botao + setinha (Ter-Sex com seletor de data) */
+  .run-btn-group { position: relative; display: inline-flex; align-items: stretch; }
+  .run-btn-group .run-btn-main { border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0; }
+  .run-btn-caret { font-family: 'IBM Plex Mono', monospace; font-size: 10px; padding: 0 8px; background: #2a2826; color: #c8a96e; border: 1px solid #3a3835; border-top-left-radius: 0; border-bottom-left-radius: 0; cursor: pointer; transition: all 0.15s; }
+  .run-btn-caret:hover { background: #3a3530; border-color: #c8a96e; color: #e0c896; }
+  .run-btn-group.default-do-dia .run-btn-main { background: #c8a96e; color: #1a1916; border-color: #c8a96e; font-weight: 500; }
+  .run-btn-group.default-do-dia .run-btn-caret { background: #c8a96e; color: #1a1916; border-color: #c8a96e; }
+  .run-btn-group.default-do-dia .run-btn-main:hover, .run-btn-group.default-do-dia .run-btn-caret:hover { background: #d8b97e; }
+  .date-drop { display: none; position: absolute; top: calc(100% + 4px); right: 0; background: #1a1916; border: 1px solid #3a3835; border-radius: 4px; padding: 10px; z-index: 100; min-width: 200px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  .date-drop.open { display: block; }
+  .date-drop label { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: #7a7570; margin-bottom: 6px; }
+  .date-drop input[type=date] { width: 100%; padding: 5px 7px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; background: #2a2826; color: #e0c896; border: 1px solid #3a3835; border-radius: 3px; margin-bottom: 8px; box-sizing: border-box; }
+  .date-drop .run-btn-confirm { width: 100%; padding: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.5px; background: #c8a96e; color: #1a1916; border: 0; border-radius: 3px; cursor: pointer; font-weight: 500; }
+  .date-drop .run-btn-confirm:hover { background: #d8b97e; }
+  .date-drop .date-warn { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #d88a4a; margin-top: 6px; display: none; }
+  .date-drop .date-warn.show { display: block; }
+  /* Status overlay do botao "Rodar agora" — aparece apos dispatch */
+  .run-status { display: none; align-items: center; gap: 8px; padding: 6px 10px; background: #2a2826; border: 1px solid #3a3835; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #c8a96e; min-width: 0; max-width: 100%; }
+  .run-status.visible { display: inline-flex; }
+  .run-status.ok { color: #7ec87c; border-color: #2e6b2c; }
+  .run-status.err { color: #d88a4a; border-color: #884a1a; }
+  .run-status .status-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .run-progress { display: none; height: 2px; background: #3a3835; border-radius: 1px; overflow: hidden; width: 100%; margin-top: 4px; }
+  .run-progress.visible { display: block; }
+  .run-progress .bar { height: 100%; background: #c8a96e; width: 0; transition: width 0.25s linear; }
+  .spinner { width: 10px; height: 10px; border: 2px solid #3a3835; border-top-color: #c8a96e; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .run-btn:disabled, .run-btn-confirm:disabled { opacity: 0.5; cursor: not-allowed; }
+  .tabs { display: flex; }
+  .tab { padding: 11px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; border: none; background: transparent; color: #6a6560; border-bottom: 3px solid transparent; transition: all 0.15s; position: relative; top: 1px; user-select: none; }
+  .tab.active { color: #fff; border-bottom-color: #c8a96e; }
+  .tab-brazil.active { color: #7ec87c; border-bottom-color: #7ec87c; }
+  .tab-global.active { color: #7ab0e0; border-bottom-color: #7ab0e0; }
+  .tab-whats.active { color: #c8a96e; border-bottom-color: #c8a96e; }
+  .content { padding: 16px 16px 48px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+  .panel-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--text); }
+  .panel-meta { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); background: var(--surface); padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); }
+  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 5px 10px; border-radius: 3px; display: inline-block; margin-bottom: 8px; margin-top: 20px; font-weight: 500; }
+  .section-label.brazil { background: #e8f4e8; color: var(--green); }
+  .section-label.global { background: #e8eef8; color: var(--blue); }
+  .section-label.others { background: #f0ede8; color: var(--sub); }
+  .native-cb { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+  .card-wrapper { display: flex; align-items: stretch; margin-bottom: 6px; }
+  .news-card { flex: 1; display: flex; align-items: stretch; background: var(--surface); border: 1px solid var(--border); border-radius: 6px 0 0 6px; cursor: pointer; transition: border-color 0.12s, background 0.12s; user-select: none; border-right: none; }
+  .news-card.checked { background: var(--checked-bg); border-color: var(--checked-border); }
+  .card-check-box { width: 52px; min-height: 60px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .check-visual { width: 24px; height: 24px; border: 2px solid #c0bdb8; border-radius: 4px; background: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.12s; }
+  .news-card.checked .check-visual { background: var(--green); border-color: var(--green); }
+  .news-card.checked .check-visual::after { content: '\2713'; font-size: 14px; color: white; font-weight: bold; line-height: 1; }
+  .card-body { flex: 1; padding: 11px 8px 11px 0; min-width: 0; }
+  .news-title { font-size: 13px; font-weight: 500; line-height: 1.45; }
+  .news-title a { color: var(--text); text-decoration: none; }
+  .news-title a:hover { color: var(--accent); text-decoration: underline; }
+  .news-source { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-prio-wrap { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-left: none; border-radius: 0 6px 6px 0; padding: 0 10px; flex-shrink: 0; transition: background 0.12s, border-color 0.12s; }
+  .card-prio-wrap.checked { background: var(--checked-bg); border-color: var(--checked-border); }
+  .prio-select { border: none; background: transparent; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); cursor: pointer; outline: none; padding: 2px 0; width: 32px; }
+  .prio-select.has-value { color: var(--accent); font-weight: 500; }
+  .whats-meta { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .stat-chip { font-family: 'IBM Plex Mono', monospace; font-size: 11px; background: var(--surface); border: 1px solid var(--border); padding: 4px 10px; border-radius: 20px; }
+  .whats-news-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .whats-section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 6px 0; color: var(--muted); margin-top: 8px; }
+  .whats-section-label.brazil { color: var(--green); }
+  .whats-section-label.global { color: var(--blue); }
+  .whats-item { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+  .whats-item-order { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
+  .whats-item-title { border: none; outline: none; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 500; resize: none; width: 100%; line-height: 1.45; color: var(--text); background: transparent; }
+  .whats-item-url { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); word-break: break-all; }
+  .btn-copy { width: 100%; padding: 14px; background: #1a1916; color: #c8a96e; border: none; border-radius: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: background 0.15s; }
+  .btn-copy:hover { background: #2a2926; }
+  .btn-copy.copied { background: var(--green); color: #fff; }
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-top">
+    <span class="logo">IBBA TMT</span>
+    <span class="date" id="data-hoje"></span>
+    <div class="run-controls" id="run-controls">
+      <span class="run-controls-label">Rodar novo:</span>
+      <button type="button" class="run-btn" id="run-btn-24h" onclick="runClipping('24h')" title="Janela rolling: ultimas 24 horas (nao ancorada em 09:30)"><span class="run-btn-arrow">&#9654;</span>Ultimas 24h</button>
+      <div class="run-btn-group" id="run-grp-escolher">
+        <button type="button" class="run-btn run-btn-main" id="run-btn-escolher" onclick="toggleDateDrop(event)" title="Escolher dia da semana (sistema deduz a regra: ter-sex usa ontem 09:30, seg/sab/dom usa sexta-anterior 09:30)"><span class="run-btn-arrow">&#9654;</span>Escolher dia da semana <span style="opacity:0.7;margin-left:4px">&#9662;</span></button>
+        <div class="date-drop" id="date-drop">
+          <label for="custom-date">Rodar como se fosse o dia:</label>
+          <input type="date" id="custom-date" />
+          <button type="button" class="run-btn-confirm" id="run-btn-confirm-date" onclick="runWithDate()">Rodar</button>
+          <div class="date-warn" id="date-warn"></div>
+        </div>
+      </div>
+      <div class="run-status" id="run-status"></div>
+    </div>
+    <div class="run-progress" id="run-progress"><div class="bar"></div></div>
+  </div>
+  <div class="tabs">
+    <button class="tab tab-brazil active" onclick="switchTab('brazil')">Brazil</button>
+    <button class="tab tab-global" onclick="switchTab('global')">Global</button>
+    <button class="tab tab-whats" onclick="switchTab('whats')">WhatsApp</button>
+  </div>
+</div>
+<div class="content">
+  <div id="panel-brazil" class="tab-panel active">
+    <div class="panel-header">
+      <div class="panel-title">Brazil</div>
+      <div class="panel-meta" id="brazil-count">0 selecionadas</div>
+    </div>
+    <div class="section-label brazil">Official Brazil</div>
+    <div id="list-brazil-official"></div>
+    <div class="section-label others">Other News &mdash; Brazil</div>
+    <div id="list-brazil-others"></div>
+  </div>
+  <div id="panel-global" class="tab-panel">
+    <div class="panel-header">
+      <div class="panel-title">Global</div>
+      <div class="panel-meta" id="global-count">0 selecionadas</div>
+    </div>
+    <div class="section-label global">Official Global</div>
+    <div id="list-global-official"></div>
+    <div class="section-label others">Other News &mdash; Global</div>
+    <div id="list-global-others"></div>
+  </div>
+  <div id="panel-whats" class="tab-panel">
+    <div class="panel-header">
+      <div class="panel-title">WhatsApp</div>
+      <div class="panel-meta" id="whats-count">0 noticias</div>
+    </div>
+    <div class="whats-meta">
+      <div class="stat-chip">Brazil: <b id="stat-brazil">0</b></div>
+      <div class="stat-chip">Global: <b id="stat-global">0</b></div>
+      <div class="stat-chip">Total: <b id="stat-total">0</b></div>
+    </div>
+    <div id="whats-news-list" class="whats-news-list"></div>
+    <button class="btn-copy" id="btn-copy" onclick="copyClipping()">Copiar para area de transferencia</button>
+  </div>
+</div>
+<script>
+var RAW = {
+  brazil: {
+    official: [
+      ["Anatel adia novamente decisão sobre RAN sharing entre Vivo e TIM","https://teletime.com.br/07/05/2026/anatel-adia-novamente-decisao-sobre-ran-sharing-entre-vivo-e-tim/"],
+      ["Claro empresas lança solução de Edge AI com visão computacional para segurança corporativa","https://telesintese.com.br/claro-empresas-lanca-solucao-de-edge-ai-com-visao-computacional-para-seguranca-corporativa/"],
+      ["Brasil ameniza perdas do Grupo TIM no primeiro trimestre","https://teletime.com.br/08/05/2026/brasil-ameniza-perdas-do-grupo-tim-no-primeiro-trimestre/"],
+      ["Multilaser e ZTE ampliam atuação com Wi-Fi 7, servidores e TV 3.0 para provedores","https://telesintese.com.br/multilaser-e-zte-ampliam-atuacao-com-wi-fi-7-servidores-e-tv-3-0-para-provedores/"],
+      ["Intelbras bate o mercado pelo segundo tri consecutivo; ação dispara","https://braziljournal.com/intelbras-bate-o-mercado-pelo-segundo-tri-consecutivo-acao-dispara/"],
+      ["Unifique e IFS aplicam inteligência artificial agêntica em operações","https://teletime.com.br/08/05/2026/ifs-unifique-ia-agentica/"],
+      ["Anatel converte multa de R$ 7,6 milhões da Claro em obrigação de fazer","https://teletime.com.br/08/05/2026/anatel-converte-multas-rnp-claro/"],
+      ["TIM conclui retomada do controle da operadora de rede neutra I-Systems","https://teletime.com.br/07/05/2026/tim-conclui-retomada-do-controle-da-operadora-de-rede-neutra-i-systems/"],
+      ["Senior Sistemas supera R$ 100 milhões em EBITDA pela primeira vez","https://tiinside.com.br/07/05/2026/senior-sistemas-supera-r-100-milhoes-em-ebitda-pela-primeira-vez/"],
+      ["Seguros são o produto mais popular do Vivo Pay","https://www.mobiletime.com.br/noticias/07/05/2026/vivo-pay-seguros/"]
+    ],
+    others: [
+      ["Totvs vira broker de nuvem","https://www.baguete.com.br/noticias/totvs-vira-broker-de-nuvem"],
+      ["LWSA apresenta crescimento de 45% no lucro do 1º trimestre","https://www.cnnbrasil.com.br/economia/negocios/lwsa-apresenta-crescimento-de-45-no-lucro-do-1o-trimestre/"],
+      ["Crise da Oi: Anatel vai ouvir MCom sobre capital de terceiros em data centers da V.tal","https://convergenciadigital.com.br/telecom/crise-da-oi-anatel-vai-ouvir-mcom-sobre-capital-de-terceiros-em-data-centers-da-v-tal/"],
+      ["Nem IA atrapalha a Totvs (TOTS3)? Ação dispara 9% após balanço sólido do 1T26; confira o que dizem os analistas","https://www.moneytimes.com.br/nem-ia-atrapalha-a-totvs-tots3-acao-dispara-apos-balanco-solido-do-1t26-confira-o-que-dizem-os-analistas-apsa/"],
+      ["Ponto de conflito: Brisanet (BRST3) ou Unifique (FIQE3)?","https://acionista.com.br/ponto-de-conflito-brisanet-brst3-ou-unifique-fiqe3/"],
+      ["EXCLUSIVO: Deezer e TIM ampliam parceria em meio à disputa por retenção no streaming e telecom","https://timesbrasil.com.br/brasil/deezer-tim-parceria-disputa-retencao-streaming-telecom/"],
+      ["PIX desbanca dinheiro e cartão e lidera as intenções de compras para o Dia das Mães, revela pesquisa TIM Ads","https://al1.com.br/noticias/noticias/194174-pix-desbanca-dinheiro-e-cartao-e-lidera-as-intencoes-de-compras-para-o-dia-das-maes-revela-pesquisa-tim-ads"],
+      ["Brasil | Por mais B2B, TIM diz que preço mínimo da Oi Soluções em R$ 1,4 bi não é impedimento para compra","https://dplnews.com/brasil-por-mais-b2b-tim-diz-que-preco-minimo-da-oi-solucoes-em-r-14-bi-nao-e-impedimento-para-compra/"],
+      ["Estratégia de AI da TOTVS sob perspectiva inovadora","https://acionista.com.br/estrategia-de-ai-da-totvs-sob-perspectiva-inovadora/"],
+      ["WDC lança CPE FWA 5G para provedores de banda larga","https://telesintese.com.br/wdc-lanca-cpe-fwa-5g-para-provedores-de-banda-larga/"],
+      ["iez! estreia 5G no interior mineiro em parceria com provedor regional","https://teletime.com.br/07/05/2026/iez-estreia-5g-interior-minas/"],
+      ["iez! inicia operação móvel 5G em Itaú de Minas em parceria com a NetSpeed","https://telesintese.com.br/iez-inicia-operacao-movel-5g-em-itau-de-minas-em-parceria-com-a-netspeed/"],
+      ["Anatel avalia ampliar sanção à Winity no caso da devolução dos 700 MHz","https://telesintese.com.br/anatel-avalia-ampliar-sancao-a-winity-no-caso-da-devolucao-dos-700-mhz/"],
+      ["Anatel exclui 5 mil ISPs do cadastro de banda larga após regularização","https://teletime.com.br/07/05/2026/5-mil-isps-excluidos/"],
+      ["Mercado Livre cresce 49% e alcança US$ 8,8 bi no trimestre","https://www.ecommercebrasil.com.br/noticias/mercado-livre-cresce-49-e-alcanca-us-88-bi-no-trimestre"],
+      ["Tem que ter o selo: Amazon sofre derrota na Justiça e deve se enquadrar a regra da Anatel","https://www.tudocelular.com/mercado/noticias/n253801/amazon-derrota-justica-anatel-codigo-homologacao.html"],
+      ["TRF3 mantém obrigação da Amazon de informar código de homologação da Anatel","https://minutomt.com.br/geral/trf3-mantem-obrigacao-da-amazon-de-informar-codigo-de-homologacao-da-anatel/"],
+      ["GSI defende marco legal para cibersegurança no Brasil","https://telesintese.com.br/gsi-defende-marco-legal-para-ciberseguranca-no-brasil/"],
+      ["Sebrae anuncia 30 startups selecionadas para levar IA ao mercado de PMEs","https://tiinside.com.br/07/05/2026/sebrae-anuncia-30-startups-selecionadas-para-levar-ia-ao-mercado-de-pmes/"],
+      ["IFS reforça liderança em IA industrial com adoção de  IA Agêntica","https://tiinside.com.br/07/05/2026/ifs-reforca-lideranca-em-ia-industrial-com-adocao-de-ia-agentica/"]
+    ]
+  },
+  global: {
+    official: [
+      ["Cloudflare stock sinks 18% after earnings as company cuts 1,100 employees due to AI changes","https://www.cnbc.com/2026/05/07/cloudflare-net-q1-2026-stock-earnings-layoffs.html"],
+      ["Datadog stock soars 31% on blockbuster earnings as AI winners emerge in software","https://www.cnbc.com/2026/05/07/ai-winners-software-datadog-stock.html"],
+      ["Amazon cloud outage at North Virginia data center largely resolved","https://www.reuters.com/business/retail-consumer/amazon-cloud-unit-says-data-center-overheating-north-virginia-disrupts-services-2026-05-08/"],
+      ["RingCentral adds Shopify, Calendly, and WhatsApp to AI Receptionist","https://www.artificialintelligence-news.com/news/ringcentral-ai-adds-shopify-calendly-and-whatsapp-to-ai-receptionist/"],
+      ["Nvidia to invest up to $2.1 billion in IREN as part of AI data center deal","https://www.reuters.com/business/nvidia-invest-up-21-billion-iren-part-ai-data-center-deal-2026-05-07/"],
+      ["IREN inks AI infrastructure deal with Nvidia","https://www.cnbc.com/2026/05/07/iren-stock-ai-infrastructure-nvidia.html"],
+      ["Nvidia CEO says AI partnership with Corning will 'revitalize American manufacturing'","https://www.cnbc.com/2026/05/07/nvidia-ceo-ai-partnership-corning-revitalize-american-manufacturing.html"],
+      ["Anthropic weighs deal for near $1tn valuation as revenue surges","https://www.ft.com/content/a40cafcc-0fa4-4e70-9e24-90d826aea56d"],
+      ["OpenAI rolls out new model for cybersecurity teams a month after Anthropic's Mythos debut","https://www.cnbc.com/2026/05/07/openai-rolls-out-new-gpt-5point5-cyber-to-vetted-cybersecurity-teams.html"],
+      ["Baidu’s AI Chip Unit Plans Dual IPO in Shanghai and Hong Kong","https://www.bloomberg.com/news/articles/2026-05-08/baidu-s-ai-chip-unit-plans-dual-ipo-in-shanghai-and-hong-kong"]
+    ],
+    others: [
+      ["Anthropic’s new AI venture could intensify competition for Infosys, TCS and Wipro - People Matters - HR News","https://www.peoplematters.in/news/ai-and-emerging-tech/anthropics-new-ai-venture-could-intensify-competition-for-infosys-tcs-and-wipro-49627"],
+      ["EPAM Reports Q1 Results, Announces Anthropic Applied-AI Partnership - Let's Data Science","https://letsdatascience.com/news/epam-reports-q1-results-announces-anthropic-applied-ai-partn-022044a5"],
+      ["Will SAP Open AI Access to Customers That Haven’t Moved to the Cloud?","https://erp.today/sap-ai-access-ecc-customers-cloud/"],
+      ["ServiceNow and Accenture Launch Forward Deployed Engineering Program to Scale Agentic AI","https://www.hpcwire.com/bigdatawire/this-just-in/servicenow-and-accenture-launch-forward-deployed-engineering-program-to-scale-agentic-ai/"],
+      ["SaaS Development Service Market Is Going to Boom |• Salesforce • Microsoft • Adobe","https://www.openpr.com/news/4507019/saas-development-service-market-is-going-to-boom-salesforce"],
+      ["Industry Leaders Champion Agentic AI at Salesforce’s Unique Women Summit","https://cxotoday.com/ai/industry-leaders-champion-agentic-ai-at-salesforce-trailblazing-women-summit/"],
+      ["CrowdStrike amplia coalizão global para enfrentar riscos de segurança da IA generativa","https://tiinside.com.br/07/05/2026/crowdstrike-amplia-coalizao-global-para-enfrentar-riscos-de-seguranca-da-ia-generativa/"],
+      ["Google lança novas soluções para monitoramento de bem-estar e saúde","https://www.mobiletime.com.br/noticias/07/05/2026/google-lanca-novas/"],
+      ["ServiceNow hits $1 billion in AWS Marketplace transactions as enterprises rapidly adopt AI at scale","https://cxotoday.com/media-coverage/servicenow-hits-1-billion-in-aws-marketplace-transactions-as-enterprises-rapidly-adopt-ai-at-scale/"],
+      ["ServiceNow’s Heath Ramsey: The Gap in Agentic AI Is Governance","https://www.cxtoday.com/?p=774059"],
+      ["ServiceNow Had Problems Long Before Agentic AI. Here's Why.","https://finance.yahoo.com/markets/stocks/articles/servicenow-had-problems-long-agentic-143500316.html"],
+      ["IBM & Oracle Expand Partnership to Help Enterprise Scale AI","https://aimagazine.com/news/ibm-oracle-expand-partnership-to-help-enterprise-scale-ai"],
+      ["Eightfold AI Announces Integration of Agentic Interviewing with Oracle Fusion Cloud Recruiting - HRTech Series","https://techrseries.com/news/eightfold-ai-announces-integration-of-agentic-interviewing-with-oracle-fusion-cloud-recruiting/"],
+      ["Why AP Breaks Down in Microsoft Dynamics, and How to Fix It Without Replacing Your ERP","https://msdynamicsworld.com/white-paper/why-ap-breaks-down-microsoft-dynamics-and-how-fix-it-without-replacing-your-erp"],
+      ["ServiceNow expands AI Control Tower integration with Microsoft Agent 365","https://www.technologyrecord.com/article/servicenow-expands-ai-control-tower-integration-with-microsoft-agent-365"],
+      ["EPAM Systems, Anthropic partner to offer businesses enterprise-grade AI - Pennsylvania Business Report -","https://pennbizreport.com/news/32612-epam-systems-anthropic-partner-to-offer-businesses-enterprise-grade-ai/"],
+      ["Dyna Software Brings Autonomous Configuration to ServiceNow Users with Platform Copilot","https://aijourn.com/dyna-software-brings-autonomous-configuration-to-servicenow-users-with-platform-copilot/"]
+    ]
+  }
+};
+
+document.getElementById('data-hoje').textContent = new Date().toLocaleDateString('pt-BR', {weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+
+// Backend URL — Cloudflare Pages Functions. POST dispara workflow_dispatch
+// no GitHub Actions. Aceita query params:
+//   ?janela=24h        -> --ultimas-24h (rolling)
+//   ?data=YYYY-MM-DD   -> --data X (regra deduzida do weekday no Python)
+//   sem params         -> default editorial do dia atual
+//
+// Migramos de *.workers.dev (antes ibba-clipping-cron.leonardojdesousa.workers.dev)
+// pra *.pages.dev porque iPhones com iCloud Private Relay bloqueiam workers.dev.
+// Cron continua no Worker (worker-cron.js scheduled handler) — so o trigger
+// browser-side migrou.
+const WORKER_URL = "https://ibba-clipping.pages.dev/api/trigger";
+const AVG_URL = "https://ibba-clipping.pages.dev/api/avg-duration";
+const REPO_API = "https://api.github.com/repos/leocintra01/clipping/commits?per_page=1";
+const POLL_MS = 4000;
+const MAX_WAIT_MS = 5 * 60 * 1000;
+const FALLBACK_AVG_SEC = 90;
+
+// Dropdown do botao "Escolher dia da semana": abre calendario, dispara o
+// Worker passando data=X e o Python deduz a regra editorial pelo weekday
+// (ter-sex -> dia-anterior 09:30; seg/sab/dom -> sexta-anterior 09:30).
+function toggleDateDrop(ev){
+  ev.preventDefault(); ev.stopPropagation();
+  var d = document.getElementById("date-drop");
+  if (!d) return;
+  var aberto = d.classList.toggle("open");
+  if (aberto) {
+    var inp = document.getElementById("custom-date");
+    if (inp) {
+      var ontem = new Date();
+      ontem.setDate(ontem.getDate() - 1);
+      inp.value = ontem.toISOString().slice(0, 10);
+      setTimeout(function(){ inp.focus(); }, 50);
+    }
+    document.addEventListener("click", _fechaDropFora);
+  } else {
+    document.removeEventListener("click", _fechaDropFora);
+  }
+}
+function _fechaDropFora(e){
+  var d = document.getElementById("date-drop");
+  var grp = document.getElementById("run-grp-escolher");
+  if (!d || !grp) return;
+  if (!grp.contains(e.target)) {
+    d.classList.remove("open");
+    document.removeEventListener("click", _fechaDropFora);
+  }
+}
+function runWithDate(){
+  var inp = document.getElementById("custom-date");
+  var warn = document.getElementById("date-warn");
+  warn.classList.remove("show");
+  warn.textContent = "";
+  if (!inp || !inp.value) {
+    warn.textContent = "Escolha uma data."; warn.classList.add("show"); return;
+  }
+  var v = inp.value;
+  document.getElementById("date-drop").classList.remove("open");
+  runClipping(null, v);
+}
+
+// =========================================================================
+// runClipping: dispara workflow no Worker e poll-aguarda novo commit no
+// repo publico. Mesmo fluxo da pagina indice (com spinner/progresso/redirect).
+// Funciona em qualquer browser moderno (Safari/Chrome desktop+mobile).
+// =========================================================================
+function _setStatus(msg, kind, withSpinner){
+  var s = document.getElementById("run-status");
+  s.className = "run-status visible" + (kind ? " " + kind : "");
+  var inner = "";
+  if (withSpinner) inner += '<span class="spinner"></span>';
+  inner += '<span class="status-text">' + msg + '</span>';
+  s.innerHTML = inner;
+}
+function _setProgress(pct){
+  var wrap = document.getElementById("run-progress");
+  var bar = wrap.querySelector(".bar");
+  wrap.classList.add("visible");
+  bar.style.width = Math.min(100, Math.max(0, pct)) + "%";
+}
+function _hideProgress(){ document.getElementById("run-progress").classList.remove("visible"); }
+function _fmtTime(sec){ var m=Math.floor(sec/60); var s=Math.max(0,Math.floor(sec%60)); return m+":"+(s<10?"0":"")+s; }
+async function _getLatestCommitSha(){
+  try { var r = await fetch(REPO_API, {headers:{"Accept":"application/vnd.github+json"}}); if(!r.ok) return null; var j = await r.json(); return j[0] && j[0].sha; }
+  catch(e){ return null; }
+}
+async function _getNovoClippingHtml(sha){
+  try {
+    var r = await fetch("https://api.github.com/repos/leocintra01/clipping/commits/"+sha,
+      {headers:{"Accept":"application/vnd.github+json"}});
+    if (!r.ok) return null;
+    var j = await r.json();
+    var f = (j.files||[]).find(function(x){ return /^clipping-.*\.html$/.test(x.filename); });
+    return f ? f.filename : null;
+  } catch(e){ return null; }
+}
+async function _getAvgDuration(){
+  try { var r = await fetch(AVG_URL); if(!r.ok) return FALLBACK_AVG_SEC; var j = await r.json(); return (j && j.avg) || FALLBACK_AVG_SEC; }
+  catch(e){ return FALLBACK_AVG_SEC; }
+}
+async function _waitForPagesUrl(url, maxMs, intervalMs){
+  maxMs = maxMs || 90000; intervalMs = intervalMs || 4000;
+  var inicio = Date.now();
+  while (Date.now() - inicio < maxMs) {
+    try { var r = await fetch(url, {method:'HEAD', cache:'no-store'}); if (r.ok) return true; }
+    catch(e){}
+    await new Promise(function(r){ setTimeout(r, intervalMs); });
+  }
+  return false;
+}
+function _disableButtons(disabled){
+  var ids = ["run-btn-24h", "run-btn-escolher", "run-btn-confirm-date"];
+  for (var i=0;i<ids.length;i++) {
+    var el = document.getElementById(ids[i]);
+    if (el) el.disabled = disabled;
+  }
+}
+async function runClipping(janela, data){
+  _disableButtons(true);
+  _hideProgress();
+  _setStatus("Capturando estado atual...", "", true);
+  var triggerUrl = WORKER_URL;
+  var qp = [];
+  if (janela) qp.push("janela=" + encodeURIComponent(janela));
+  if (data)   qp.push("data="   + encodeURIComponent(data));
+  if (qp.length) triggerUrl += "?" + qp.join("&");
+
+  var shaInicial = null, avgSec = FALLBACK_AVG_SEC;
+  try {
+    var pre = await Promise.all([_getLatestCommitSha(), _getAvgDuration()]);
+    shaInicial = pre[0]; avgSec = pre[1];
+  } catch(e){}
+
+  _setStatus("Disparando workflow no GitHub Actions...", "", true);
+  try {
+    var r = await fetch(triggerUrl, {method:"POST"});
+    var j = await r.json();
+    if (!j.ok) { _setStatus("Erro ao disparar: " + (j.msg || r.status), "err"); _disableButtons(false); return; }
+  } catch(e){
+    _setStatus("Erro de rede: " + e.message, "err");
+    _disableButtons(false);
+    return;
+  }
+
+  var inicio = Date.now();
+  _setProgress(0);
+  var tickHandle = setInterval(function(){
+    var elapsed = (Date.now() - inicio) / 1000;
+    var pct = Math.min(95, (elapsed / avgSec) * 95);
+    _setProgress(pct);
+    _setStatus("Rodando coleta + filtros + dedup " + _fmtTime(elapsed) + " / ~" + _fmtTime(avgSec), "", true);
+  }, 250);
+
+  try {
+    while (Date.now() - inicio < MAX_WAIT_MS) {
+      await new Promise(function(r){ setTimeout(r, POLL_MS); });
+      var sha = await _getLatestCommitSha();
+      if (sha && sha !== shaInicial) {
+        clearInterval(tickHandle);
+        _setProgress(100);
+        var novoHtml = await _getNovoClippingHtml(sha);
+        if (novoHtml) {
+          // Resolve URL absoluta. Estamos em /clipping/clipping-X.html, dir = /clipping/
+          var lastSeg = location.pathname.split('/').pop();
+          var dir;
+          if (location.pathname.endsWith('/')) dir = location.pathname;
+          else if (lastSeg && lastSeg.indexOf('.') !== -1) dir = location.pathname.replace(/[^/]*$/, '');
+          else dir = location.pathname + '/';
+          var targetUrl = location.origin + dir + novoHtml;
+          _setStatus("Aguardando publicação no GitHub Pages...", "ok", true);
+          var ready = await _waitForPagesUrl(targetUrl);
+          if (ready) {
+            _setStatus("Pronto! Abrindo edição nova...", "ok");
+            setTimeout(function(){ location.href = targetUrl; }, 500);
+          } else {
+            _setStatus("Pages demorou. Tente recarregar.", "err");
+            _disableButtons(false);
+          }
+        } else {
+          _setStatus("Pronto! Recarregando...", "ok");
+          setTimeout(function(){ location.reload(); }, 800);
+        }
+        return;
+      }
+    }
+  } finally {
+    clearInterval(tickHandle);
+  }
+  _setStatus("Demorou mais de 5 min. Veja o GitHub Actions.", "err");
+  _disableButtons(false);
+}
+
+var state={};var selectionCounter=0;
+function init(){state={brazil:{official:[],others:[]},global:{official:[],others:[]}};var secs=["brazil","global"],types=["official","others"];for(var s=0;s<secs.length;s++){for(var t=0;t<types.length;t++){var sec=secs[s],typ=types[t],arr=RAW[sec][typ];for(var i=0;i<arr.length;i++){var isOff=(typ==="official");var prefix=sec[0]+(isOff?"f":"t")+i;state[sec][typ].push({title:arr[i][0],editedTitle:arr[i][0],url:arr[i][1],checked:isOff,prio:null,selectedAt:isOff?(selectionCounter++):null,id:prefix,section:sec});}}}}
+function getSource(url){try{return url.replace("https://","").replace("http://","").split("/")[0].replace("www.","");}catch(e){return "";}}
+function allItems(){return state.brazil.official.concat(state.brazil.others,state.global.official,state.global.others);}
+function findItem(id){var all=allItems();for(var i=0;i<all.length;i++){if(all[i].id===id)return all[i];}return null;}
+function renderList(listId,items){var container=document.getElementById(listId);container.innerHTML="";for(var i=0;i<items.length;i++){var item=items[i];var cbId="cb-"+item.id;var wrapper=document.createElement("div");wrapper.className="card-wrapper";var cb=document.createElement("input");cb.type="checkbox";cb.id=cbId;cb.className="native-cb";cb.checked=item.checked;cb.setAttribute("data-id",item.id);cb.addEventListener("change",(function(id){return function(){onCheck(id,this.checked);};})(item.id));wrapper.appendChild(cb);var lbl=document.createElement("label");lbl.htmlFor=cbId;lbl.className="news-card"+(item.checked?" checked":"");lbl.id="card-"+item.id;var checkBox=document.createElement("div");checkBox.className="card-check-box";var visual=document.createElement("div");visual.className="check-visual";checkBox.appendChild(visual);var body=document.createElement("div");body.className="card-body";var titleDiv=document.createElement("div");titleDiv.className="news-title";var a=document.createElement("a");a.href=item.url;a.target="_blank";a.rel="noopener";a.textContent=item.title;a.addEventListener("click",function(e){e.stopPropagation();});titleDiv.appendChild(a);var srcDiv=document.createElement("div");srcDiv.className="news-source";srcDiv.textContent=getSource(item.url);body.appendChild(titleDiv);body.appendChild(srcDiv);lbl.appendChild(checkBox);lbl.appendChild(body);wrapper.appendChild(lbl);var prioWrap=document.createElement("div");prioWrap.className="card-prio-wrap"+(item.checked?" checked":"");prioWrap.id="priowrap-"+item.id;var sel=document.createElement("select");sel.className="prio-select"+(item.prio?" has-value":"");sel.id="prio-"+item.id;var opts=[["--",""],["1","1"],["2","2"],["3","3"],["4","4"],["5","5"]];for(var o=0;o<opts.length;o++){var op=document.createElement("option");op.value=opts[o][1];op.textContent=opts[o][0];if(String(item.prio)===opts[o][1])op.selected=true;sel.appendChild(op);}sel.onchange=(function(id){return function(){setPrio(id,this.value);};})(item.id);prioWrap.appendChild(sel);wrapper.appendChild(prioWrap);container.appendChild(wrapper);}}
+function onCheck(id,checked){var item=findItem(id);if(!item)return;item.checked=checked;item.editedTitle=item.title;if(checked){item.selectedAt=selectionCounter++;}else{item.selectedAt=null;item.prio=null;}var card=document.getElementById("card-"+id);if(card){if(checked)card.classList.add("checked");else card.classList.remove("checked");}var pw=document.getElementById("priowrap-"+id);if(pw){if(checked)pw.classList.add("checked");else pw.classList.remove("checked");}updateCounts();renderWhatsApp();}
+function renderAll(){renderList("list-brazil-official",state.brazil.official);renderList("list-brazil-others",state.brazil.others);renderList("list-global-official",state.global.official);renderList("list-global-others",state.global.others);updateCounts();renderWhatsApp();}
+function setPrio(id,val){var item=findItem(id);if(!item)return;item.prio=val||null;var sel=document.getElementById("prio-"+id);if(sel)sel.className="prio-select"+(val?" has-value":"");renderWhatsApp();}
+function updateCounts(){var b=state.brazil.official.concat(state.brazil.others).filter(function(i){return i.checked;}).length;var g=state.global.official.concat(state.global.others).filter(function(i){return i.checked;}).length;function el(id){return document.getElementById(id);}if(el("brazil-count"))el("brazil-count").textContent=b+" selecionada"+(b!==1?"s":"");if(el("global-count"))el("global-count").textContent=g+" selecionada"+(g!==1?"s":"");if(el("stat-brazil"))el("stat-brazil").textContent=b;if(el("stat-global"))el("stat-global").textContent=g;if(el("stat-total"))el("stat-total").textContent=b+g;if(el("whats-count"))el("whats-count").textContent=(b+g)+" noticias";}
+function sortItems(items){var checked=items.filter(function(i){return i.checked;});var withP=checked.filter(function(i){return i.prio;});withP.sort(function(a,b){return Number(a.prio)-Number(b.prio);});var noP=checked.filter(function(i){return !i.prio;});noP.sort(function(a,b){return(a.selectedAt||0)-(b.selectedAt||0);});return withP.concat(noP);}
+function renderWhatsApp(){var bItems=sortItems(state.brazil.official.concat(state.brazil.others));var gItems=sortItems(state.global.official.concat(state.global.others));var container=document.getElementById("whats-news-list");if(!container)return;container.innerHTML="";if(!bItems.length&&!gItems.length){container.innerHTML='<div class="empty-state">Nenhuma noticia selecionada.</div>';return;}function renderSection(label,cssClass,items){if(!items.length)return;var lbl=document.createElement("div");lbl.className="whats-section-label "+cssClass;lbl.textContent=label;container.appendChild(lbl);for(var i=0;i<items.length;i++){var item=items[i];var card=document.createElement("div");card.className="whats-item";var orderDiv=document.createElement("div");orderDiv.className="whats-item-order";orderDiv.textContent=(item.prio?"TOP "+item.prio:"#"+(i+1))+" \u00B7 "+getSource(item.url);card.appendChild(orderDiv);var ta=document.createElement("textarea");ta.className="whats-item-title";ta.value=item.editedTitle;ta.rows=2;ta.addEventListener("input",(function(id){return function(){var it=findItem(id);if(it)it.editedTitle=this.value;};})(item.id));card.appendChild(ta);var urlDiv=document.createElement("div");urlDiv.className="whats-item-url";urlDiv.textContent=item.url;card.appendChild(urlDiv);container.appendChild(card);}}renderSection("> Brazil","brazil",bItems);renderSection("> Global","global",gItems);}
+function copyClipping(){var bItems=sortItems(state.brazil.official.concat(state.brazil.others));var gItems=sortItems(state.global.official.concat(state.global.others));var lines=["*IBBA TMT Daily News*"];if(bItems.length){lines.push("");lines.push("> Brazil");lines.push("");for(var i=0;i<bItems.length;i++){lines.push("- *"+bItems[i].editedTitle+"*");lines.push(bItems[i].url);lines.push("");}}if(gItems.length){lines.push("");lines.push("> Global");lines.push("");for(var j=0;j<gItems.length;j++){lines.push("- *"+gItems[j].editedTitle+"*");lines.push(gItems[j].url);lines.push("");}}var text=lines.join("\n").trim();var btn=document.getElementById("btn-copy");function done(){if(btn){btn.textContent="Copiado!";btn.classList.add("copied");}setTimeout(function(){if(btn){btn.textContent="Copiar para area de transferencia";btn.classList.remove("copied");}},2000);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(function(){fallback(text,done);});}else{fallback(text,done);}}
+function fallback(text,cb){var ta=document.createElement("textarea");ta.value=text;ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand("copy");cb();}catch(e){}document.body.removeChild(ta);}
+function switchTab(name){var panels=document.querySelectorAll(".tab-panel");var tabs=document.querySelectorAll(".tab");for(var i=0;i<panels.length;i++)panels[i].classList.remove("active");for(var j=0;j<tabs.length;j++)tabs[j].classList.remove("active");var p=document.getElementById("panel-"+name);var t=document.querySelector(".tab-"+name);if(p)p.classList.add("active");if(t)t.classList.add("active");}
+init();renderAll();
+</script>
+
+<details style="margin:24px 16px;font-family:'IBM Plex Sans',sans-serif;color:#4a4744;">
+<summary style="cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#8a8580;padding:8px 0;border-top:1px solid #d8d4cc;">Diagnostico do run (clica pra abrir)</summary>
+<div style="background:#fff;border:1px solid #d8d4cc;border-radius:6px;padding:14px;margin-top:8px;">
+
+<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8a8580;margin-bottom:10px;">
+Pipeline v5.0 | Janela: 2026-05-07 09:30:00 -> 2026-05-08 18:01:23 | Gerado: 2026-05-08 18:01:41
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+<div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8a8580;margin-bottom:6px;">Fontes</div>
+<div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">  6 finais |  297 brutos | TMT-Global-Filtrado</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;"> 17 finais |  267 brutos | TMT-Cobertura-Filtrado</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">  6 finais |  100 brutos | TeleSintese (direto)</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">  7 finais |   30 brutos | TELETIME (direto)</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">  4 finais |   30 brutos | TI Inside (direto)</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">  2 finais |   20 brutos | Mobile Time (direto)</div>
+</div>
+<div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8a8580;margin-bottom:6px;">Quotas por bucket</div>
+<div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">BR Off: 10/10 (threshold score >= 8, candidatos pre-quota: 10)</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">BR Oth: 20/20 (threshold score >= 5, candidatos pre-quota: 52)</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">GL Off: 10/10 (threshold score >= 7, candidatos pre-quota: 30)</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">GL Oth: 17/17 (threshold score >= 7, candidatos pre-quota: 51)</div>
+<div style="font-family:monospace;font-size:11px;color:#888;padding:8px 0 0 0;border-top:1px solid #eee;margin-top:8px;">
+Funil: 744 brutos -> 583 dedup -> 477 pos-desc -> 191 pos-regra -> 57 finais
+</div>
+</div>
+</div>
+</div>
+</details>
+
+</body>
+</html>
