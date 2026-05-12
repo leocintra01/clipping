@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBBA TMT Daily News</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f3ef; --surface: #ffffff; --border: #d8d4cc; --accent: #8B6914;
+    --green: #2e6b2c; --blue: #1a4f8a; --text: #1a1916; --sub: #4a4744;
+    --muted: #8a8580; --checked-bg: #eef4ee; --checked-border: #a8cca6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; line-height: 1.5; }
+  .header { background: #1a1916; padding: 16px 20px 0; position: sticky; top: 0; z-index: 10; }
+  .header-top { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #c8a96e; }
+  .date { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #7a7570; }
+  .run-controls { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+  .run-controls-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: #7a7570; margin-right: 4px; }
+  .run-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.5px; padding: 6px 11px; background: #2a2826; color: #c8a96e; border: 1px solid #3a3835; border-radius: 4px; text-decoration: none; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .run-btn:hover { background: #3a3530; border-color: #c8a96e; color: #e0c896; }
+  .run-btn.default-do-dia { background: #c8a96e; color: #1a1916; border-color: #c8a96e; font-weight: 500; }
+  .run-btn.default-do-dia:hover { background: #d8b97e; color: #1a1916; }
+  .run-btn-arrow { opacity: 0.7; margin-right: 3px; }
+  /* Grupo botao + setinha (Ter-Sex com seletor de data) */
+  .run-btn-group { position: relative; display: inline-flex; align-items: stretch; }
+  .run-btn-group .run-btn-main { border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0; }
+  .run-btn-caret { font-family: 'IBM Plex Mono', monospace; font-size: 10px; padding: 0 8px; background: #2a2826; color: #c8a96e; border: 1px solid #3a3835; border-top-left-radius: 0; border-bottom-left-radius: 0; cursor: pointer; transition: all 0.15s; }
+  .run-btn-caret:hover { background: #3a3530; border-color: #c8a96e; color: #e0c896; }
+  .run-btn-group.default-do-dia .run-btn-main { background: #c8a96e; color: #1a1916; border-color: #c8a96e; font-weight: 500; }
+  .run-btn-group.default-do-dia .run-btn-caret { background: #c8a96e; color: #1a1916; border-color: #c8a96e; }
+  .run-btn-group.default-do-dia .run-btn-main:hover, .run-btn-group.default-do-dia .run-btn-caret:hover { background: #d8b97e; }
+  .date-drop { display: none; position: absolute; top: calc(100% + 4px); right: 0; background: #1a1916; border: 1px solid #3a3835; border-radius: 4px; padding: 10px; z-index: 100; min-width: 200px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  .date-drop.open { display: block; }
+  .date-drop label { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: #7a7570; margin-bottom: 6px; }
+  .date-drop input[type=date] { width: 100%; padding: 5px 7px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; background: #2a2826; color: #e0c896; border: 1px solid #3a3835; border-radius: 3px; margin-bottom: 8px; box-sizing: border-box; }
+  .date-drop .run-btn-confirm { width: 100%; padding: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.5px; background: #c8a96e; color: #1a1916; border: 0; border-radius: 3px; cursor: pointer; font-weight: 500; }
+  .date-drop .run-btn-confirm:hover { background: #d8b97e; }
+  .date-drop .date-warn { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #d88a4a; margin-top: 6px; display: none; }
+  .date-drop .date-warn.show { display: block; }
+  /* Status overlay do botao "Rodar agora" — aparece apos dispatch */
+  .run-status { display: none; align-items: center; gap: 8px; padding: 6px 10px; background: #2a2826; border: 1px solid #3a3835; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #c8a96e; min-width: 0; max-width: 100%; }
+  .run-status.visible { display: inline-flex; }
+  .run-status.ok { color: #7ec87c; border-color: #2e6b2c; }
+  .run-status.err { color: #d88a4a; border-color: #884a1a; }
+  .run-status .status-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .run-progress { display: none; height: 2px; background: #3a3835; border-radius: 1px; overflow: hidden; width: 100%; margin-top: 4px; }
+  .run-progress.visible { display: block; }
+  .run-progress .bar { height: 100%; background: #c8a96e; width: 0; transition: width 0.25s linear; }
+  .spinner { width: 10px; height: 10px; border: 2px solid #3a3835; border-top-color: #c8a96e; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .run-btn:disabled, .run-btn-confirm:disabled { opacity: 0.5; cursor: not-allowed; }
+  .tabs { display: flex; }
+  .tab { padding: 11px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; border: none; background: transparent; color: #6a6560; border-bottom: 3px solid transparent; transition: all 0.15s; position: relative; top: 1px; user-select: none; }
+  .tab.active { color: #fff; border-bottom-color: #c8a96e; }
+  .tab-brazil.active { color: #7ec87c; border-bottom-color: #7ec87c; }
+  .tab-global.active { color: #7ab0e0; border-bottom-color: #7ab0e0; }
+  .tab-whats.active { color: #c8a96e; border-bottom-color: #c8a96e; }
+  .content { padding: 16px 16px 48px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+  .panel-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--text); }
+  .panel-meta { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); background: var(--surface); padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); }
+  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 5px 10px; border-radius: 3px; display: inline-block; margin-bottom: 8px; margin-top: 20px; font-weight: 500; }
+  .section-label.brazil { background: #e8f4e8; color: var(--green); }
+  .section-label.global { background: #e8eef8; color: var(--blue); }
+  .section-label.others { background: #f0ede8; color: var(--sub); }
+  .native-cb { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+  .card-wrapper { display: flex; align-items: stretch; margin-bottom: 6px; }
+  .news-card { flex: 1; display: flex; align-items: stretch; background: var(--surface); border: 1px solid var(--border); border-radius: 6px 0 0 6px; cursor: pointer; transition: border-color 0.12s, background 0.12s; user-select: none; border-right: none; }
+  .news-card.checked { background: var(--checked-bg); border-color: var(--checked-border); }
+  .card-check-box { width: 52px; min-height: 60px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .check-visual { width: 24px; height: 24px; border: 2px solid #c0bdb8; border-radius: 4px; background: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.12s; }
+  .news-card.checked .check-visual { background: var(--green); border-color: var(--green); }
+  .news-card.checked .check-visual::after { content: '\2713'; font-size: 14px; color: white; font-weight: bold; line-height: 1; }
+  .card-body { flex: 1; padding: 11px 8px 11px 0; min-width: 0; }
+  .news-title { font-size: 13px; font-weight: 500; line-height: 1.45; }
+  .news-title a { color: var(--text); text-decoration: none; }
+  .news-title a:hover { color: var(--accent); text-decoration: underline; }
+  .news-source { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-prio-wrap { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-left: none; border-radius: 0 6px 6px 0; padding: 0 10px; flex-shrink: 0; transition: background 0.12s, border-color 0.12s; }
+  .card-prio-wrap.checked { background: var(--checked-bg); border-color: var(--checked-border); }
+  .prio-select { border: none; background: transparent; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); cursor: pointer; outline: none; padding: 2px 0; width: 32px; }
+  .prio-select.has-value { color: var(--accent); font-weight: 500; }
+  .whats-meta { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .stat-chip { font-family: 'IBM Plex Mono', monospace; font-size: 11px; background: var(--surface); border: 1px solid var(--border); padding: 4px 10px; border-radius: 20px; }
+  .whats-news-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .whats-section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 6px 0; color: var(--muted); margin-top: 8px; }
+  .whats-section-label.brazil { color: var(--green); }
+  .whats-section-label.global { color: var(--blue); }
+  .whats-item { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+  .whats-item-order { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
+  .whats-item-title { border: none; outline: none; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 500; resize: none; width: 100%; line-height: 1.45; color: var(--text); background: transparent; }
+  .whats-item-url { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); word-break: break-all; }
+  .btn-copy { width: 100%; padding: 14px; background: #1a1916; color: #c8a96e; border: none; border-radius: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: background 0.15s; }
+  .btn-copy:hover { background: #2a2926; }
+  .btn-copy.copied { background: var(--green); color: #fff; }
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-top">
+    <span class="logo">IBBA TMT</span>
+    <span class="date" id="data-hoje"></span>
+    <div class="run-controls" id="run-controls">
+      <span class="run-controls-label">Rodar novo:</span>
+      <button type="button" class="run-btn" id="run-btn-24h" onclick="runClipping('24h')" title="Janela rolling: ultimas 24 horas (nao ancorada em 09:30)"><span class="run-btn-arrow">&#9654;</span>Ultimas 24h</button>
+      <div class="run-btn-group" id="run-grp-escolher">
+        <button type="button" class="run-btn run-btn-main" id="run-btn-escolher" onclick="toggleDateDrop(event)" title="Escolher dia da semana (sistema deduz a regra: ter-sex usa ontem 09:30, seg/sab/dom usa sexta-anterior 09:30)"><span class="run-btn-arrow">&#9654;</span>Escolher dia da semana <span style="opacity:0.7;margin-left:4px">&#9662;</span></button>
+        <div class="date-drop" id="date-drop">
+          <label for="custom-date">Rodar como se fosse o dia:</label>
+          <input type="date" id="custom-date" />
+          <button type="button" class="run-btn-confirm" id="run-btn-confirm-date" onclick="runWithDate()">Rodar</button>
+          <div class="date-warn" id="date-warn"></div>
+        </div>
+      </div>
+      <div class="run-status" id="run-status"></div>
+    </div>
+    <div class="run-progress" id="run-progress"><div class="bar"></div></div>
+  </div>
+  <div class="tabs">
+    <button class="tab tab-brazil active" onclick="switchTab('brazil')">Brazil</button>
+    <button class="tab tab-global" onclick="switchTab('global')">Global</button>
+    <button class="tab tab-whats" onclick="switchTab('whats')">WhatsApp</button>
+  </div>
+</div>
+<div class="content">
+  <div id="panel-brazil" class="tab-panel active">
+    <div class="panel-header">
+      <div class="panel-title">Brazil</div>
+      <div class="panel-meta" id="brazil-count">0 selecionadas</div>
+    </div>
+    <div class="section-label brazil">Official Brazil</div>
+    <div id="list-brazil-official"></div>
+    <div class="section-label others">Other News &mdash; Brazil</div>
+    <div id="list-brazil-others"></div>
+  </div>
+  <div id="panel-global" class="tab-panel">
+    <div class="panel-header">
+      <div class="panel-title">Global</div>
+      <div class="panel-meta" id="global-count">0 selecionadas</div>
+    </div>
+    <div class="section-label global">Official Global</div>
+    <div id="list-global-official"></div>
+    <div class="section-label others">Other News &mdash; Global</div>
+    <div id="list-global-others"></div>
+  </div>
+  <div id="panel-whats" class="tab-panel">
+    <div class="panel-header">
+      <div class="panel-title">WhatsApp</div>
+      <div class="panel-meta" id="whats-count">0 noticias</div>
+    </div>
+    <div class="whats-meta">
+      <div class="stat-chip">Brazil: <b id="stat-brazil">0</b></div>
+      <div class="stat-chip">Global: <b id="stat-global">0</b></div>
+      <div class="stat-chip">Total: <b id="stat-total">0</b></div>
+    </div>
+    <div id="whats-news-list" class="whats-news-list"></div>
+    <button class="btn-copy" id="btn-copy" onclick="copyClipping()">Copiar para area de transferencia</button>
+  </div>
+</div>
+<script>
+var RAW = {
+  brazil: {
+    official: [
+      ["Vivo amplia lucro em 19% no primeiro trimestre com pós-pago e banda larga","https://teletime.com.br/11/05/2026/vivo-amplia-lucro-em-19-no-primeiro-trimestre-com-pos-pago-e-banda-larga/"],
+      ["Vivo analisa Oi Soluções e aguarda decisões sobre taxas do Fistel","https://teletime.com.br/11/05/2026/vivo-analisa-oi-solucoes-e-aguarda-decisoes-sobre-taxas-do-fistel/"],
+      ["Brisanet defende mais espectro para regionais e esforço por celulares 5G","https://teletime.com.br/11/05/2026/brisanet-defende-mais-espectro-para-regionais-e-esforco-por-celulares-5g/"],
+      ["ZTE e Claro lançam set-top box 4K Ultra HD no Brasil","https://telesintese.com.br/zte-e-claro-lancam-set-top-box-4k-ultra-hd-no-brasil/"],
+      ["Unifique busca escala no 5G e avalia operação de fibra em São Paulo","https://teletime.com.br/11/05/2026/unifique-busca-escala-no-5g-e-avalia-operacao-de-fibra-em-sao-paulo/"],
+      ["Vivo adicionará agentes de IA ao seu call center em junho, diz CEO","https://www.mobiletime.com.br/noticias/11/05/2026/vivo-agentes-ia-junho/"],
+      ["Vivo cresce no B2B com conectividade e serviços digitais","https://teletime.com.br/11/05/2026/vivo-cresce-no-b2b-com-conectividade-e-servicos-digitais/"],
+      ["TIM Ads realiza mais de 200 campanhas por mês","https://www.mobiletime.com.br/noticias/11/05/2026/tim-ads-200-campanhas/"]
+    ],
+    others: [
+      ["CI&T Inc. (CINT) Lags Q1 Earnings Estimates","https://finance.yahoo.com/markets/stocks/articles/ci-t-inc-cint-lags-220503729.html"],
+      ["2026-05-12 | GLOB INVESTOR ALERT: Bronstein, Gewirtz and Grossman, LLC Announces that Globant S.A. Investors with Substantial Losses Have Opportunity to Lead Class Action Lawsuit! | NYSE:GLOB | Press Release","https://stockhouse.com/news/press-releases/2026/05/12/glob-investor-alert-bronstein-gewirtz-and-grossman-llc-announces-that-globant-s"],
+      ["Deadline Alert: Globant S.A. (GLOB) Shareholders Who Lost","https://www.globenewswire.com/news-release/2026/05/11/3292156/0/en/deadline-alert-globant-s-a-glob-shareholders-who-lost-money-urged-to-contact-glancy-prongay-wolke-rotter-llp-about-securities-fraud-lawsuit.html"],
+      ["5G no Brasil tem maior crescimento em 19 meses e atinge 63,1 milhões de acessos","https://teletime.com.br/11/05/2026/5g-brasil-maior-crescimento-19-meses/"],
+      ["Anatel mostra retrato atual de bloqueios contra TV Boxes ilegais","https://telesintese.com.br/anatel-mostra-retrato-atual-de-bloqueios-contra-tv-boxes-ilegais/"],
+      ["Venda da UPI fixa da Oi ainda não iniciou fase de aprovações regulatórias","https://teletime.com.br/11/05/2026/venda-da-upi-fixa-da-oi-ainda-nao-iniciou-fase-de-aprovacoes-regulatorias/"],
+      ["Com aquisições, Brasil Tecpar cresce 39% em receita no primeiro trimestre","https://teletime.com.br/12/05/2026/com-aquisicoes-brasil-tecpar-cresce-39-em-receita-no-primeiro-trimestre/"],
+      ["Santander X e AWS oferecem 2 mil bolsas gratuitas para capacitar empreendedores brasileiros em IA generativa e em computação em nuvem","https://tiinside.com.br/11/05/2026/santander-x-e-aws-oferecem-2-mil-bolsas-gratuitas-para-capacitar-empreendedores-brasileiros-em-ia-generativa-e-em-computacao-em-nuvem/"],
+      ["Mambo Helium cria nova fonte de receita para ISPs com offload via Wi-Fi","https://telesintese.com.br/mambo-helium-cria-nova-fonte-de-receita-para-isps-com-offload-via-wi-fi/"],
+      ["Com receita de US$ 105,5 milhões, Rimini Street anuncia resultados do primeiro trimestre de 2026","https://tiinside.com.br/11/05/2026/com-receita-de-us-1055-milhoes-rimini-street-anuncia-resultados-do-primeiro-trimestre-de-2026/"],
+      ["Empresa de IA para mídia digital chega ao Brasil mirando R$ 15 milhões","https://tiinside.com.br/11/05/2026/empresa-de-ia-para-midia-digital-chega-ao-brasil-mirando-r-15-milhoes/"],
+      ["Da experimentação à execução: O que realmente separa o sucesso do caos na IA Corporativa","https://tiinside.com.br/11/05/2026/da-experimentacao-a-execucao-o-que-realmente-separa-o-sucesso-do-caos-na-ia-corporativa/"],
+      ["Data centers avançam no Brasil, mas o país está preparado?","https://tiinside.com.br/11/05/2026/data-centers-avancam-no-brasil-mas-o-pais-esta-preparado/"],
+      ["ZTE reforça estratégia para ISPs na América Latina com foco em banda larga","https://telesintese.com.br/zte-reforca-estrategia-para-isps-na-america-latina-com-foco-em-banda-larga/"],
+      ["Com lucro líquido recorrente de R$ 6,8 bilhões, Bradesco anuncia os resultados do 1T26","https://tiinside.com.br/11/05/2026/com-lucro-liquido-recorrente-de-r-68-bilhoes-bradesco-anuncia-os-resultados-do-1t26/"],
+      ["80% dos profissionais no setor jurídico usam a IA generativa com alta frequência, aponta FGV Direito SP","https://tiinside.com.br/11/05/2026/80-dos-profissionais-no-setor-juridico-usam-a-ia-generativa-com-alta-frequencia-aponta-fgv-direito-sp/"],
+      ["Selbetti anuncia aquisição da Zecode e amplia atuação em automação para varejo e logística","https://tiinside.com.br/11/05/2026/selbetti-anuncia-aquisicao-da-zecode-e-amplia-atuacao-em-automacao-para-varejo-e-logistica/"],
+      ["O erro fatal na adoção de IA: quando o business case tradicional sabota a visão real de custo e valor","https://tiinside.com.br/11/05/2026/o-erro-fatal-na-adocao-de-ia-quando-o-business-case-tradicional-sabota-a-visao-real-de-custo-e-valor/"],
+      ["Senior cresce 24,8% em receita líquida e supera R$ 100 milhões em EBITDA","https://tiinside.com.br/11/05/2026/senior-supera-r-100-milhoes-em-ebitda-e-cresce-248-em-receita-liquida-no-1t26/"],
+      ["Nenhuma big tech foi capaz de oferecer nuvem soberana para o governo, diz Serpro","https://www.mobiletime.com.br/noticias/11/05/2026/serpro-nuvem-soberana/"]
+    ]
+  },
+  global: {
+    official: [
+      ["Amazon staff use AI tool for unnecessary tasks to inflate usage scores","https://www.ft.com/content/8ee0d3ef-9548-422d-8ff1-ebd48ad4b2ca"],
+      ["Amazon Prepares to Issue Its First Swiss Franc Bond in AI Push","https://www.bloomberg.com/news/articles/2026-05-11/amazon-prepares-to-issue-its-first-swiss-franc-bond-in-ai-push"],
+      ["AI voice startup Vapi hits $500M valuation after winning Amazon Ring over 40 rivals","https://techcrunch.com/2026/05/12/vapi-hits-500m-valuation-as-amazon-ring-chose-its-ai-platform-over-40-rivals/"],
+      ["OpenAI revenue chief Dresser says enterprise AI adoption is 'at a tipping point'","https://www.cnbc.com/2026/05/11/open-ai-dresser-enterprise-business.html"],
+      ["Google says it likely thwarted effort by hacker group to use AI for 'mass exploitation event'","https://www.cnbc.com/2026/05/11/google-thwarts-effort-hacker-group-use-ai-mass-exploitation-event.html"],
+      ["Sam Altman’s Business Dealings Under GOP Scrutiny Ahead of OpenAI’s IPO","https://www.wsj.com/tech/ai/sam-altmans-business-dealings-under-gop-scrutiny-ahead-of-openais-ipo-52c1cc4d"],
+      ["Nadella says the attempt to remove Altman from OpenAI was ‘amateur city’","https://www.ft.com/content/0a88f439-ba2a-4d6b-8ca4-0554a7c85c50"],
+      ["Microsoft’s C.E.O. Intervened When OpenAI Fired Sam Altman, Musk’s Lawyer Claims - The New York Times","https://www.nytimes.com/2026/05/11/technology/satya-nadella-openai-sam-altman.html"],
+      ["Microsoft CEO Satya Nadella takes stand in Musk v. Altman trial","https://www.cnbc.com/2026/05/11/microsoft-ceo-satya-nadella-musk-altman-trial.html"],
+      ["Microsoft CEO Testifies About Sam Altman’s Firing in Elon Musk Megatrial","https://www.wsj.com/tech/ai/microsoft-ceo-takes-stand-in-third-week-of-elon-musk-megatrial-against-openai-04e63c47"]
+    ],
+    others: [
+      ["EPAM Q1 Deep Dive: AI Momentum Grows, Cautious Outlook Amid Client Delays","https://finance.yahoo.com/markets/stocks/articles/epam-q1-deep-dive-ai-090855590.html"],
+      ["Infosys, TCS, HCLTech Lead IT Selloff as AI Disruption Fears Trigger Broad-Based Decline","https://hdfcsky.com/news/infosys-tcs-hcltech-lead-it-sell-off-as-ai-disruption-fears-trigger-broad-based-decline"],
+      ["ERP Software Blog Announces the Best Microsoft Dynamics Tools for Manufacturing 2026","https://www.24-7pressrelease.com/press-release/534740/erp-software-blog-announces-the-best-microsoft-dynamics-tools-for-manufacturing-2026"],
+      ["SAP Puts Embodied AI Robots To Work And Undervaluation In Focus","https://finance.yahoo.com/markets/stocks/articles/sap-puts-embodied-ai-robots-001911741.html"],
+      ["FedEx, ServiceNow expand supply chain AI partnership - The Business Journals","https://www.bizjournals.com/memphis/news/2026/05/11/fedex-and-servicenow-expand-partnership.html"],
+      ["5 Steps to Strengthen Cybersecurity Posture for Agentic ERP and HCM","https://blogs.oracle.com/cloud-infrastructure/5-steps-strengthen-agentic-erp-hcm-security"],
+      ["OpenAI cria empresa de IA corporativa, com investimento inicial de US$ 4 bilhões","https://www.mobiletime.com.br/noticias/11/05/2026/openai-anuncia-empresa/"],
+      ["Oracle Deepens AI HR Workflows With Eightfold Integration And Valuation Upside","https://ca.finance.yahoo.com/news/oracle-deepens-ai-hr-workflows-231152158.html"],
+      ["NVIDIA surged to create a market value equivalent to 'Oracle' in just four days! Analysts: No signs of slowdown in GPU demand. - 富途牛牛","https://news.futunn.com/en/post/72933087/nvidia-surged-to-create-a-market-value-equivalent-to-oracle"],
+      ["NVIDIA surged past Oracle in just four days, but concerns are mounting over its performance on earnings day. - 富途牛牛","https://news.futunn.com/en/post/72914241/nvidia-surged-past-oracle-in-just-four-days-but-concerns"],
+      ["AI-Accelerated Security: Guidance for Oracle Customers","https://blogs.oracle.com/cloud-infrastructure/ai-accelerated-security-guidance-for-oracle-customers"],
+      ["Could ServiceNow Benefit From S&P 500 AI Software Momentum?","https://kalkinemedia.com/us/stocks/technology/could-servicenow-benefit-from-sp-500-ai-software-momentum"]
+    ]
+  }
+};
+
+document.getElementById('data-hoje').textContent = new Date().toLocaleDateString('pt-BR', {weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+
+// Backend URL — Cloudflare Pages Functions. POST dispara workflow_dispatch
+// no GitHub Actions. Aceita query params:
+//   ?janela=24h        -> --ultimas-24h (rolling)
+//   ?data=YYYY-MM-DD   -> --data X (regra deduzida do weekday no Python)
+//   sem params         -> default editorial do dia atual
+//
+// Migramos de *.workers.dev (antes ibba-clipping-cron.leonardojdesousa.workers.dev)
+// pra *.pages.dev porque iPhones com iCloud Private Relay bloqueiam workers.dev.
+// Cron continua no Worker (worker-cron.js scheduled handler) — so o trigger
+// browser-side migrou.
+const WORKER_URL = "https://ibba-clipping.pages.dev/api/trigger";
+const AVG_URL = "https://ibba-clipping.pages.dev/api/avg-duration";
+const REPO_API = "https://api.github.com/repos/leocintra01/clipping/commits?per_page=1";
+const POLL_MS = 4000;
+const MAX_WAIT_MS = 5 * 60 * 1000;
+const FALLBACK_AVG_SEC = 90;
+
+// Dropdown do botao "Escolher dia da semana": abre calendario, dispara o
+// Worker passando data=X e o Python deduz a regra editorial pelo weekday
+// (ter-sex -> dia-anterior 09:30; seg/sab/dom -> sexta-anterior 09:30).
+function toggleDateDrop(ev){
+  ev.preventDefault(); ev.stopPropagation();
+  var d = document.getElementById("date-drop");
+  if (!d) return;
+  var aberto = d.classList.toggle("open");
+  if (aberto) {
+    var inp = document.getElementById("custom-date");
+    if (inp) {
+      var ontem = new Date();
+      ontem.setDate(ontem.getDate() - 1);
+      inp.value = ontem.toISOString().slice(0, 10);
+      setTimeout(function(){ inp.focus(); }, 50);
+    }
+    document.addEventListener("click", _fechaDropFora);
+  } else {
+    document.removeEventListener("click", _fechaDropFora);
+  }
+}
+function _fechaDropFora(e){
+  var d = document.getElementById("date-drop");
+  var grp = document.getElementById("run-grp-escolher");
+  if (!d || !grp) return;
+  if (!grp.contains(e.target)) {
+    d.classList.remove("open");
+    document.removeEventListener("click", _fechaDropFora);
+  }
+}
+function runWithDate(){
+  var inp = document.getElementById("custom-date");
+  var warn = document.getElementById("date-warn");
+  warn.classList.remove("show");
+  warn.textContent = "";
+  if (!inp || !inp.value) {
+    warn.textContent = "Escolha uma data."; warn.classList.add("show"); return;
+  }
+  var v = inp.value;
+  document.getElementById("date-drop").classList.remove("open");
+  runClipping(null, v);
+}
+
+// =========================================================================
+// runClipping: dispara workflow no Worker e poll-aguarda novo commit no
+// repo publico. Mesmo fluxo da pagina indice (com spinner/progresso/redirect).
+// Funciona em qualquer browser moderno (Safari/Chrome desktop+mobile).
+// =========================================================================
+function _setStatus(msg, kind, withSpinner){
+  var s = document.getElementById("run-status");
+  s.className = "run-status visible" + (kind ? " " + kind : "");
+  var inner = "";
+  if (withSpinner) inner += '<span class="spinner"></span>';
+  inner += '<span class="status-text">' + msg + '</span>';
+  s.innerHTML = inner;
+}
+function _setProgress(pct){
+  var wrap = document.getElementById("run-progress");
+  var bar = wrap.querySelector(".bar");
+  wrap.classList.add("visible");
+  bar.style.width = Math.min(100, Math.max(0, pct)) + "%";
+}
+function _hideProgress(){ document.getElementById("run-progress").classList.remove("visible"); }
+function _fmtTime(sec){ var m=Math.floor(sec/60); var s=Math.max(0,Math.floor(sec%60)); return m+":"+(s<10?"0":"")+s; }
+async function _getLatestCommitSha(){
+  try { var r = await fetch(REPO_API, {headers:{"Accept":"application/vnd.github+json"}}); if(!r.ok) return null; var j = await r.json(); return j[0] && j[0].sha; }
+  catch(e){ return null; }
+}
+async function _getNovoClippingHtml(sha){
+  try {
+    var r = await fetch("https://api.github.com/repos/leocintra01/clipping/commits/"+sha,
+      {headers:{"Accept":"application/vnd.github+json"}});
+    if (!r.ok) return null;
+    var j = await r.json();
+    var f = (j.files||[]).find(function(x){ return /^clipping-.*\.html$/.test(x.filename); });
+    return f ? f.filename : null;
+  } catch(e){ return null; }
+}
+async function _getAvgDuration(){
+  try { var r = await fetch(AVG_URL); if(!r.ok) return FALLBACK_AVG_SEC; var j = await r.json(); return (j && j.avg) || FALLBACK_AVG_SEC; }
+  catch(e){ return FALLBACK_AVG_SEC; }
+}
+async function _waitForPagesUrl(url, maxMs, intervalMs){
+  maxMs = maxMs || 90000; intervalMs = intervalMs || 4000;
+  var inicio = Date.now();
+  while (Date.now() - inicio < maxMs) {
+    try { var r = await fetch(url, {method:'HEAD', cache:'no-store'}); if (r.ok) return true; }
+    catch(e){}
+    await new Promise(function(r){ setTimeout(r, intervalMs); });
+  }
+  return false;
+}
+function _disableButtons(disabled){
+  var ids = ["run-btn-24h", "run-btn-escolher", "run-btn-confirm-date"];
+  for (var i=0;i<ids.length;i++) {
+    var el = document.getElementById(ids[i]);
+    if (el) el.disabled = disabled;
+  }
+}
+async function runClipping(janela, data){
+  _disableButtons(true);
+  _hideProgress();
+  _setStatus("Capturando estado atual...", "", true);
+  var triggerUrl = WORKER_URL;
+  var qp = [];
+  if (janela) qp.push("janela=" + encodeURIComponent(janela));
+  if (data)   qp.push("data="   + encodeURIComponent(data));
+  if (qp.length) triggerUrl += "?" + qp.join("&");
+
+  var shaInicial = null, avgSec = FALLBACK_AVG_SEC;
+  try {
+    var pre = await Promise.all([_getLatestCommitSha(), _getAvgDuration()]);
+    shaInicial = pre[0]; avgSec = pre[1];
+  } catch(e){}
+
+  _setStatus("Disparando workflow no GitHub Actions...", "", true);
+  try {
+    var r = await fetch(triggerUrl, {method:"POST"});
+    var j = await r.json();
+    if (!j.ok) { _setStatus("Erro ao disparar: " + (j.msg || r.status), "err"); _disableButtons(false); return; }
+  } catch(e){
+    _setStatus("Erro de rede: " + e.message, "err");
+    _disableButtons(false);
+    return;
+  }
+
+  var inicio = Date.now();
+  _setProgress(0);
+  var tickHandle = setInterval(function(){
+    var elapsed = (Date.now() - inicio) / 1000;
+    var pct = Math.min(95, (elapsed / avgSec) * 95);
+    _setProgress(pct);
+    _setStatus("Rodando coleta + filtros + dedup " + _fmtTime(elapsed) + " / ~" + _fmtTime(avgSec), "", true);
+  }, 250);
+
+  try {
+    while (Date.now() - inicio < MAX_WAIT_MS) {
+      await new Promise(function(r){ setTimeout(r, POLL_MS); });
+      var sha = await _getLatestCommitSha();
+      if (sha && sha !== shaInicial) {
+        clearInterval(tickHandle);
+        _setProgress(100);
+        var novoHtml = await _getNovoClippingHtml(sha);
+        if (novoHtml) {
+          // Resolve URL absoluta. Estamos em /clipping/clipping-X.html, dir = /clipping/
+          var lastSeg = location.pathname.split('/').pop();
+          var dir;
+          if (location.pathname.endsWith('/')) dir = location.pathname;
+          else if (lastSeg && lastSeg.indexOf('.') !== -1) dir = location.pathname.replace(/[^/]*$/, '');
+          else dir = location.pathname + '/';
+          var targetUrl = location.origin + dir + novoHtml;
+          _setStatus("Aguardando publicação no GitHub Pages...", "ok", true);
+          var ready = await _waitForPagesUrl(targetUrl);
+          if (ready) {
+            _setStatus("Pronto! Abrindo edição nova...", "ok");
+            setTimeout(function(){ location.href = targetUrl; }, 500);
+          } else {
+            _setStatus("Pages demorou. Tente recarregar.", "err");
+            _disableButtons(false);
+          }
+        } else {
+          _setStatus("Pronto! Recarregando...", "ok");
+          setTimeout(function(){ location.reload(); }, 800);
+        }
+        return;
+      }
+    }
+  } finally {
+    clearInterval(tickHandle);
+  }
+  _setStatus("Demorou mais de 5 min. Veja o GitHub Actions.", "err");
+  _disableButtons(false);
+}
+
+var state={};var selectionCounter=0;
+function init(){state={brazil:{official:[],others:[]},global:{official:[],others:[]}};var secs=["brazil","global"],types=["official","others"];for(var s=0;s<secs.length;s++){for(var t=0;t<types.length;t++){var sec=secs[s],typ=types[t],arr=RAW[sec][typ];for(var i=0;i<arr.length;i++){var isOff=(typ==="official");var prefix=sec[0]+(isOff?"f":"t")+i;state[sec][typ].push({title:arr[i][0],editedTitle:arr[i][0],url:arr[i][1],checked:isOff,prio:null,selectedAt:isOff?(selectionCounter++):null,id:prefix,section:sec});}}}}
+function getSource(url){try{return url.replace("https://","").replace("http://","").split("/")[0].replace("www.","");}catch(e){return "";}}
+function allItems(){return state.brazil.official.concat(state.brazil.others,state.global.official,state.global.others);}
+function findItem(id){var all=allItems();for(var i=0;i<all.length;i++){if(all[i].id===id)return all[i];}return null;}
+function renderList(listId,items){var container=document.getElementById(listId);container.innerHTML="";for(var i=0;i<items.length;i++){var item=items[i];var cbId="cb-"+item.id;var wrapper=document.createElement("div");wrapper.className="card-wrapper";var cb=document.createElement("input");cb.type="checkbox";cb.id=cbId;cb.className="native-cb";cb.checked=item.checked;cb.setAttribute("data-id",item.id);cb.addEventListener("change",(function(id){return function(){onCheck(id,this.checked);};})(item.id));wrapper.appendChild(cb);var lbl=document.createElement("label");lbl.htmlFor=cbId;lbl.className="news-card"+(item.checked?" checked":"");lbl.id="card-"+item.id;var checkBox=document.createElement("div");checkBox.className="card-check-box";var visual=document.createElement("div");visual.className="check-visual";checkBox.appendChild(visual);var body=document.createElement("div");body.className="card-body";var titleDiv=document.createElement("div");titleDiv.className="news-title";var a=document.createElement("a");a.href=item.url;a.target="_blank";a.rel="noopener";a.textContent=item.title;a.addEventListener("click",function(e){e.stopPropagation();});titleDiv.appendChild(a);var srcDiv=document.createElement("div");srcDiv.className="news-source";srcDiv.textContent=getSource(item.url);body.appendChild(titleDiv);body.appendChild(srcDiv);lbl.appendChild(checkBox);lbl.appendChild(body);wrapper.appendChild(lbl);var prioWrap=document.createElement("div");prioWrap.className="card-prio-wrap"+(item.checked?" checked":"");prioWrap.id="priowrap-"+item.id;var sel=document.createElement("select");sel.className="prio-select"+(item.prio?" has-value":"");sel.id="prio-"+item.id;var opts=[["--",""],["1","1"],["2","2"],["3","3"],["4","4"],["5","5"]];for(var o=0;o<opts.length;o++){var op=document.createElement("option");op.value=opts[o][1];op.textContent=opts[o][0];if(String(item.prio)===opts[o][1])op.selected=true;sel.appendChild(op);}sel.onchange=(function(id){return function(){setPrio(id,this.value);};})(item.id);prioWrap.appendChild(sel);wrapper.appendChild(prioWrap);container.appendChild(wrapper);}}
+function onCheck(id,checked){var item=findItem(id);if(!item)return;item.checked=checked;item.editedTitle=item.title;if(checked){item.selectedAt=selectionCounter++;}else{item.selectedAt=null;item.prio=null;}var card=document.getElementById("card-"+id);if(card){if(checked)card.classList.add("checked");else card.classList.remove("checked");}var pw=document.getElementById("priowrap-"+id);if(pw){if(checked)pw.classList.add("checked");else pw.classList.remove("checked");}updateCounts();renderWhatsApp();}
+function renderAll(){renderList("list-brazil-official",state.brazil.official);renderList("list-brazil-others",state.brazil.others);renderList("list-global-official",state.global.official);renderList("list-global-others",state.global.others);updateCounts();renderWhatsApp();}
+function setPrio(id,val){var item=findItem(id);if(!item)return;item.prio=val||null;var sel=document.getElementById("prio-"+id);if(sel)sel.className="prio-select"+(val?" has-value":"");renderWhatsApp();}
+function updateCounts(){var b=state.brazil.official.concat(state.brazil.others).filter(function(i){return i.checked;}).length;var g=state.global.official.concat(state.global.others).filter(function(i){return i.checked;}).length;function el(id){return document.getElementById(id);}if(el("brazil-count"))el("brazil-count").textContent=b+" selecionada"+(b!==1?"s":"");if(el("global-count"))el("global-count").textContent=g+" selecionada"+(g!==1?"s":"");if(el("stat-brazil"))el("stat-brazil").textContent=b;if(el("stat-global"))el("stat-global").textContent=g;if(el("stat-total"))el("stat-total").textContent=b+g;if(el("whats-count"))el("whats-count").textContent=(b+g)+" noticias";}
+function sortItems(items){var checked=items.filter(function(i){return i.checked;});var withP=checked.filter(function(i){return i.prio;});withP.sort(function(a,b){return Number(a.prio)-Number(b.prio);});var noP=checked.filter(function(i){return !i.prio;});noP.sort(function(a,b){return(a.selectedAt||0)-(b.selectedAt||0);});return withP.concat(noP);}
+function renderWhatsApp(){var bItems=sortItems(state.brazil.official.concat(state.brazil.others));var gItems=sortItems(state.global.official.concat(state.global.others));var container=document.getElementById("whats-news-list");if(!container)return;container.innerHTML="";if(!bItems.length&&!gItems.length){container.innerHTML='<div class="empty-state">Nenhuma noticia selecionada.</div>';return;}function renderSection(label,cssClass,items){if(!items.length)return;var lbl=document.createElement("div");lbl.className="whats-section-label "+cssClass;lbl.textContent=label;container.appendChild(lbl);for(var i=0;i<items.length;i++){var item=items[i];var card=document.createElement("div");card.className="whats-item";var orderDiv=document.createElement("div");orderDiv.className="whats-item-order";orderDiv.textContent=(item.prio?"TOP "+item.prio:"#"+(i+1))+" \u00B7 "+getSource(item.url);card.appendChild(orderDiv);var ta=document.createElement("textarea");ta.className="whats-item-title";ta.value=item.editedTitle;ta.rows=2;ta.addEventListener("input",(function(id){return function(){var it=findItem(id);if(it)it.editedTitle=this.value;};})(item.id));card.appendChild(ta);var urlDiv=document.createElement("div");urlDiv.className="whats-item-url";urlDiv.textContent=item.url;card.appendChild(urlDiv);container.appendChild(card);}}renderSection("> Brazil","brazil",bItems);renderSection("> Global","global",gItems);}
+function copyClipping(){var bItems=sortItems(state.brazil.official.concat(state.brazil.others));var gItems=sortItems(state.global.official.concat(state.global.others));var lines=["*IBBA TMT Daily News*"];if(bItems.length){lines.push("");lines.push("> Brazil");lines.push("");for(var i=0;i<bItems.length;i++){lines.push("- *"+bItems[i].editedTitle+"*");lines.push(bItems[i].url);lines.push("");}}if(gItems.length){lines.push("");lines.push("> Global");lines.push("");for(var j=0;j<gItems.length;j++){lines.push("- *"+gItems[j].editedTitle+"*");lines.push(gItems[j].url);lines.push("");}}var text=lines.join("\n").trim();var btn=document.getElementById("btn-copy");function done(){if(btn){btn.textContent="Copiado!";btn.classList.add("copied");}setTimeout(function(){if(btn){btn.textContent="Copiar para area de transferencia";btn.classList.remove("copied");}},2000);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(function(){fallback(text,done);});}else{fallback(text,done);}}
+function fallback(text,cb){var ta=document.createElement("textarea");ta.value=text;ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand("copy");cb();}catch(e){}document.body.removeChild(ta);}
+function switchTab(name){var panels=document.querySelectorAll(".tab-panel");var tabs=document.querySelectorAll(".tab");for(var i=0;i<panels.length;i++)panels[i].classList.remove("active");for(var j=0;j<tabs.length;j++)tabs[j].classList.remove("active");var p=document.getElementById("panel-"+name);var t=document.querySelector(".tab-"+name);if(p)p.classList.add("active");if(t)t.classList.add("active");}
+init();renderAll();
+</script>
+
+<details style="margin:24px 16px;font-family:'IBM Plex Sans',sans-serif;color:#4a4744;">
+<summary style="cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#8a8580;padding:8px 0;border-top:1px solid #d8d4cc;">Diagnostico do run (clica pra abrir)</summary>
+<div style="background:#fff;border:1px solid #d8d4cc;border-radius:6px;padding:14px;margin-top:8px;">
+
+<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8a8580;margin-bottom:10px;">
+Pipeline v5.0 | Janela: 2026-05-11 09:30:00 -> 2026-05-12 09:22:56 | Gerado: 2026-05-12 09:23:11
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+<div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8a8580;margin-bottom:6px;">Fontes</div>
+<div style="font-family:monospace;font-size:11px;color:#888;padding:2px 0;">  0 finais |  300 brutos | TMT-Cobertura-Filtrado</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">  7 finais |  283 brutos | TMT-Global-Filtrado</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">  4 finais |  100 brutos | TeleSintese (direto)</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">  8 finais |   30 brutos | TELETIME (direto)</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;"> 10 finais |   30 brutos | TI Inside (direto)</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">  4 finais |   19 brutos | Mobile Time (direto)</div>
+</div>
+<div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8a8580;margin-bottom:6px;">Quotas por bucket</div>
+<div style="font-family:monospace;font-size:11px;color:#888;padding:2px 0;">BR Off: 8/10 (threshold score >= 8, candidatos pre-quota: 8)</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">BR Oth: 20/20 (threshold score >= 5, candidatos pre-quota: 21)</div><div style="font-family:monospace;font-size:11px;color:#393;padding:2px 0;">GL Off: 10/10 (threshold score >= 7, candidatos pre-quota: 13)</div><div style="font-family:monospace;font-size:11px;color:#888;padding:2px 0;">GL Oth: 12/17 (threshold score >= 7, candidatos pre-quota: 30)</div>
+<div style="font-family:monospace;font-size:11px;color:#888;padding:8px 0 0 0;border-top:1px solid #eee;margin-top:8px;">
+Funil: 762 brutos -> 650 dedup -> 522 pos-desc -> 78 pos-regra -> 50 finais
+</div>
+</div>
+</div>
+</div>
+</details>
+
+</body>
+</html>
