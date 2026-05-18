@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IBBA TMT Daily News — Arquivo</title>
+<title>IBBA - TMT Daily News — Arquivo</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -45,8 +45,8 @@
 </head>
 <body>
 <div class="header">
-  <div class="logo">IBBA TMT</div>
-  <div class="sub">Daily News — Arquivo</div>
+  <div class="logo">IBBA - TMT Daily News</div>
+  <div class="sub" id="data-hoje"></div>
 </div>
 <div class="container">
   <div class="run-bar">
@@ -56,9 +56,10 @@
       <div id="run-progress"><div class="bar"></div></div>
     </div>
   </div>
-  <h2>Edições publicadas (122)</h2>
+  <h2>Edições publicadas (123)</h2>
   <ul>
-    <li class="date-row"><span class="date">2026-05-18</span><span class="label">Segunda-feira</span><span class="count">1 edições</span></li>
+    <li class="date-row"><span class="date">2026-05-18</span><span class="label">Segunda-feira</span><span class="count">2 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-18-0838.html"><span class="time">08:38</span><span class="arrow">→</span></a></li>
     <li class="version-row"><a href="clipping-2026-05-18-0632.html"><span class="time">06:32</span><span class="arrow">→</span></a></li>
     <li class="date-row"><span class="date">2026-05-17</span><span class="label">Domingo</span><span class="count">5 edições</span></li>
     <li class="version-row"><a href="clipping-2026-05-17-2202.html"><span class="time">22:02</span><span class="arrow">→</span></a></li>
@@ -209,6 +210,8 @@
   </ul>
 </div>
 <script>
+document.getElementById('data-hoje').textContent = new Date().toLocaleDateString('en-US', {weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+
 // Backend: Cloudflare Pages Functions (migrado de *.workers.dev em
 // 2026-05-07 porque iPhones com iCloud Private Relay bloqueiam workers.dev).
 // Cron continua no Worker; so o trigger browser-side migrou pra Pages.
