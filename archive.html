@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBBA - TMT Daily News — Arquivo</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f3ef; --surface: #ffffff; --border: #d8d4cc; --accent: #8B6914;
+    --text: #1a1916; --sub: #4a4744; --muted: #8a8580;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; line-height: 1.5; }
+  .header { background: #1a1916; padding: 20px; }
+  .logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #c8a96e; }
+  .sub { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: #7a7570; margin-top: 4px; }
+  .container { max-width: 760px; margin: 0 auto; padding: 24px 20px 60px; }
+  h2 { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; font-weight: 500; }
+  ul { list-style: none; }
+  li.date-row { background: #1a1916; color: #c8a96e; padding: 10px 18px; margin-top: 18px; margin-bottom: 4px; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; display: flex; align-items: center; gap: 12px; }
+  li.date-row .date { font-weight: 500; letter-spacing: 0.5px; }
+  li.date-row .label { color: #c8a96e; opacity: 0.7; font-family: 'IBM Plex Sans', sans-serif; }
+  li.date-row .count { margin-left: auto; opacity: 0.6; font-size: 11px; }
+  li.version-row { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; margin-bottom: 4px; }
+  li.version-row a { display: flex; align-items: center; padding: 12px 18px; color: var(--text); text-decoration: none; transition: background 0.1s; }
+  li.version-row a:hover { background: #efece5; }
+  .time { font-family: 'IBM Plex Mono', monospace; font-size: 13px; }
+  .arrow { margin-left: auto; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
+  li.empty { background: var(--surface); padding: 40px; text-align: center; color: var(--muted); border: 1px dashed var(--border); border-radius: 4px; }
+  .run-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding: 14px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; }
+  #run-btn { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.5px; padding: 8px 16px; background: #1a1916; color: #c8a96e; border: 1px solid #1a1916; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
+  #run-btn:hover:not(:disabled) { background: #2a2826; border-color: #c8a96e; }
+  #run-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  #run-status { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 8px; flex: 1; }
+  #run-status.ok { color: var(--accent); }
+  #run-status.err { color: #b03030; }
+  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(139,105,20,0.2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #run-progress { display: none; height: 4px; background: rgba(139,105,20,0.15); border-radius: 2px; overflow: hidden; margin-top: 8px; }
+  #run-progress.visible { display: block; }
+  #run-progress .bar { height: 100%; background: var(--accent); width: 0%; transition: width 0.5s linear; }
+  .run-bar-wrap { flex: 1; display: flex; flex-direction: column; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="logo">IBBA - TMT Daily News</div>
+  <div class="sub" id="data-hoje"></div>
+</div>
+<div class="container">
+  <div class="run-bar">
+    <button id="run-btn" onclick="runClipping()">Rodar agora</button>
+    <div class="run-bar-wrap">
+      <span id="run-status"></span>
+      <div id="run-progress"><div class="bar"></div></div>
+    </div>
+  </div>
+  <ul>
+    <li class="date-row"><span class="date">2026-05-18</span><span class="label">Segunda-feira</span><span class="count">7 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-18-1829.html"><span class="time">18:29</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-18-1815.html"><span class="time">18:15</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-18-1802.html"><span class="time">18:02</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-18-1408.html"><span class="time">14:08</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-18-0903.html"><span class="time">09:03</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-18-0838.html"><span class="time">08:38</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-18-0632.html"><span class="time">06:32</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-05-17</span><span class="label">Domingo</span><span class="count">5 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-17-2202.html"><span class="time">22:02</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-17-1802.html"><span class="time">18:02</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-17-1646.html"><span class="time">16:46</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-17-1402.html"><span class="time">14:02</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-17-0632.html"><span class="time">06:32</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-05-16</span><span class="label">Sábado</span><span class="count">4 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-16-2202.html"><span class="time">22:02</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-16-1802.html"><span class="time">18:02</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-16-1402.html"><span class="time">14:02</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-16-0632.html"><span class="time">06:32</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-05-15</span><span class="label">Sexta-feira</span><span class="count">6 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-15-2202.html"><span class="time">22:02</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-15-1802.html"><span class="time">18:02</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-15-1401.html"><span class="time">14:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-15-0845.html"><span class="time">08:45</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-15-0836.html"><span class="time">08:36</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-15-0631.html"><span class="time">06:31</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-05-14</span><span class="label">Quinta-feira</span><span class="count">6 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-14-2201.html"><span class="time">22:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-14-1801.html"><span class="time">18:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-14-1401.html"><span class="time">14:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-14-1343.html"><span class="time">13:43</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-14-1053.html"><span class="time">10:53</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-14-0631.html"><span class="time">06:31</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-05-13</span><span class="label">Quarta-feira</span><span class="count">4 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-13-2201.html"><span class="time">22:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-13-1801.html"><span class="time">18:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-13-1404.html"><span class="time">14:04</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-13-0631.html"><span class="time">06:31</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-05-12</span><span class="label">Terça-feira</span><span class="count">6 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-12-2201.html"><span class="time">22:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-12-1802.html"><span class="time">18:02</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-12-0923.html"><span class="time">09:23</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-12-0858.html"><span class="time">08:58</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-12-0851.html"><span class="time">08:51</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-12-0631.html"><span class="time">06:31</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-05-11</span><span class="label">Segunda-feira</span><span class="count">4 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-11-2201.html"><span class="time">22:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-11-1801.html"><span class="time">18:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-11-1401.html"><span class="time">14:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-11-0631.html"><span class="time">06:31</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-05-10</span><span class="label">Domingo</span><span class="count">5 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-10-2201.html"><span class="time">22:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-10-1857.html"><span class="time">18:57</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-10-1801.html"><span class="time">18:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-10-1401.html"><span class="time">14:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-10-0631.html"><span class="time">06:31</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-05-09</span><span class="label">Sábado</span><span class="count">4 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-09-2201.html"><span class="time">22:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-09-1801.html"><span class="time">18:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-09-1401.html"><span class="time">14:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-09-0632.html"><span class="time">06:32</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-05-08</span><span class="label">Sexta-feira</span><span class="count">4 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-08-2202.html"><span class="time">22:02</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-08-1801.html"><span class="time">18:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-08-1402.html"><span class="time">14:02</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-08-0631.html"><span class="time">06:31</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-05-07</span><span class="label">Quinta-feira</span><span class="count">11 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-07-2201.html"><span class="time">22:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-07-2143.html"><span class="time">21:43</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-07-1801.html"><span class="time">18:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-07-1629.html"><span class="time">16:29</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-07-1608.html"><span class="time">16:08</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-07-1606.html"><span class="time">16:06</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-07-1605.html"><span class="time">16:05</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-07-1515.html"><span class="time">15:15</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-07-1503.html"><span class="time">15:03</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-07-1404.html"><span class="time">14:04</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-07-0631.html"><span class="time">06:31</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-05-06</span><span class="label">Quarta-feira</span><span class="count">4 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-06-2201.html"><span class="time">22:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-06-1802.html"><span class="time">18:02</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-06-1421.html"><span class="time">14:21</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-06-0632.html"><span class="time">06:32</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-05-05</span><span class="label">Terça-feira</span><span class="count">7 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-05-2201.html"><span class="time">22:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-05-1900.html"><span class="time">19:00</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-05-1834.html"><span class="time">18:34</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-05-1821.html"><span class="time">18:21</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-05-1802.html"><span class="time">18:02</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-05-1402.html"><span class="time">14:02</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-05-0632.html"><span class="time">06:32</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-05-04</span><span class="label">Segunda-feira</span><span class="count">12 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-04-2203.html"><span class="time">22:03</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-04-2021.html"><span class="time">20:21</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-04-1938.html"><span class="time">19:38</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-04-1931.html"><span class="time">19:31</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-04-1801.html"><span class="time">18:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-04-1506.html"><span class="time">15:06</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-04-1453.html"><span class="time">14:53</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-04-1410.html"><span class="time">14:10</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-04-1402.html"><span class="time">14:02</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-04-0951.html"><span class="time">09:51</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-04-0941.html"><span class="time">09:41</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-04-0632.html"><span class="time">06:32</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-05-03</span><span class="label">Domingo</span><span class="count">19 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-03-2201.html"><span class="time">22:01</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1802.html"><span class="time">18:02</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1658.html"><span class="time">16:58</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1648.html"><span class="time">16:48</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1645.html"><span class="time">16:45</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1643.html"><span class="time">16:43</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1637.html"><span class="time">16:37</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1632.html"><span class="time">16:32</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1628.html"><span class="time">16:28</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1626.html"><span class="time">16:26</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1620.html"><span class="time">16:20</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1616.html"><span class="time">16:16</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1612.html"><span class="time">16:12</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1610.html"><span class="time">16:10</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1604.html"><span class="time">16:04</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1603.html"><span class="time">16:03</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-03-1555.html"><span class="time">15:55</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-03-0859.html"><span class="time">08:59</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-03-0518.html"><span class="time">05:18</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-05-02</span><span class="label">Sábado</span><span class="count">4 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-02-2030.html"><span class="time">20:30</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-02-1658.html"><span class="time">16:58</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-02-0903.html"><span class="time">09:03</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-02-0414.html"><span class="time">04:14</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-05-01</span><span class="label">Sexta-feira</span><span class="count">3 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-05-01-1713.html"><span class="time">17:13</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-01-0911.html"><span class="time">09:11</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-05-01-0531.html"><span class="time">05:31</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-04-30</span><span class="label">Quinta-feira</span><span class="count">6 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-04-30-2108.html"><span class="time">21:08</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-04-30-1845.html"><span class="time">18:45</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-04-30-1838.html"><span class="time">18:38</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-04-30-1832.html"><span class="time">18:32</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-04-30-1830.html"><span class="time">18:30</span><span class="arrow">→</span></a></li>
+    <li class="version-row"><a href="clipping-2026-04-30-1645.html"><span class="time">16:45</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-04-29</span><span class="label">Quarta-feira</span><span class="count">1 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-04-29.html"><span class="time">Fechamento do dia</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-04-28</span><span class="label">Terça-feira</span><span class="count">1 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-04-28.html"><span class="time">Fechamento do dia</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-04-27</span><span class="label">Segunda-feira</span><span class="count">1 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-04-27.html"><span class="time">Fechamento do dia</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-04-26</span><span class="label">Domingo</span><span class="count">1 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-04-26.html"><span class="time">Fechamento do dia</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-04-25</span><span class="label">Sábado</span><span class="count">1 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-04-25.html"><span class="time">Fechamento do dia</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-04-24</span><span class="label">Sexta-feira</span><span class="count">1 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-04-24.html"><span class="time">Fechamento do dia</span><span class="arrow">→</span></a></li>
+    <li class="date-row"><span class="date">2026-04-23</span><span class="label">Quinta-feira</span><span class="count">1 edições</span></li>
+    <li class="version-row"><a href="clipping-2026-04-23.html"><span class="time">Fechamento do dia</span><span class="arrow">→</span></a></li>
+  </ul>
+</div>
+<script>
+document.getElementById('data-hoje').textContent = new Date().toLocaleDateString('en-US', {weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+
+// Backend: Cloudflare Pages Functions (migrado de *.workers.dev em
+// 2026-05-07 porque iPhones com iCloud Private Relay bloqueiam workers.dev).
+// Cron continua no Worker; so o trigger browser-side migrou pra Pages.
+const TRIGGER_URL = "https://ibba-clipping.pages.dev/api/trigger";
+const AVG_URL = "https://ibba-clipping.pages.dev/api/avg-duration";
+const REPO_API = "https://api.github.com/repos/leocintra01/clipping/commits?per_page=1";
+const POLL_MS = 4000;        // 4s entre checks (mais responsivo pra barra)
+const MAX_WAIT_MS = 5 * 60 * 1000;  // 5 min de espera maxima
+const FALLBACK_AVG_SEC = 90;
+
+function setStatus(msg, kind, withSpinner) {
+  const status = document.getElementById("run-status");
+  status.className = kind || "";
+  let inner = "";
+  if (withSpinner) inner += '<span class="spinner"></span>';
+  status.innerHTML = inner + '<span>' + msg + '</span>';
+}
+
+async function getLatestCommitSha() {
+  const r = await fetch(REPO_API, { headers: { "Accept": "application/vnd.github+json" } });
+  if (!r.ok) return null;
+  const j = await r.json();
+  return j[0] && j[0].sha;
+}
+
+async function getNovoClippingHtml(sha) {
+  // Olha os arquivos do commit e retorna o nome do clipping-*.html publicado
+  const r = await fetch(`https://api.github.com/repos/leocintra01/clipping/commits/${sha}`,
+    { headers: { "Accept": "application/vnd.github+json" } });
+  if (!r.ok) return null;
+  const j = await r.json();
+  const fileObj = (j.files || []).find(f => /^clipping-.*\.html$/.test(f.filename));
+  return fileObj ? fileObj.filename : null;
+}
+
+function fmtTime(elapsedSec) {
+  const m = Math.floor(elapsedSec / 60);
+  const s = Math.max(0, Math.floor(elapsedSec % 60));
+  return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
+async function getAvgDuration() {
+  try {
+    const r = await fetch(AVG_URL);
+    if (!r.ok) return FALLBACK_AVG_SEC;
+    const j = await r.json();
+    return (j && j.avg) || FALLBACK_AVG_SEC;
+  } catch (e) {
+    return FALLBACK_AVG_SEC;
+  }
+}
+
+function setProgress(pct) {
+  const wrap = document.getElementById("run-progress");
+  const bar = wrap.querySelector(".bar");
+  wrap.classList.add("visible");
+  bar.style.width = Math.min(100, Math.max(0, pct)) + "%";
+}
+
+function hideProgress() {
+  document.getElementById("run-progress").classList.remove("visible");
+}
+
+// GitHub Pages tem delay de 30s-2min entre git push e arquivo disponivel no CDN.
+// Pollamos HEAD ate dar 200 antes de redirecionar (max 90s).
+async function waitForPagesUrl(url, maxMs = 90000, intervalMs = 4000) {
+  const inicio = Date.now();
+  while (Date.now() - inicio < maxMs) {
+    try {
+      const r = await fetch(url, { method: 'HEAD', cache: 'no-store' });
+      if (r.ok) return true;
+    } catch (e) { /* network/cors blip, tenta de novo */ }
+    await new Promise(r => setTimeout(r, intervalMs));
+  }
+  return false;
+}
+
+async function runClipping() {
+  const btn = document.getElementById("run-btn");
+  btn.disabled = true;
+  hideProgress();
+
+  // 1. Snapshot do commit atual + busca duracao tipica
+  setStatus("Capturando estado atual...", "", true);
+  const [shaInicial, avgSec] = await Promise.all([
+    getLatestCommitSha(),
+    getAvgDuration(),
+  ]);
+
+  // 2. Dispara
+  setStatus("Disparando workflow no GitHub Actions...", "", true);
+  try {
+    const r = await fetch(TRIGGER_URL, { method: "POST" });
+    const j = await r.json();
+    if (!j.ok) { setStatus("Erro ao disparar: " + (j.msg || r.status), "err"); btn.disabled = false; return; }
+  } catch (e) {
+    setStatus("Erro de rede: " + e.message, "err");
+    btn.disabled = false;
+    return;
+  }
+
+  // 3. Polling: espera novo commit no repo publico, atualizando barra
+  const inicio = Date.now();
+  setProgress(0);
+
+  // Tick visual independente do polling (atualiza a cada 250ms)
+  let tickHandle = setInterval(() => {
+    const elapsed = (Date.now() - inicio) / 1000;
+    // Cap em 95% ate detectar commit novo (os ultimos 5% sao "publicando")
+    const pct = Math.min(95, (elapsed / avgSec) * 95);
+    setProgress(pct);
+    setStatus(
+      `Rodando coleta + filtros + dedup ${fmtTime(elapsed)} / ~${fmtTime(avgSec)}`,
+      "", true
+    );
+  }, 250);
+
+  try {
+    while (Date.now() - inicio < MAX_WAIT_MS) {
+      await new Promise(r => setTimeout(r, POLL_MS));
+      const sha = await getLatestCommitSha();
+      if (sha && sha !== shaInicial) {
+        clearInterval(tickHandle);
+        setProgress(100);
+        const novoHtml = await getNovoClippingHtml(sha);
+        if (novoHtml) {
+          // Resolve URL absoluta. Casos cobertos:
+          //   /clipping/          -> dir = /clipping/
+          //   /clipping           -> dir = /clipping/  (sem slash, sem extensao = dir)
+          //   /clipping/foo.html  -> dir = /clipping/  (com extensao = arquivo)
+          const lastSeg = location.pathname.split('/').pop();
+          let dir;
+          if (location.pathname.endsWith('/')) {
+            dir = location.pathname;
+          } else if (lastSeg && lastSeg.includes('.')) {
+            dir = location.pathname.replace(/[^/]*$/, '');
+          } else {
+            dir = location.pathname + '/';
+          }
+          const targetUrl = location.origin + dir + novoHtml;
+          // Aguarda o GitHub Pages publicar o arquivo no CDN antes de redirecionar
+          setStatus("Aguardando publicação no GitHub Pages...", "ok", true);
+          const ready = await waitForPagesUrl(targetUrl);
+          if (ready) {
+            setStatus("Pronto! Abrindo edição nova...", "ok");
+            setTimeout(() => { location.href = targetUrl; }, 500);
+          } else {
+            setStatus("Pages demorou pra publicar. Recarregando lista...", "err");
+            setTimeout(() => location.reload(), 2000);
+          }
+        } else {
+          // Fallback seguro: recarrega o indice (lista de edicoes)
+          setStatus("Pronto! Recarregando lista...", "ok");
+          setTimeout(() => location.reload(), 800);
+        }
+        return;
+      }
+    }
+  } finally {
+    clearInterval(tickHandle);
+  }
+  setStatus("Demorou mais de 5 min. Verifique o GitHub Actions.", "err");
+  btn.disabled = false;
+}
+</script>
+</body>
+</html>
