@@ -98,6 +98,22 @@
   .btn-copy { width: 100%; padding: 14px; background: #1a1916; color: #c8a96e; border: none; border-radius: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: background 0.15s; }
   .btn-copy:hover { background: #2a2926; }
   .btn-copy.copied { background: var(--green); color: #fff; }
+  /* Histórico subtab — espelha visual de archive.html (data-row dark + version-row light) */
+  .hist-list { list-style: none; padding: 0; margin: 0; }
+  .hist-list li.date-row { background: #1a1916; color: #c8a96e; padding: 9px 14px; margin-top: 14px; margin-bottom: 4px; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; display: flex; align-items: center; gap: 10px; }
+  .hist-list li.date-row:first-child { margin-top: 0; }
+  .hist-list li.date-row .date { font-weight: 500; letter-spacing: 0.5px; }
+  .hist-list li.date-row .label { color: #c8a96e; opacity: 0.7; font-family: 'IBM Plex Sans', sans-serif; }
+  .hist-list li.date-row .count { margin-left: auto; opacity: 0.6; font-size: 10px; }
+  .hist-list li.version-row { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; margin-bottom: 4px; }
+  .hist-list li.version-row a { display: flex; align-items: center; padding: 10px 14px; color: var(--text); text-decoration: none; transition: background 0.1s; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+  .hist-list li.version-row a:hover { background: #efece5; }
+  .hist-list li.version-row .arrow { margin-left: auto; color: var(--muted); }
+  .hist-list li.version-row.current { background: var(--checked-bg); border-color: var(--checked-border); }
+  .hist-list li.version-row.current a { color: var(--green); font-weight: 500; cursor: default; }
+  .hist-list li.version-row.current .arrow::before { content: '● atual '; font-size: 10px; opacity: 0.7; }
+  .hist-list li.hist-empty, .hist-list li.hist-error { background: var(--surface); padding: 24px; text-align: center; color: var(--muted); border: 1px dashed var(--border); border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+  .hist-list li.hist-error { color: #b03030; border-color: #d4a0a0; }
   .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 13px; line-height: 1.6; }
 
   /* ===== Main tabs (Last News / Clipping) — proeminentes no header ===== */
@@ -200,6 +216,7 @@
       <button class="subtab brazil active" id="cl-stab-br" onclick="switchClipping('brazil')">Brazil</button>
       <button class="subtab global" id="cl-stab-gl" onclick="switchClipping('global')">Global</button>
       <button class="subtab" id="cl-stab-wa" onclick="switchClipping('whats')" style="color:var(--muted);">WhatsApp</button>
+      <button class="subtab" id="cl-stab-hi" onclick="switchClipping('historico')" style="color:var(--muted);">Histórico</button>
     </div>
     <div id="panel-brazil" class="tab-panel active">
       <div class="panel-header">
@@ -233,6 +250,15 @@
       </div>
       <div id="whats-news-list" class="whats-news-list"></div>
       <button class="btn-copy" id="btn-copy" onclick="copyClipping()">Copiar para area de transferencia</button>
+    </div>
+    <div id="panel-historico" class="tab-panel">
+      <div class="panel-header">
+        <div class="panel-title">Histórico</div>
+        <div class="panel-meta" id="hist-count">&mdash;</div>
+      </div>
+      <ul id="hist-list" class="hist-list">
+        <li class="hist-empty">Carregando edições…</li>
+      </ul>
     </div>
   </section>
 
@@ -518,7 +544,7 @@ function switchLN(name){
   }
 }
 
-// ===== Sub-tabs do Clipping (Brazil / Global / WhatsApp) =====
+// ===== Sub-tabs do Clipping (Brazil / Global / WhatsApp / Histórico) =====
 function switchClipping(name){
   var panels = document.querySelectorAll("#clipping-section .tab-panel");
   for (var i=0;i<panels.length;i++) panels[i].classList.remove("active");
@@ -526,9 +552,93 @@ function switchClipping(name){
   for (var j=0;j<subtabs.length;j++) subtabs[j].classList.remove("active");
   var p = document.getElementById("panel-"+name);
   if (p) p.classList.add("active");
-  var map = {brazil:"cl-stab-br", global:"cl-stab-gl", whats:"cl-stab-wa"};
+  var map = {brazil:"cl-stab-br", global:"cl-stab-gl", whats:"cl-stab-wa", historico:"cl-stab-hi"};
   var t = document.getElementById(map[name]);
   if (t) t.classList.add("active");
+  // Lazy-load do Historico: so' fetcha a API do GitHub quando o user
+  // clica na aba. Evita gastar requests (60/h sem auth) em quem nunca
+  // abre o historico. Cacheado depois do 1o fetch.
+  if (name === "historico") loadHistorico();
+}
+
+// ===== Histórico de runs (sub-aba do Clipping) =====
+// Le /contents/ do repo publico (leocintra01/clipping) via GitHub API
+// anonimous (sem auth, 60 req/h/IP — suficiente). Filtra clipping-*.html,
+// agrupa por data, renderiza igual ao archive.html.
+var _histLoaded = false;
+var _HIST_WEEKDAYS = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira",
+                      "Quinta-feira","Sexta-feira","Sábado"];
+function _histCurrentFilename(){
+  var seg = location.pathname.split("/").pop();
+  return /^clipping-.*\.html$/.test(seg) ? seg : "";
+}
+async function loadHistorico(){
+  if (_histLoaded) return;
+  var list = document.getElementById("hist-list");
+  var meta = document.getElementById("hist-count");
+  try {
+    var r = await fetch("https://api.github.com/repos/leocintra01/clipping/contents/",
+      {headers:{"Accept":"application/vnd.github+json"}});
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    var entries = await r.json();
+    var pat = /^clipping-(\d{4})-(\d{2})-(\d{2})(?:-(\d{2})(\d{2}))?\.html$/;
+    var items = [];
+    for (var i=0;i<entries.length;i++) {
+      var m = pat.exec(entries[i].name);
+      if (!m) continue;
+      items.push({
+        date: m[1]+"-"+m[2]+"-"+m[3],
+        hh: m[4] || "ZZ", mm: m[5] || "ZZ",
+        timeLabel: m[4] ? (m[4]+":"+m[5]) : "Fechamento do dia",
+        fname: entries[i].name,
+      });
+    }
+    // Sort: data desc, hora desc. "Fechamento" (ZZ:ZZ) vai pro topo do dia.
+    items.sort(function(a,b){
+      if (a.date !== b.date) return a.date < b.date ? 1 : -1;
+      if (a.hh !== b.hh) return a.hh < b.hh ? 1 : -1;
+      return a.mm < b.mm ? 1 : -1;
+    });
+    // Group by date preservando ordem
+    var byDate = {}, order = [];
+    for (var k=0;k<items.length;k++) {
+      var d = items[k].date;
+      if (!(d in byDate)) { byDate[d] = []; order.push(d); }
+      byDate[d].push(items[k]);
+    }
+    var current = _histCurrentFilename();
+    var html = "";
+    for (var di=0;di<order.length;di++) {
+      var dt = order[di];
+      var parts = dt.split("-");
+      var dObj = new Date(Date.UTC(+parts[0], +parts[1]-1, +parts[2]));
+      var wd = _HIST_WEEKDAYS[dObj.getUTCDay()];
+      var versions = byDate[dt];
+      html += '<li class="date-row">'
+            + '<span class="date">' + dt + '</span>'
+            + '<span class="label">' + wd + '</span>'
+            + '<span class="count">' + versions.length + ' edição'
+            + (versions.length !== 1 ? "ões" : "") + '</span></li>';
+      for (var vi=0;vi<versions.length;vi++) {
+        var v = versions[vi];
+        var isCur = v.fname === current;
+        html += '<li class="version-row' + (isCur ? " current" : "") + '">'
+              + (isCur
+                  ? '<a><span class="time">' + v.timeLabel + '</span>'
+                    + '<span class="arrow"></span></a>'
+                  : '<a href="' + v.fname + '">'
+                    + '<span class="time">' + v.timeLabel + '</span>'
+                    + '<span class="arrow">→</span></a>')
+              + '</li>';
+      }
+    }
+    list.innerHTML = html || '<li class="hist-empty">Nenhuma edição encontrada.</li>';
+    meta.textContent = items.length + " edições · " + order.length + " dias";
+    _histLoaded = true;
+  } catch(e) {
+    list.innerHTML = '<li class="hist-error">Erro ao carregar histórico: '
+                   + (e.message || e) + '</li>';
+  }
 }
 
 // ===== Render Last News (lista simples por relevancia, rolling 24h) =====
@@ -592,6 +702,37 @@ if (document.readyState === "loading") {
   setLastUpdate();
 }
 </script>
+<details> fechado por default, e innerText ignora conteudo oculto
+// — caia no fallback, que retornava UTC (3h a frente de BRT).
+function setLastUpdate(){
+  var diag = document.body.textContent.match(/Gerado:\s*(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}(?::\d{2})?)/);
+  // Fallback (caso o "Gerado:" suma do template): hora local BRT em formato
+  // YYYY-MM-DD HH:MM, nao UTC. Usar sv-SE locale + timeZone explicito por
+  // robustez (Date.toLocaleString sem locale varia por browser).
+  var nowBRT = new Date().toLocaleString("sv-SE", {timeZone: "America/Sao_Paulo"}).slice(0,16);
+  var ts = diag ? diag[1] : nowBRT;
+  var ids = ["ln-last-update", "cl-last-update"];
+  for (var i=0;i<ids.length;i++) {
+    var el = document.getElementById(ids[i]);
+    if (el) el.textContent = ts;
+  }
+}
+
+// Alias retrocompat (caso algum onclick antigo ainda chame)
+function switchTab(name){ switchClipping(name); }
+
+init(); renderAll(); renderLastNews();
+// IMPORTANTE: setLastUpdate roda apos DOMContentLoaded. O <details> com
+// "Gerado: ..." vem DEPOIS desta tag <script> no HTML; como o script bloqueia
+// o parsing, document.body.textContent ainda nao inclui o diagnostico aqui.
+// Sem o defer, o regex falha e cai no fallback (hora atual em BRT — exatamente
+// o sintoma que o usuario reportou em 2026-05-19).
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", setLastUpdate);
+} else {
+  setLastUpdate();
+}
+</script>
 
 <details style="margin:24px 16px;font-family:'IBM Plex Sans',sans-serif;color:#4a4744;">
 <summary style="cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#8a8580;padding:8px 0;border-top:1px solid #d8d4cc;">Diagnostico do run (clica pra abrir)</summary>
@@ -615,6 +756,5 @@ Funil: 179 brutos -> 178 dedup -> 167 pos-desc -> 27 pos-regra -> 25 finais
 </div>
 </div>
 </details>
-
 </body>
 </html>
