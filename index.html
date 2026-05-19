@@ -205,7 +205,7 @@
   <!-- ========= CLIPPING (janela editorial, comportamento atual) ========= -->
   <section id="clipping-section" class="main-panel">
     <div class="ln-bar">
-      <div class="ln-info">Editorial window &middot; Last update: <b id="cl-last-update">&mdash;</b></div>
+      <div class="ln-info">Last update: <b id="cl-last-update">&mdash;</b></div>
       <div class="ln-actions">
         <div class="run-status"></div>
         <button class="btn-run-now" id="btn-cl-run" onclick="runClipping()">&#9654; Rodar Agora</button>
@@ -788,6 +788,37 @@ if (document.readyState === "loading") {
   setLastUpdate();
 }
 </script>
+<details> fechado por default, e innerText ignora conteudo oculto
+// — caia no fallback, que retornava UTC (3h a frente de BRT).
+function setLastUpdate(){
+  var diag = document.body.textContent.match(/Gerado:\s*(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}(?::\d{2})?)/);
+  // Fallback (caso o "Gerado:" suma do template): hora local BRT em formato
+  // YYYY-MM-DD HH:MM, nao UTC. Usar sv-SE locale + timeZone explicito por
+  // robustez (Date.toLocaleString sem locale varia por browser).
+  var nowBRT = new Date().toLocaleString("sv-SE", {timeZone: "America/Sao_Paulo"}).slice(0,16);
+  var ts = diag ? diag[1] : nowBRT;
+  var ids = ["ln-last-update", "cl-last-update"];
+  for (var i=0;i<ids.length;i++) {
+    var el = document.getElementById(ids[i]);
+    if (el) el.textContent = ts;
+  }
+}
+
+// Alias retrocompat (caso algum onclick antigo ainda chame)
+function switchTab(name){ switchClipping(name); }
+
+init(); renderAll(); renderLastNews();
+// IMPORTANTE: setLastUpdate roda apos DOMContentLoaded. O <details> com
+// "Gerado: ..." vem DEPOIS desta tag <script> no HTML; como o script bloqueia
+// o parsing, document.body.textContent ainda nao inclui o diagnostico aqui.
+// Sem o defer, o regex falha e cai no fallback (hora atual em BRT — exatamente
+// o sintoma que o usuario reportou em 2026-05-19).
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", setLastUpdate);
+} else {
+  setLastUpdate();
+}
+</script>
 
 <details style="margin:24px 16px;font-family:'IBM Plex Sans',sans-serif;color:#4a4744;">
 <summary style="cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#8a8580;padding:8px 0;border-top:1px solid #d8d4cc;">Diagnostico do run (clica pra abrir)</summary>
@@ -811,6 +842,5 @@ Funil: 1090 brutos -> 839 dedup -> 672 pos-desc -> 223 pos-regra -> 57 finais
 </div>
 </div>
 </details>
-
 </body>
 </html>
