@@ -7,14 +7,14 @@
 <!-- Preenchido pelo gerar_clipping com a data e a contagem reais da edicao.
      Sem isso, colar o link no WhatsApp mostrava so' a URL crua: quem recebe
      nao sabia de que dia era nem quantas materias tinha antes de abrir. -->
-<meta name="description" content="Clipping TMT de 13/10/2026 — 46 noticias de telecom, midia e tecnologia selecionadas para o Itau BBA.">
+<meta name="description" content="Clipping TMT de 13/10/2026 — 48 noticias de telecom, midia e tecnologia selecionadas para o Itau BBA.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IBBA - TMT Daily News · 13/10/2026">
-<meta property="og:description" content="Clipping TMT de 13/10/2026 — 46 noticias de telecom, midia e tecnologia selecionadas para o Itau BBA.">
+<meta property="og:description" content="Clipping TMT de 13/10/2026 — 48 noticias de telecom, midia e tecnologia selecionadas para o Itau BBA.">
 <meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IBBA - TMT Daily News · 13/10/2026">
-<meta name="twitter:description" content="Clipping TMT de 13/10/2026 — 46 noticias de telecom, midia e tecnologia selecionadas para o Itau BBA.">
+<meta name="twitter:description" content="Clipping TMT de 13/10/2026 — 48 noticias de telecom, midia e tecnologia selecionadas para o Itau BBA.">
 <meta name="theme-color" content="#1a1916">
 <!-- preconnect: o css2 do Google Fonts so' diz de onde baixar a fonte;
      o arquivo vem de fonts.gstatic.com, outro host. Sem preconnect o
@@ -438,15 +438,16 @@
 // Top 3 do dia (tag editorial + score). Vinha sendo calculado no
 // resumo-*.json e descartado; agora chega na tela.
 var RAW_TOP3 = [
-  ["Totvs aposta em 'sistema operacional de gestão' e IA para inaugurar novo ciclo de expansão","https://valor.globo.com/empresas/noticia/2026/10/13/totvs-aposta-em-sistema-operacional-de-gesto-e-ia-para-inaugurar-novo-ciclo-de-expanso.ghtml","must-read","BR Oth"],
-      ["\"Orquestração inteligente é a resposta para a complexidade gerada pela IA\", diz CEO da TOTVS","https://tiinside.com.br/13/10/2026/orquestracao-inteligente-e-a-resposta-para-a-complexidade-gerada-pela-ia-diz-ceo-da-totvs/","must-read","BR Off"],
-      ["Telefónica vende operação mexicana por US$ 450 milhões","https://telesintese.com.br/telefonica-vende-operacao-mexicana-por-us-450-milhoes/","must-read","BR Off"]
+  ["Rival da Starlink atrai US$ 20 bilhões e caminha para ser o maior IPO da Índia","https://neofeed.com.br/negocios/rival-da-starlink-atrai-us-20-bilhoes-e-caminha-para-ser-o-maior-ipo-da-india/","must-read","BR Off"],
+      ["Brisanet tem crescimento de 3,3% na base de clientes de banda larga fixa em setembro","https://valor.globo.com/empresas/noticia/2026/10/13/brisanet-tem-crescimento-de-33-pontos-percentuais-na-base-de-clientes-de-banda-larga-fixa-em-setembro.ghtml","must-read","BR Oth"],
+      ["\"Orquestração inteligente é a resposta para a complexidade gerada pela IA\", diz CEO da TOTVS","https://tiinside.com.br/13/10/2026/orquestracao-inteligente-e-a-resposta-para-a-complexidade-gerada-pela-ia-diz-ceo-da-totvs/","must-read","BR Off"]
 ];
 // Itens agrupados pelas empresas de cobertura, ordenados por volume.
 var RAW_EMPRESAS = [
-  ["TOTVS",[["Totvs aposta em 'sistema operacional de gestão' e IA para inaugurar novo ciclo de expansão","https://valor.globo.com/empresas/noticia/2026/10/13/totvs-aposta-em-sistema-operacional-de-gesto-e-ia-para-inaugurar-novo-ciclo-de-expanso.ghtml","must-read"],["\"Orquestração inteligente é a resposta para a complexidade gerada pela IA\", diz CEO da TOTVS","https://tiinside.com.br/13/10/2026/orquestracao-inteligente-e-a-resposta-para-a-complexidade-gerada-pela-ia-diz-ceo-da-totvs/","must-read"]]],
+  ["Starlink",[["Rival da Starlink atrai US$ 20 bilhões e caminha para ser o maior IPO da Índia","https://neofeed.com.br/negocios/rival-da-starlink-atrai-us-20-bilhoes-e-caminha-para-ser-o-maior-ipo-da-india/","must-read"],["American Airlines terá Wi-Fi da Starlink","https://www.baguete.com.br/noticias/american-airlines-tera-wi-fi-da-starlink","company-specific"]]],
       ["Vivo",[["Telefónica vende operação mexicana por US$ 450 milhões","https://telesintese.com.br/telefonica-vende-operacao-mexicana-por-us-450-milhoes/","must-read"]]],
-      ["Starlink",[["American Airlines terá Wi-Fi da Starlink","https://www.baguete.com.br/noticias/american-airlines-tera-wi-fi-da-starlink","company-specific"]]]
+      ["Brisanet",[["Brisanet tem crescimento de 3,3% na base de clientes de banda larga fixa em setembro","https://valor.globo.com/empresas/noticia/2026/10/13/brisanet-tem-crescimento-de-33-pontos-percentuais-na-base-de-clientes-de-banda-larga-fixa-em-setembro.ghtml","must-read"]]],
+      ["TOTVS",[["\"Orquestração inteligente é a resposta para a complexidade gerada pela IA\", diz CEO da TOTVS","https://tiinside.com.br/13/10/2026/orquestracao-inteligente-e-a-resposta-para-a-complexidade-gerada-pela-ia-diz-ceo-da-totvs/","must-read"]]]
 ];
 var TAG_LABEL = {"must-read":"Must-read","company-specific":"Empresa",
   "sector-regulatory":"Regulatorio","competitor-read-through":"Concorrente",
@@ -454,24 +455,23 @@ var TAG_LABEL = {"must-read":"Must-read","company-specific":"Empresa",
 var RAW = {
   brazil: {
     official: [
+      ["Rival da Starlink atrai US$ 20 bilhões e caminha para ser o maior IPO da Índia","https://neofeed.com.br/negocios/rival-da-starlink-atrai-us-20-bilhoes-e-caminha-para-ser-o-maior-ipo-da-india/","must-read",0,""],
       ["\"Orquestração inteligente é a resposta para a complexidade gerada pela IA\", diz CEO da TOTVS","https://tiinside.com.br/13/10/2026/orquestracao-inteligente-e-a-resposta-para-a-complexidade-gerada-pela-ia-diz-ceo-da-totvs/","must-read",0,""],
       ["Telefónica vende operação mexicana por US$ 450 milhões","https://telesintese.com.br/telefonica-vende-operacao-mexicana-por-us-450-milhoes/","must-read",0,""]
     ],
     others: [
-      ["Totvs aposta em 'sistema operacional de gestão' e IA para inaugurar novo ciclo de expansão","https://valor.globo.com/empresas/noticia/2026/10/13/totvs-aposta-em-sistema-operacional-de-gesto-e-ia-para-inaugurar-novo-ciclo-de-expanso.ghtml","must-read",0,""],
+      ["Brisanet tem crescimento de 3,3% na base de clientes de banda larga fixa em setembro","https://valor.globo.com/empresas/noticia/2026/10/13/brisanet-tem-crescimento-de-33-pontos-percentuais-na-base-de-clientes-de-banda-larga-fixa-em-setembro.ghtml","must-read",0,""],
       ["American Airlines terá Wi-Fi da Starlink","https://www.baguete.com.br/noticias/american-airlines-tera-wi-fi-da-starlink","company-specific",0,""],
-      ["DSA vai à Anatel para defender mais espectro para provedores Internet na faixa de 6 GHz","https://convergenciadigital.com.br/internet/dsa-vai-a-anatel-para-defender-mais-espectro-para-provedores-internet-na-faixa-de-6-ghz/","sector-regulatory",0,""],
-      ["Governo cria programa para bloquear celular e rádio em presídios","https://teletime.com.br/13/10/2026/bloqueio-celular-presidios/","sector-regulatory",0,""],
+      ["Governo cria programa para bloquear celular e rádio em presídios","https://teletime.com.br/13/10/2026/bloqueio-celular-presidios/","sector-regulatory",0,"telesintese.com.br"],
       ["DSA pede à Anatel compartilhamento dos 6 GHz para preservar Wi-Fi","https://telesintese.com.br/dsa-pede-a-anatel-compartilhamento-dos-6-ghz-para-preservar-wi-fi/","sector-regulatory",0,""],
       ["Governo publica MP com regras para bloqueio e autenticação de chamadas","https://teletime.com.br/13/10/2026/mp-bloqueio-chamadas-autenticacao/","sector-regulatory",0,""],
-      ["Governo aperta regras e inclui medidas de proteção ao uso de Inteligência Artificial no atendimento ao consumidor","https://convergenciadigital.com.br/governo/governo-aperta-regras-e-inclui-medidas-de-protecao-ao-uso-de-inteligencia-artificial-no-atendimento-ao-consumidor/","sector-regulatory",0,""],
-      ["Governo atropela Anatel e faz Medida Provisória para coibir  golpes telefônicos","https://convergenciadigital.com.br/governo/governo-atropela-anatel-e-faz-medida-provisoria-para-coibir-golpes-telefonicos/","sector-regulatory",0,""],
+      ["Medida Provisória obriga operadoras a bloquear chamadas não autenticadas","https://telesintese.com.br/mp-obriga-operadoras-a-bloquear-chamadas-nao-autenticadas/","sector-regulatory",0,""],
+      ["6 GHz: destinação integral para Wi-Fi renderia melhor impacto econômico, diz DSA","https://www.mobiletime.com.br/noticias/13/10/2026/6-ghz-impacto-economico/","sector-regulatory",0,""],
       ["Gil Torquato, Abranet: É difícil pensar na regulamentação do Redata ainda este ano","https://convergenciadigital.com.br/internet/gil-torquato-abranet-e-dificil-pensar-na-regulamentacao-do-redata-ainda-este-ano/","sector-regulatory",0,""],
       ["Alloha Fibra unifica totalmente as marcas e passa a se chamar Giga+","https://telesintese.com.br/alloha-fibra-unifica-totalmente-as-marcas-e-passa-a-se-chamar-giga/","competitor-read-through",0,""],
       ["Character.AI pede recuperação judicial nos EUA e negocia venda à Disney por R$ 100 milhões","https://g1.globo.com/tecnologia/noticia/2026/10/13/inteligencia-artificial-characterai-recuperacao-judicial.ghtml","broad-tech",0,""],
-      ["Split Payment: Receita define que Pix vai fazer fazer parte dos testes da plataforma","https://convergenciadigital.com.br/governo/split-payment-receita-define-que-pix-vai-fazer-fazer-parte-dos-testes-da-plataforma/","broad-tech",0,""],
+      ["Meta questiona regulador de mídia do Reino Unido sobre taxas e multas","https://valor.globo.com/empresas/noticia/2026/10/13/meta-questiona-regulador-de-midia-do-reino-unido-sobre-taxas-e-multas.ghtml","broad-tech",0,""],
       ["Thales e Datatem levam troca remota de operadora a Internet das Coisas","https://www.mobiletime.com.br/noticias/13/10/2026/thales-datatem-troca-iot/","broad-tech",0,""],
-      ["Rússia diz que discute problemas da Yandex após ataques da Ucrânia a data centers","https://valor.globo.com/mundo/noticia/2026/10/13/rssia-diz-que-discute-problemas-da-yandex-aps-ataques-da-ucrnia-a-data-centers.ghtml","broad-tech",0,""],
       ["Quando a IA deixa de ajudar a programar e passa a fazer parte da engenharia de software","https://tiinside.com.br/13/10/2026/quando-a-ia-deixa-de-ajudar-a-programar-e-passa-a-fazer-parte-da-engenharia-de-software/","broad-tech",0,""],
       ["Futuro da gestão corporativa de pagamentos terá foco na plataformização","https://tiinside.com.br/13/10/2026/futuro-da-gestao-corporativa-de-pagamentos-tera-foco-na-plataformizacao/","broad-tech",0,""]
     ]
@@ -481,31 +481,34 @@ var RAW = {
       ["Will Accenture survive or thrive in the age of AI?","https://www.ft.com/content/15ae6a2e-6010-4d78-a752-2eeeca1e1c55?syn-25a6b1a6=1","competitor-read-through",0,""],
       ["Anthropic to disclose new revenue numbers as AI lab financials become central to tech trade","https://www.cnbc.com/2026/10/13/anthropic-q3-financials-ipo.html","broad-tech",0,""],
       ["Anthropic warns AI models could soon copy themselves across home devices","https://www.cnbc.com/2026/10/13/anthropic-ai-models-self-replication-smart-devices.html","broad-tech",0,""],
+      ["Anthropic urges court in Washington, D.C. to rehear appeal of Pentagon blacklisting","https://www.cnbc.com/2026/10/13/anthropic-wants-court-in-dc-to-rehear-appeal-of-pentagon-blacklist-.html","broad-tech",0,""],
+      ["F.B.I. Arrests OpenAI Employee Accused of Planting Bug in Office","https://www.nytimes.com/2026/10/13/technology/openai-worker-arrested-bugging.html","broad-tech",0,""],
       ["AI may change the price of your Big Mac and groceries — what this means for shoppers","https://www.cnbc.com/2026/10/11/ai-dynamic-pricing-shoppers-groceries.html","broad-tech",1,""]
     ],
     others: [
       ["US Army takes Amazon Leo to the test","https://www.lightreading.com/ai-machine-learning/us-army-takes-amazon-leo-to-the-test","competitor-read-through",0,""],
       ["Amazon Leo still tracking for 2026 service launch as satellite production ramps","https://www.lightreading.com/satellite/amazon-leo-still-tracking-for-2026-service-launch-as-satellite-production-ramps","competitor-read-through",1,""],
-      ["Apple lança HomeView, dispositivo com IA para controlar aparelhos da casa","https://g1.globo.com/tecnologia/noticia/2026/10/13/apple-homeview.ghtml","broad-tech",0,""],
+      ["Apple lança HomeView, dispositivo com IA para controlar aparelhos da casa","https://g1.globo.com/tecnologia/noticia/2026/10/13/apple-homeview.ghtml","broad-tech",0,"mobiletime.com.br"],
       ["AI models may soon self-replicate without access to data centres, Anthropic warns","https://www.businesstimes.com.sg/companies-markets/telcos-media-tech/ai-models-may-soon-self-replicate-without-access-data-centres-anthropic-warns","broad-tech",0,""],
+      ["Google lança modelo de IA de ponta Gemini 4 Argon para desenvolvedores e empresas","https://valor.globo.com/empresas/noticia/2026/10/13/google-lana-modelo-de-ia-de-ponta-gemini-4-argon-para-desenvolvedores-e-empresas.ghtml","broad-tech",0,""],
       ["Sofist apresenta no Gartner plataforma que usa IA para validar continuamente sistemas e aplicações","https://tiinside.com.br/13/10/2026/sofist-apresenta-no-gartner-plataforma-que-usa-ia-para-validar-continuamente-sistemas-e-aplicacoes/","broad-tech",0,""],
       ["Leite enfrenta mais exigências de segurança do que IA, diz presidente da Microsoft","https://g1.globo.com/tecnologia/noticia/2026/10/12/leite-enfrenta-mais-exigencias-de-seguranca-do-que-ia-diz-presidente-da-microsoft.ghtml","broad-tech",0,""],
       ["Microsoft levará chips de IA à escala de gigawatts","https://telesintese.com.br/microsoft-levara-chips-de-ia-a-escala-de-gigawatts/","broad-tech",0,""],
       ["Com SoftBank como sócio, MadeiraMadeira expande operação logística após dobrar receita","https://www.bloomberglinea.com.br/negocios/com-softbank-como-socio-madeiramadeira-expande-operacao-logistica-apos-dobrar-receita/","broad-tech",0,""],
+      ["EAF: Licitações do core e da MVNO da rede móvel do governo à espera de acordo entre MCom e Justiça","https://convergenciadigital.com.br/governo/eaf-licitacoes-do-core-e-da-mvno-da-rede-movel-do-governo-a-espera-de-acordo-entre-mcom-e-justica/","broad-tech",0,""],
       ["Anthropic warns rogue AI agents may ‘self-replicate’ to hijack ovens","https://www.ft.com/content/64aaa8d5-f26a-4b96-b8cf-0ef0c6fbe69e?syn-25a6b1a6=1","broad-tech",0,""],
       ["China resorts to Nvidia gaming chips in search for AI firepower","https://www.ft.com/content/9dbd99db-6b0c-43bd-b7be-849f129df098?syn-25a6b1a6=1","broad-tech",0,""],
       ["Apple releases HomeView smart home hub with screen as showcase for Siri AI","https://www.cnbc.com/2026/10/13/apple-homeview-smart-home-siri-ai.html","broad-tech",0,"businesstimes.com.sg"],
-      ["AI and cloud sovereignty policy discussions moving beyond concerns about data residency – Omdia","https://www.lightreading.com/ai-machine-learning/ai-and-cloud-sovereignty-policy-discussions-moving-beyond-concerns-about-data-residency-omdia","broad-tech",0,""],
+      ["Chip stocks slide after Broadcom boss warns of ‘casino’ mentality in AI investing","https://www.ft.com/content/e16f0422-cf75-4cc9-962d-4605e421dc63?syn-25a6b1a6=1","broad-tech",0,""],
       ["Cracks grow across the AI trade as memory-chip stocks tumble","https://www.businesstimes.com.sg/companies-markets/telcos-media-tech/cracks-grow-across-ai-trade-memory-chip-stocks-tumble","broad-tech",0,""],
+      ["AI and cloud sovereignty policy discussions moving beyond concerns about data residency – Omdia","https://www.lightreading.com/ai-machine-learning/ai-and-cloud-sovereignty-policy-discussions-moving-beyond-concerns-about-data-residency-omdia","broad-tech",0,""],
+      ["Computação Quântica terá receita de R$ 5 bilhões ainda este ano","https://convergenciadigital.com.br/mercado/computacao-quantica-tera-receita-de-r-5-bilhoes-ainda-este-ano/","broad-tech",0,""],
+      ["Gartner prevê fim de mais da metade das startups quânticas","https://telesintese.com.br/gartner-preve-fim-de-mais-da-metade-das-startups-quanticas/","broad-tech",0,""],
+      ["US arrests Saudi employee of OpenAI for allegedly bugging its offices","https://www.ft.com/content/2c3b583a-3ddc-4920-a350-9698c119435c?syn-25a6b1a6=1","broad-tech",0,""],
+      ["Michael Dell says AI needs safeguards and controls, and government has a role to play","https://www.cnbc.com/2026/10/13/michael-dell-ai-safeguards-government.html","broad-tech",0,""],
       ["AI companion startup Character.ai files for Chapter 11 bankruptcy, citing costs and litigation","https://www.cnbc.com/2026/10/13/character-ai-chapter-11-disney-bid.html","broad-tech",0,""],
-      ["Chip stocks slide in wake of ‘casino’ comment by Broadcom boss","https://www.ft.com/content/e16f0422-cf75-4cc9-962d-4605e421dc63?syn-25a6b1a6=1","broad-tech",0,""],
-      ["SpaceX agrees to testify to NYC Council about AI safety after receiving subpoena","https://www.cnbc.com/2026/10/13/spacex-agrees-to-testify-to-nyc-council-about-ai-safety-.html","broad-tech",0,""],
-      ["Criminals could walk free without controls on AI use, police watchdog warns","https://www.ft.com/content/2caa52e1-637a-4934-802e-418b649b4c12?syn-25a6b1a6=1","broad-tech",0,""],
-      ["IMF upgrades outlook for UK as AI drives growth spurt","https://www.ft.com/content/4a7a7282-74a5-4d12-8294-6dd0d4802d88?syn-25a6b1a6=1","broad-tech",0,""],
-      ["Tech stocks slide as Wall Street chip rout spreads. SK Hynix, SoftBank and ASML slump","https://www.cnbc.com/2026/10/13/sk-hynix-softbank-samsung-electronics-shares-tech-stocks-fall.html","broad-tech",0,""],
-      ["FirstFT: Mark Zuckerberg says Meta has reached AI ‘frontier’","https://www.ft.com/content/e03b74a1-6f7f-4f2c-ad39-c70b8e63ae39?syn-25a6b1a6=1","broad-tech",0,"FT Technology"],
-      ["Intel, Broadcom CEOs warn capital crunch could become AI's biggest bottleneck","https://www.cnbc.com/2026/10/12/intel-broadcom-ceos-warn-capital-crunch-could-become-ai-bottleneck.html","broad-tech",0,""],
-      ["Meta debuts Muse Wonder AI model in latest test of users' willingness to pay","https://www.cnbc.com/2026/10/12/meta-muse-wonder-ai-model-agent.html","broad-tech",1,""],
+      ["Saudi national OpenAI employee arrested after 'sophisticated recording device' planted in office","https://www.cnbc.com/2026/10/13/openai-employee-arrested-recording-device.html","broad-tech",0,""],
+      ["Zuckerberg says Meta has reached AI ‘frontier’","https://www.ft.com/content/fca23e77-be57-4d7e-ae61-74ff299e25cb?syn-25a6b1a6=1","broad-tech",1,""],
       ["Apple rolls out new phones and smart home devices to revive pricey stock","https://www.businesstimes.com.sg/companies-markets/telcos-media-tech/apple-rolls-out-new-phones-and-smart-home-devices-revive-pricey-stock","broad-tech",0,""],
       ["Apple Introduces HomeView, a $299 Tablet for the Home","https://www.nytimes.com/2026/10/13/technology/apple-homeview-tablet.html","broad-tech",0,""]
     ]
@@ -516,59 +519,65 @@ var RAW = {
 // pipeline. Sem buckets/quotas — diferente do RAW acima que e' o editorial.
 var RAW_LN = {
   brazil: [
-    ["Character.AI pede recuperação judicial nos EUA e negocia venda à Disney por R$ 100 milhões","https://g1.globo.com/tecnologia/noticia/2026/10/13/inteligencia-artificial-characterai-recuperacao-judicial.ghtml","07:52"],
-      ["Totvs aposta em 'sistema operacional de gestão' e IA para inaugurar novo ciclo de expansão","https://valor.globo.com/empresas/noticia/2026/10/13/totvs-aposta-em-sistema-operacional-de-gesto-e-ia-para-inaugurar-novo-ciclo-de-expanso.ghtml",""],
+    ["Rival da Starlink atrai US$ 20 bilhões e caminha para ser o maior IPO da Índia","https://neofeed.com.br/negocios/rival-da-starlink-atrai-us-20-bilhoes-e-caminha-para-ser-o-maior-ipo-da-india/","17:13"],
+      ["Character.AI pede recuperação judicial nos EUA e negocia venda à Disney por R$ 100 milhões","https://g1.globo.com/tecnologia/noticia/2026/10/13/inteligencia-artificial-characterai-recuperacao-judicial.ghtml","07:52"],
+      ["Brisanet tem crescimento de 3,3% na base de clientes de banda larga fixa em setembro","https://valor.globo.com/empresas/noticia/2026/10/13/brisanet-tem-crescimento-de-33-pontos-percentuais-na-base-de-clientes-de-banda-larga-fixa-em-setembro.ghtml",""],
       ["\"Orquestração inteligente é a resposta para a complexidade gerada pela IA\", diz CEO da TOTVS","https://tiinside.com.br/13/10/2026/orquestracao-inteligente-e-a-resposta-para-a-complexidade-gerada-pela-ia-diz-ceo-da-totvs/","12:06"],
       ["Alloha Fibra unifica totalmente as marcas e passa a se chamar Giga+","https://telesintese.com.br/alloha-fibra-unifica-totalmente-as-marcas-e-passa-a-se-chamar-giga/","12:09"],
-      ["Split Payment: Receita define que Pix vai fazer fazer parte dos testes da plataforma","https://convergenciadigital.com.br/governo/split-payment-receita-define-que-pix-vai-fazer-fazer-parte-dos-testes-da-plataforma/","10:43"],
-      ["DSA vai à Anatel para defender mais espectro para provedores Internet na faixa de 6 GHz","https://convergenciadigital.com.br/internet/dsa-vai-a-anatel-para-defender-mais-espectro-para-provedores-internet-na-faixa-de-6-ghz/","10:22"],
+      ["Meta questiona regulador de mídia do Reino Unido sobre taxas e multas","https://valor.globo.com/empresas/noticia/2026/10/13/meta-questiona-regulador-de-midia-do-reino-unido-sobre-taxas-e-multas.ghtml",""],
       ["Telefónica vende operação mexicana por US$ 450 milhões","https://telesintese.com.br/telefonica-vende-operacao-mexicana-por-us-450-milhoes/","10:08"],
       ["Thales e Datatem levam troca remota de operadora a Internet das Coisas","https://www.mobiletime.com.br/noticias/13/10/2026/thales-datatem-troca-iot/","10:34"],
-      ["Rússia diz que discute problemas da Yandex após ataques da Ucrânia a data centers","https://valor.globo.com/mundo/noticia/2026/10/13/rssia-diz-que-discute-problemas-da-yandex-aps-ataques-da-ucrnia-a-data-centers.ghtml",""],
       ["Governo cria programa para bloquear celular e rádio em presídios","https://teletime.com.br/13/10/2026/bloqueio-celular-presidios/","12:20"],
       ["Quando a IA deixa de ajudar a programar e passa a fazer parte da engenharia de software","https://tiinside.com.br/13/10/2026/quando-a-ia-deixa-de-ajudar-a-programar-e-passa-a-fazer-parte-da-engenharia-de-software/","12:12"],
       ["DSA pede à Anatel compartilhamento dos 6 GHz para preservar Wi-Fi","https://telesintese.com.br/dsa-pede-a-anatel-compartilhamento-dos-6-ghz-para-preservar-wi-fi/","14:02"],
       ["American Airlines terá Wi-Fi da Starlink","https://www.baguete.com.br/noticias/american-airlines-tera-wi-fi-da-starlink","13:34"],
       ["Governo publica MP com regras para bloqueio e autenticação de chamadas","https://teletime.com.br/13/10/2026/mp-bloqueio-chamadas-autenticacao/","09:55"],
-      ["Governo aperta regras e inclui medidas de proteção ao uso de Inteligência Artificial no atendimento ao consumidor","https://convergenciadigital.com.br/governo/governo-aperta-regras-e-inclui-medidas-de-protecao-ao-uso-de-inteligencia-artificial-no-atendimento-ao-consumidor/","11:33"],
-      ["Governo atropela Anatel e faz Medida Provisória para coibir  golpes telefônicos","https://convergenciadigital.com.br/governo/governo-atropela-anatel-e-faz-medida-provisoria-para-coibir-golpes-telefonicos/","10:07"],
+      ["Medida Provisória obriga operadoras a bloquear chamadas não autenticadas","https://telesintese.com.br/mp-obriga-operadoras-a-bloquear-chamadas-nao-autenticadas/","14:52"],
       ["Futuro da gestão corporativa de pagamentos terá foco na plataformização","https://tiinside.com.br/13/10/2026/futuro-da-gestao-corporativa-de-pagamentos-tera-foco-na-plataformizacao/","12:27"],
+      ["6 GHz: destinação integral para Wi-Fi renderia melhor impacto econômico, diz DSA","https://www.mobiletime.com.br/noticias/13/10/2026/6-ghz-impacto-economico/","18:32"],
       ["Gil Torquato, Abranet: É difícil pensar na regulamentação do Redata ainda este ano","https://convergenciadigital.com.br/internet/gil-torquato-abranet-e-dificil-pensar-na-regulamentacao-do-redata-ainda-este-ano/","13:03"]
   ],
   global: [
     ["Anthropic to disclose new revenue numbers as AI lab financials become central to tech trade","https://www.cnbc.com/2026/10/13/anthropic-q3-financials-ipo.html","11:55"],
-      ["US Army takes Amazon Leo to the test","https://www.lightreading.com/ai-machine-learning/us-army-takes-amazon-leo-to-the-test","11:36"],
       ["Will Accenture survive or thrive in the age of AI?","https://www.ft.com/content/15ae6a2e-6010-4d78-a752-2eeeca1e1c55?syn-25a6b1a6=1","01:00"],
-      ["Meta lança Muse Wonder, seu modelo de IA mais avançado, para pressionar OpenAI e Anthropic","https://g1.globo.com/tecnologia/noticia/2026/10/12/meta-lanca-muse-wonder-seus-modelos-de-ia-mais-avancados-para-pressionar-openai-e-anthropic.ghtml","ontem 15:45"],
-      ["IonQ to acquire cybersecurity firm Elisity in an all-stock deal for up to $1.3 billion","https://www.cnbc.com/2026/10/12/ionq-elisity-acquisition-cybersecurity.html","ontem 15:14"],
+      ["US Army takes Amazon Leo to the test","https://www.lightreading.com/ai-machine-learning/us-army-takes-amazon-leo-to-the-test","11:36"],
       ["Apple lança HomeView, dispositivo com IA para controlar aparelhos da casa","https://g1.globo.com/tecnologia/noticia/2026/10/13/apple-homeview.ghtml","10:46"],
       ["AI models may soon self-replicate without access to data centres, Anthropic warns","https://www.businesstimes.com.sg/companies-markets/telcos-media-tech/ai-models-may-soon-self-replicate-without-access-data-centres-anthropic-warns","02:55"],
+      ["Google lança modelo de IA de ponta Gemini 4 Argon para desenvolvedores e empresas","https://valor.globo.com/empresas/noticia/2026/10/13/google-lana-modelo-de-ia-de-ponta-gemini-4-argon-para-desenvolvedores-e-empresas.ghtml",""],
       ["Sofist apresenta no Gartner plataforma que usa IA para validar continuamente sistemas e aplicações","https://tiinside.com.br/13/10/2026/sofist-apresenta-no-gartner-plataforma-que-usa-ia-para-validar-continuamente-sistemas-e-aplicacoes/","09:51"],
       ["Microsoft levará chips de IA à escala de gigawatts","https://telesintese.com.br/microsoft-levara-chips-de-ia-a-escala-de-gigawatts/","14:03"],
       ["Com SoftBank como sócio, MadeiraMadeira expande operação logística após dobrar receita","https://www.bloomberglinea.com.br/negocios/com-softbank-como-socio-madeiramadeira-expande-operacao-logistica-apos-dobrar-receita/","06:00"],
       ["Anthropic warns rogue AI agents may ‘self-replicate’ to hijack ovens","https://www.ft.com/content/64aaa8d5-f26a-4b96-b8cf-0ef0c6fbe69e?syn-25a6b1a6=1","07:11"],
       ["Anthropic warns AI models could soon copy themselves across home devices","https://www.cnbc.com/2026/10/13/anthropic-ai-models-self-replication-smart-devices.html","05:27"],
       ["China resorts to Nvidia gaming chips in search for AI firepower","https://www.ft.com/content/9dbd99db-6b0c-43bd-b7be-849f129df098?syn-25a6b1a6=1","ontem 21:15"],
+      ["EAF: Licitações do core e da MVNO da rede móvel do governo à espera de acordo entre MCom e Justiça","https://convergenciadigital.com.br/governo/eaf-licitacoes-do-core-e-da-mvno-da-rede-movel-do-governo-a-espera-de-acordo-entre-mcom-e-justica/","15:23"],
       ["Apple releases HomeView smart home hub with screen as showcase for Siri AI","https://www.cnbc.com/2026/10/13/apple-homeview-smart-home-siri-ai.html","10:40"],
-      ["Máquina de lavar está sujeita a mais normas de segurança do que IA, alerta presidente da Microsoft","https://www.estadao.com.br/economia/maquina-de-lavar-esta-sujeita-a-mais-normas-de-seguranca-do-que-ia-alerta-presidente-da-microsoft/","ontem 18:42"],
-      ["AI and cloud sovereignty policy discussions moving beyond concerns about data residency – Omdia","https://www.lightreading.com/ai-machine-learning/ai-and-cloud-sovereignty-policy-discussions-moving-beyond-concerns-about-data-residency-omdia","13:32"],
+      ["Chip stocks slide after Broadcom boss warns of ‘casino’ mentality in AI investing","https://www.ft.com/content/e16f0422-cf75-4cc9-962d-4605e421dc63?syn-25a6b1a6=1","17:28"],
       ["Cracks grow across the AI trade as memory-chip stocks tumble","https://www.businesstimes.com.sg/companies-markets/telcos-media-tech/cracks-grow-across-ai-trade-memory-chip-stocks-tumble","09:11"],
+      ["AI and cloud sovereignty policy discussions moving beyond concerns about data residency – Omdia","https://www.lightreading.com/ai-machine-learning/ai-and-cloud-sovereignty-policy-discussions-moving-beyond-concerns-about-data-residency-omdia","13:32"],
+      ["US arrests Saudi employee of OpenAI for allegedly bugging its offices","https://www.ft.com/content/2c3b583a-3ddc-4920-a350-9698c119435c?syn-25a6b1a6=1","17:54"],
+      ["Michael Dell says AI needs safeguards and controls, and government has a role to play","https://www.cnbc.com/2026/10/13/michael-dell-ai-safeguards-government.html","16:08"],
       ["AI companion startup Character.ai files for Chapter 11 bankruptcy, citing costs and litigation","https://www.cnbc.com/2026/10/13/character-ai-chapter-11-disney-bid.html","12:16"],
-      ["Chip stocks slide in wake of ‘casino’ comment by Broadcom boss","https://www.ft.com/content/e16f0422-cf75-4cc9-962d-4605e421dc63?syn-25a6b1a6=1","00:40"],
+      ["Computação Quântica terá receita de R$ 5 bilhões ainda este ano","https://convergenciadigital.com.br/mercado/computacao-quantica-tera-receita-de-r-5-bilhoes-ainda-este-ano/","14:44"],
+      ["Gartner prevê fim de mais da metade das startups quânticas","https://telesintese.com.br/gartner-preve-fim-de-mais-da-metade-das-startups-quanticas/","19:07"],
+      ["Anthropic urges court in Washington, D.C. to rehear appeal of Pentagon blacklisting","https://www.cnbc.com/2026/10/13/anthropic-wants-court-in-dc-to-rehear-appeal-of-pentagon-blacklist-.html","19:41"],
+      ["Saudi national OpenAI employee arrested after 'sophisticated recording device' planted in office","https://www.cnbc.com/2026/10/13/openai-employee-arrested-recording-device.html","18:01"],
       ["SpaceX agrees to testify to NYC Council about AI safety after receiving subpoena","https://www.cnbc.com/2026/10/13/spacex-agrees-to-testify-to-nyc-council-about-ai-safety-.html","06:00"],
       ["Criminals could walk free without controls on AI use, police watchdog warns","https://www.ft.com/content/2caa52e1-637a-4934-802e-418b649b4c12?syn-25a6b1a6=1","01:00"],
       ["IMF upgrades outlook for UK as AI drives growth spurt","https://www.ft.com/content/4a7a7282-74a5-4d12-8294-6dd0d4802d88?syn-25a6b1a6=1","ontem 23:00"],
-      ["Tech stocks slide as Wall Street chip rout spreads. SK Hynix, SoftBank and ASML slump","https://www.cnbc.com/2026/10/13/sk-hynix-softbank-samsung-electronics-shares-tech-stocks-fall.html","04:22"],
-      ["FirstFT: Mark Zuckerberg says Meta has reached AI ‘frontier’","https://www.ft.com/content/e03b74a1-6f7f-4f2c-ad39-c70b8e63ae39?syn-25a6b1a6=1","ontem 18:40"],
-      ["Meta debuts Muse Wonder AI model in latest test of users' willingness to pay","https://www.cnbc.com/2026/10/12/meta-muse-wonder-ai-model-agent.html","ontem 14:14"],
+      ["Próxima etapa da transformação digital no Governo envolve IA e IA agêntica","https://convergenciadigital.com.br/governo/proxima-etapa-da-transformacao-digital-no-governo-envolve-ia-e-ia-agentica/","18:27"],
+      ["Pioneiros da Inteligência Artificial: autorregulação é insuficiente para sustar os ataques","https://convergenciadigital.com.br/inovacao/pioneiros-da-inteligencia-artificial-autorregulacao-e-insuficiente-para-sustar-os-ataques/","15:43"],
       ["AI may change the price of your Big Mac and groceries — what this means for shoppers","https://www.cnbc.com/2026/10/11/ai-dynamic-pricing-shoppers-groceries.html","02:38"],
-      ["Apple Introduces HomeView, a $299 Tablet for the Home","https://www.nytimes.com/2026/10/13/technology/apple-homeview-tablet.html","10:48"],
+      ["F.B.I. Arrests OpenAI Employee Accused of Planting Bug in Office","https://www.nytimes.com/2026/10/13/technology/openai-worker-arrested-bugging.html","18:31"],
+      ["Apple Introduces HomeView, a $299 Tablet for the Home","https://www.nytimes.com/2026/10/13/technology/apple-homeview-tablet.html","14:23"],
+      ["Inteligência artificial ou superinteligência? Uma boa pergunta, apesar do Trump","https://www.estadao.com.br/economia/alexandre-chiavegatto-filho/inteligencia-artificial-ou-superinteligencia-boa-pergunta-apesar-trump/","18:00"],
       ["Executivo do setor de chips compara corrida de IA a cassinos e impacta ações tech pelo mundo","https://www.estadao.com.br/economia/executivo-chips-compara-corrida-ia-cassinos-impacta-acoes-tech/","13:09"],
-      ["Cablelynx Broadband taps into Netcracker's AI tools","https://www.lightreading.com/ai-machine-learning/cablelynx-broadband-taps-into-netcracker-s-ai-tools","11:07"],
-      ["Plume's 'Console' enables ISPs to deploy AI agents to detect and fix home network issues","https://www.lightreading.com/oss-bss-cx/plume-s-console-enables-isps-to-deploy-ai-agents-to-detect-and-fix-home-network-issues","11:01"],
+      ["Ataques por drones na Rússia expõem fragilidades dos serviços em nuvem","https://convergenciadigital.com.br/governo/ataques-por-drones-na-russia-expoem-fragilidades-dos-servicos-em-nuvem/","15:50"],
       ["Apple rolls out new phones and smart home devices to revive pricey stock","https://www.businesstimes.com.sg/companies-markets/telcos-media-tech/apple-rolls-out-new-phones-and-smart-home-devices-revive-pricey-stock","06:34"],
       ["Business judgement, AI proficiency key as cyber defender roles evolve; new professional standards being developed","https://www.businesstimes.com.sg/singapore/business-judgement-ai-proficiency-key-cyber-defender-roles-evolve-new-professional-standards-being","06:05"],
-      ["AEM shares down 8% as global chip stocks slide","https://www.businesstimes.com.sg/companies-markets/telcos-media-tech/aem-shares-down-8-global-chip-stocks-slide","ontem 23:19"]
+      ["AEM shares down 8% as global chip stocks slide","https://www.businesstimes.com.sg/companies-markets/telcos-media-tech/aem-shares-down-8-global-chip-stocks-slide","ontem 23:19"],
+      ["Cablelynx Broadband taps into Netcracker's AI tools","https://www.lightreading.com/ai-machine-learning/cablelynx-broadband-taps-into-netcracker-s-ai-tools","11:07"],
+      ["Plume's 'Console' enables ISPs to deploy AI agents to detect and fix home network issues","https://www.lightreading.com/oss-bss-cx/plume-s-console-enables-isps-to-deploy-ai-agents-to-detect-and-fix-home-network-issues","11:01"]
   ]
 };
 
@@ -1022,20 +1031,20 @@ if (document.readyState === "loading") {
 <details style="margin:24px 16px;font-family:'IBM Plex Sans',sans-serif;color:#4a4744;">
 <summary style="cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#736e69;padding:8px 0;border-top:1px solid #d8d4cc;">Diagnostico do run (clica pra abrir)</summary>
 <div style="background:#fff;border:1px solid #d8d4cc;border-radius:6px;padding:14px;margin-top:8px;">
-<div style="background:#fee;border:1px solid #b03030;padding:8px;border-radius:4px;margin-bottom:10px;font-family:monospace;font-size:11px;color:#922;">ATENCAO: FONTE MORTA HA 3+ DIAS: CX Today (direto); Fontes com erro: CX Today (direto)</div>
+<div style="background:#fee;border:1px solid #b03030;padding:8px;border-radius:4px;margin-bottom:10px;font-family:monospace;font-size:11px;color:#922;">ATENCAO: FONTE MORTA HA 3+ DIAS: CX Today (direto); Fontes com erro: TMT-Cobertura, CX Today (direto)</div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#736e69;margin-bottom:10px;">
-Pipeline v5.0 | Janela: 2026-10-12 09:30:00 -> 2026-10-13 14:03:47 | Gerado: 2026-10-13 14:05:08
+Pipeline v5.0 | Janela: 2026-10-12 09:30:00 -> 2026-10-13 20:01:18 | Gerado: 2026-10-13 20:02:18
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
 <div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#736e69;margin-bottom:6px;">Fontes</div>
-<div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;"> 14 finais |  529 brutos | TMT-Global</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;"> 11 finais |  216 brutos | TMT-Cobertura</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |  100 brutos | Bloomberg Linea (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  4 finais |  100 brutos | TeleSintese (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  3 finais |   50 brutos | Light Reading (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  2 finais |   30 brutos | TELETIME (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  4 finais |   30 brutos | TI Inside (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  9 finais |   30 brutos | CNBC Tech (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   26 brutos | NuCel (MVNO do Nubank)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  6 finais |   25 brutos | FT Technology (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   25 brutos | IoT Business News (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   20 brutos | Estadao Negocios (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   20 brutos | DCD Brasil (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   20 brutos | Mobile Time (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   20 brutos | TechCrunch (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  3 finais |   20 brutos | Business Times SG (direto)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |   15 brutos | Brazil Journal (direto)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |   10 brutos | NeoFeed (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   10 brutos | InfoMoney (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  5 finais |   10 brutos | Convergencia Digital (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   10 brutos | E-commerce Brasil (Chrome)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  2 finais |    8 brutos | Valor Tecnologia (Chrome)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |    8 brutos | Valor Telecom (Chrome)</div><div style="font-family:monospace;font-size:11px;color:#b03030;padding:2px 0;">      ERRO |    0 brutos | CX Today (direto) — <unknown>:2:2698: not well-formed (invalid token)</div>
+<div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;"> 13 finais |  537 brutos | TMT-Global</div><div style="font-family:monospace;font-size:11px;color:#b03030;padding:2px 0;">      ERRO |  216 brutos | TMT-Cobertura — stale-cache (('Connection aborted.', ConnectionResetError(104, 'Connectio)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |  100 brutos | Bloomberg Linea (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  6 finais |  100 brutos | TeleSintese (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  3 finais |   50 brutos | Light Reading (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  2 finais |   30 brutos | TELETIME (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  4 finais |   30 brutos | TI Inside (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  8 finais |   30 brutos | CNBC Tech (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   26 brutos | NuCel (MVNO do Nubank)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  6 finais |   25 brutos | FT Technology (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   25 brutos | IoT Business News (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   20 brutos | DCD Brasil (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  2 finais |   20 brutos | Mobile Time (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   20 brutos | Estadao Negocios (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   20 brutos | TechCrunch (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  3 finais |   20 brutos | Business Times SG (direto)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |   15 brutos | Brazil Journal (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   10 brutos | InfoMoney (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   10 brutos | NeoFeed (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  3 finais |   10 brutos | Convergencia Digital (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   10 brutos | E-commerce Brasil (Chrome)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  3 finais |    8 brutos | Valor Tecnologia (Chrome)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |    8 brutos | Valor Telecom (Chrome)</div><div style="font-family:monospace;font-size:11px;color:#b03030;padding:2px 0;">      ERRO |    0 brutos | CX Today (direto) — <unknown>:2:2698: not well-formed (invalid token)</div>
 </div>
 <div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#736e69;margin-bottom:6px;">Quotas por bucket</div>
-<div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">BR Off: 2/10 (threshold score >= 8, candidatos pre-quota: 2)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">GL Off: 2/6 (threshold score >= 7, candidatos pre-quota: 17)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">BR Oth: 16/100 (threshold score >= 5, candidatos pre-quota: 16)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">GL Oth: 21/100 (threshold score >= 7, candidatos pre-quota: 45)</div>
+<div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">BR Off: 3/10 (threshold score >= 8, candidatos pre-quota: 3)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">GL Off: 2/6 (threshold score >= 7, candidatos pre-quota: 19)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">BR Oth: 14/100 (threshold score >= 5, candidatos pre-quota: 14)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">GL Oth: 21/100 (threshold score >= 7, candidatos pre-quota: 54)</div>
 <div style="font-family:monospace;font-size:11px;color:#767676;padding:8px 0 0 0;border-top:1px solid #eee;margin-top:8px;">
-Funil: 1332 brutos -> 770 dedup -> 571 pos-desc -> 200 pos-janela -> 57 pos-regra -> 46 finais
+Funil: 1340 brutos -> 763 dedup -> 578 pos-desc -> 234 pos-janela -> 69 pos-regra -> 48 finais
 </div>
 </div>
 </div>
