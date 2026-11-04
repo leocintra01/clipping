@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBBA - TMT Daily News</title>
+<!-- Preenchido pelo gerar_clipping com a data e a contagem reais da edicao.
+     Sem isso, colar o link no WhatsApp mostrava so' a URL crua: quem recebe
+     nao sabia de que dia era nem quantas materias tinha antes de abrir. -->
+<meta name="description" content="Clipping TMT de 04/11/2026 — 102 noticias de telecom, midia e tecnologia selecionadas para o Itau BBA.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IBBA - TMT Daily News · 04/11/2026">
+<meta property="og:description" content="Clipping TMT de 04/11/2026 — 102 noticias de telecom, midia e tecnologia selecionadas para o Itau BBA.">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IBBA - TMT Daily News · 04/11/2026">
+<meta name="twitter:description" content="Clipping TMT de 04/11/2026 — 102 noticias de telecom, midia e tecnologia selecionadas para o Itau BBA.">
+<meta name="theme-color" content="#1a1916">
+<!-- preconnect: o css2 do Google Fonts so' diz de onde baixar a fonte;
+     o arquivo vem de fonts.gstatic.com, outro host. Sem preconnect o
+     celular paga DNS + TLS desse segundo host so' quando o CSS chega. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f3ef; --surface: #ffffff; --border: #d8d4cc; --accent: #8B6914;
+    --green: #2e6b2c; --blue: #1a4f8a; --text: #1a1916; --sub: #4a4744;
+    --muted: #8a8580; --checked-bg: #eef4ee; --checked-border: #a8cca6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; line-height: 1.5; }
+  .header { background: #1a1916; padding: 16px 20px 0; position: sticky; top: 0; z-index: 10; }
+  .header-top { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #c8a96e; }
+  .date { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #7a7570; }
+  .run-controls { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+  .run-controls-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: #7a7570; margin-right: 4px; }
+  .run-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.5px; padding: 6px 11px; background: #2a2826; color: #c8a96e; border: 1px solid #3a3835; border-radius: 4px; text-decoration: none; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .run-btn:hover { background: #3a3530; border-color: #c8a96e; color: #e0c896; }
+  .run-btn.default-do-dia { background: #c8a96e; color: #1a1916; border-color: #c8a96e; font-weight: 500; }
+  .run-btn.default-do-dia:hover { background: #d8b97e; color: #1a1916; }
+  .run-btn-arrow { opacity: 0.7; margin-right: 3px; }
+  /* Grupo botao + setinha (Ter-Sex com seletor de data) */
+  .run-btn-group { position: relative; display: inline-flex; align-items: stretch; }
+  .run-btn-group .run-btn-main { border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0; }
+  .run-btn-caret { font-family: 'IBM Plex Mono', monospace; font-size: 10px; padding: 0 8px; background: #2a2826; color: #c8a96e; border: 1px solid #3a3835; border-top-left-radius: 0; border-bottom-left-radius: 0; cursor: pointer; transition: all 0.15s; }
+  .run-btn-caret:hover { background: #3a3530; border-color: #c8a96e; color: #e0c896; }
+  .run-btn-group.default-do-dia .run-btn-main { background: #c8a96e; color: #1a1916; border-color: #c8a96e; font-weight: 500; }
+  .run-btn-group.default-do-dia .run-btn-caret { background: #c8a96e; color: #1a1916; border-color: #c8a96e; }
+  .run-btn-group.default-do-dia .run-btn-main:hover, .run-btn-group.default-do-dia .run-btn-caret:hover { background: #d8b97e; }
+  .date-drop { display: none; position: absolute; top: calc(100% + 4px); right: 0; background: #1a1916; border: 1px solid #3a3835; border-radius: 4px; padding: 10px; z-index: 100; min-width: 200px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  .date-drop.open { display: block; }
+  .date-drop label { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: #7a7570; margin-bottom: 6px; }
+  .date-drop input[type=date] { width: 100%; padding: 5px 7px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; background: #2a2826; color: #e0c896; border: 1px solid #3a3835; border-radius: 3px; margin-bottom: 8px; box-sizing: border-box; }
+  .date-drop .run-btn-confirm { width: 100%; padding: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.5px; background: #c8a96e; color: #1a1916; border: 0; border-radius: 3px; cursor: pointer; font-weight: 500; }
+  .date-drop .run-btn-confirm:hover { background: #d8b97e; }
+  .date-drop .date-warn { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #d88a4a; margin-top: 6px; display: none; }
+  .date-drop .date-warn.show { display: block; }
+  /* Status overlay do botao "Rodar agora" — aparece apos dispatch */
+  .run-status { display: none; align-items: center; gap: 8px; padding: 6px 10px; background: #2a2826; border: 1px solid #3a3835; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #c8a96e; min-width: 0; max-width: 100%; }
+  .run-status.visible { display: inline-flex; }
+  .run-status.ok { color: #7ec87c; border-color: #2e6b2c; }
+  .run-status.err { color: #d88a4a; border-color: #884a1a; }
+  .run-status .status-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .run-progress { display: none; height: 2px; background: #3a3835; border-radius: 1px; overflow: hidden; width: 100%; margin-top: 4px; }
+  .run-progress.visible { display: block; }
+  .run-progress .bar { height: 100%; background: #c8a96e; width: 0; transition: width 0.25s linear; }
+  .spinner { width: 10px; height: 10px; border: 2px solid #3a3835; border-top-color: #c8a96e; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .run-btn:disabled, .run-btn-confirm:disabled { opacity: 0.5; cursor: not-allowed; }
+  .tabs { display: flex; }
+  .tab { padding: 11px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; border: none; background: transparent; color: #6a6560; border-bottom: 3px solid transparent; transition: all 0.15s; position: relative; top: 1px; user-select: none; }
+  .tab.active { color: #fff; border-bottom-color: #c8a96e; }
+  .tab-brazil.active { color: #7ec87c; border-bottom-color: #7ec87c; }
+  .tab-global.active { color: #7ab0e0; border-bottom-color: #7ab0e0; }
+  .tab-whats.active { color: #c8a96e; border-bottom-color: #c8a96e; }
+  .content { padding: 16px 16px 48px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+  .panel-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--text); }
+  .panel-meta { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); background: var(--surface); padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); }
+  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 5px 10px; border-radius: 3px; display: inline-block; margin-bottom: 8px; margin-top: 20px; font-weight: 500; }
+  .section-label.brazil { background: #e8f4e8; color: var(--green); }
+  .section-label.global { background: #e8eef8; color: var(--blue); }
+  .section-label.others { background: #f0ede8; color: var(--sub); }
+  .native-cb { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+  .card-wrapper { display: flex; align-items: stretch; margin-bottom: 6px; }
+  .news-card { flex: 1; display: flex; align-items: stretch; background: var(--surface); border: 1px solid var(--border); border-radius: 6px 0 0 6px; cursor: pointer; transition: border-color 0.12s, background 0.12s; user-select: none; border-right: none; }
+  .news-card.checked { background: var(--checked-bg); border-color: var(--checked-border); }
+  .card-check-box { width: 52px; min-height: 60px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .check-visual { width: 24px; height: 24px; border: 2px solid #c0bdb8; border-radius: 4px; background: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.12s; }
+  .news-card.checked .check-visual { background: var(--green); border-color: var(--green); }
+  .news-card.checked .check-visual::after { content: '\2713'; font-size: 14px; color: white; font-weight: bold; line-height: 1; }
+  .card-body { flex: 1; padding: 11px 8px 11px 0; min-width: 0; }
+  .news-title { font-size: 13px; font-weight: 500; line-height: 1.45; }
+  .news-title a { color: var(--text); text-decoration: none; }
+  .news-title a:hover { color: var(--accent); text-decoration: underline; }
+  .news-source { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-prio-wrap { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-left: none; border-radius: 0 6px 6px 0; padding: 0 10px; flex-shrink: 0; transition: background 0.12s, border-color 0.12s; }
+  .card-prio-wrap.checked { background: var(--checked-bg); border-color: var(--checked-border); }
+  .prio-select { border: none; background: transparent; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); cursor: pointer; outline: none; padding: 2px 0; width: 32px; }
+  .prio-select.has-value { color: var(--accent); font-weight: 500; }
+  .whats-meta { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .stat-chip { font-family: 'IBM Plex Mono', monospace; font-size: 11px; background: var(--surface); border: 1px solid var(--border); padding: 4px 10px; border-radius: 20px; }
+  .whats-news-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .whats-section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 6px 0; color: var(--muted); margin-top: 8px; }
+  .whats-section-label.brazil { color: var(--green); }
+  .whats-section-label.global { color: var(--blue); }
+  .whats-item { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+  .whats-item-order { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
+  .whats-item-title { border: none; outline: none; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 500; resize: none; width: 100%; line-height: 1.45; color: var(--text); background: transparent; }
+  .whats-item-url { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); word-break: break-all; }
+  .btn-copy { width: 100%; padding: 14px; background: #1a1916; color: #c8a96e; border: none; border-radius: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: background 0.15s; }
+  .btn-copy:hover { background: #2a2926; }
+  .btn-copy.copied { background: var(--green); color: #fff; }
+  /* Histórico subtab — espelha visual de archive.html (data-row dark + version-row light) */
+  .hist-list { list-style: none; padding: 0; margin: 0; }
+  .hist-list li.date-row { background: #1a1916; color: #c8a96e; padding: 9px 14px; margin-top: 14px; margin-bottom: 4px; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; display: flex; align-items: center; gap: 10px; }
+  .hist-list li.date-row:first-child { margin-top: 0; }
+  .hist-list li.date-row .date { font-weight: 500; letter-spacing: 0.5px; }
+  .hist-list li.date-row .label { color: #c8a96e; opacity: 0.7; font-family: 'IBM Plex Sans', sans-serif; }
+  .hist-list li.date-row .count { margin-left: auto; opacity: 0.6; font-size: 10px; }
+  .hist-list li.version-row { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; margin-bottom: 4px; }
+  .hist-list li.version-row a { display: flex; align-items: center; padding: 10px 14px; color: var(--text); text-decoration: none; transition: background 0.1s; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+  .hist-list li.version-row a:hover { background: #efece5; }
+  .hist-list li.version-row .arrow { margin-left: auto; color: var(--muted); }
+  .hist-list li.version-row.current { background: var(--checked-bg); border-color: var(--checked-border); }
+  .hist-list li.version-row.current a { color: var(--green); font-weight: 500; cursor: default; }
+  .hist-list li.version-row.current .arrow::before { content: '● atual '; font-size: 10px; opacity: 0.7; }
+  .hist-list li.hist-empty, .hist-list li.hist-error { background: var(--surface); padding: 24px; text-align: center; color: var(--muted); border: 1px dashed var(--border); border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+  .hist-list li.hist-error { color: #b03030; border-color: #d4a0a0; }
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+  /* ===== Main tabs (Last News / Clipping) — proeminentes no header ===== */
+  .main-tabs { display: flex; gap: 4px; padding: 8px 0 0; }
+  .main-tab {
+    padding: 12px 22px; font-family: 'Playfair Display', serif;
+    font-size: 15px; cursor: pointer; border: none; background: transparent;
+    color: #6a6560; border-bottom: 3px solid transparent;
+    position: relative; top: 1px; user-select: none; transition: color 0.15s, border-color 0.15s;
+  }
+  .main-tab:hover { color: #d8b97e; }
+  .main-tab.active { color: #c8a96e; border-bottom-color: #c8a96e; font-weight: 700; }
+  .main-panel { display: none; }
+  .main-panel.active { display: block; }
+
+  /* ===== Last News header (timestamp + Rodar Agora) ===== */
+  .ln-bar { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 2px solid var(--border); flex-wrap: wrap; gap: 12px; }
+  .ln-info { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
+  .ln-info b { color: var(--text); font-weight: 500; }
+  .ln-actions { display: flex; gap: 10px; align-items: center; }
+  .btn-run-now {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.5px;
+    padding: 8px 16px; background: #1a1916; color: #c8a96e; border: 1px solid #3a3835;
+    border-radius: 4px; cursor: pointer; transition: all 0.15s; white-space: nowrap;
+  }
+  .btn-run-now:hover { background: #2a2826; border-color: #c8a96e; color: #e0c896; }
+  .btn-run-now:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* ===== Last News sub-tabs (Brazil / Global) ===== */
+  .subtabs { display: flex; padding: 0 12px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+  .subtab {
+    padding: 10px 16px; font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    cursor: pointer; border: none; background: transparent;
+    color: var(--muted); border-bottom: 2px solid transparent;
+    position: relative; top: 1px; user-select: none; transition: all 0.15s;
+  }
+  .subtab.brazil.active { color: var(--green); border-bottom-color: var(--green); }
+  .subtab.global.active { color: var(--blue); border-bottom-color: var(--blue); }
+  .subpanel { display: none; padding: 0 16px 24px; }
+  .subpanel.active { display: block; }
+
+  /* ===== Last News list (simples, sem checkbox/prio) ===== */
+  .ln-item {
+    padding: 11px 14px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; margin-bottom: 6px;
+  }
+  .ln-item .ln-title { font-size: 13px; font-weight: 500; line-height: 1.45; }
+  .ln-item .ln-title a { color: var(--text); text-decoration: none; }
+  .ln-item .ln-title a:hover { color: var(--accent); text-decoration: underline; }
+  .ln-item .ln-source { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 4px; }
+
+  /* ===== Top 3 do dia — camada editorial que o pipeline ja calculava ===== */
+  .top3 { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; margin-bottom: 16px; }
+  .top3[hidden] { display: none; }
+  .top3-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 500; margin-bottom: 10px; }
+  .top3-list { list-style: none; counter-reset: t; display: flex; flex-direction: column; gap: 10px; }
+  .top3-item { counter-increment: t; display: grid; grid-template-columns: 20px 1fr; gap: 10px; align-items: start; }
+  .top3-item::before { content: counter(t); font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; color: var(--accent); line-height: 1.45; }
+  .top3-item a { color: var(--text); text-decoration: none; font-size: 13px; font-weight: 500; line-height: 1.45; }
+  .top3-item a:hover { color: var(--accent); text-decoration: underline; }
+  .top3-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 3px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+
+  /* ===== Visao por empresa de cobertura ===== */
+  .emp-bloco { margin-bottom: 18px; }
+  .emp-nome { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+  .emp-qtd { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); background: var(--bg); border-radius: 10px; padding: 1px 7px; }
+  .emp-itens { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .emp-itens li { padding-left: 2px; }
+  .emp-itens a { color: var(--text); text-decoration: none; font-size: 13px; line-height: 1.45; }
+  .emp-itens a:hover { color: var(--accent); text-decoration: underline; }
+  .emp-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 3px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .emp-meta .tag-pill { margin-left: 0; }
+
+  /* ===== Pilula da tag editorial ===== */
+  .tag-pill { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.8px; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; margin-left: 8px; background: #f0ede8; color: var(--sub); white-space: nowrap; }
+  /* Outros veiculos que deram o mesmo fato (o dedup manteve o melhor) */
+  .tambem-em { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--muted); margin-left: 8px; opacity: 0.8; }
+  /* Item que ja saiu no clipping anterior: entra, mas sinalizado para pular */
+  .tag-pill.tag-repetido { background: transparent; color: var(--muted); border: 1px dashed var(--border); }
+  .tag-pill.tag-must-read { background: #f7efdc; color: var(--accent); font-weight: 500; }
+  .tag-pill.tag-company-specific { background: #e8f4e8; color: var(--green); }
+  .tag-pill.tag-sector-regulatory { background: #e8eef8; color: var(--blue); }
+  .top3-meta .tag-pill { margin-left: 0; }
+
+  /* Data que o pipeline nao conseguiu confirmar: dito, nao omitido */
+  .sem-data { font-style: italic; opacity: 0.75; }
+
+  /* Foco de teclado. .prio-select e .whats-item-title zeram o outline para
+     ficarem discretos na lista; sem nada no lugar, quem navega por Tab fica
+     sem saber onde esta. :focus-visible so' acende no foco por teclado, entao
+     o visual do mouse continua igual. */
+  .prio-select:focus-visible, .whats-item-title:focus-visible,
+  .subtab:focus-visible, .main-tab:focus-visible,
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px;
+  }
+
+  /* ===== Alvo de toque ===== */
+  /* O seletor de prioridade tinha 32x20px. O clipping e' operado do iPhone
+     (a migracao pro Pages Functions aconteceu por causa disso), e 20px de
+     altura torna atribuir prioridade de 1 a 10 um exercicio de pontaria.
+     44px e' o minimo recomendado para toque. */
+  @media (pointer: coarse), (max-width: 640px) {
+    .prio-select { width: 44px; min-height: 44px; font-size: 13px; text-align: center; }
+    .card-prio-wrap { padding: 0 6px; }
+    .subtab, .main-tab { min-height: 44px; }
+    .btn-run-now { min-height: 40px; }
+
+    /* ---- 1. ABAS INALCANCAVEIS (o pior problema no celular) ----
+       .subtabs e' flex nowrap com overflow-x:visible. As 5 abas do Clipping
+       somam 472px de largura intrinseca; nenhum celular passa de ~430px, entao
+       "WhatsApp" ficava cortada e "Historico" simplesmente fora da tela, sem
+       jeito de chegar nela. Vira faixa rolavel na horizontal. */
+    .subtabs {
+      overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; padding: 0 10px;
+      scroll-snap-type: x proximity;
+    }
+    .subtabs::-webkit-scrollbar { display: none; }
+    .subtab { flex: 0 0 auto; scroll-snap-align: start; padding: 10px 12px; letter-spacing: 1px; }
+
+    /* ---- 2. TEXTO LEGIVEL ----
+       Corpo estava em 13px e os metadados em 9-10px. 9px nao se le no celular.
+       So' no mobile: corpo 15px, metadado 12px, pilula 11px. */
+    .ln-item .ln-title, .top3-item a, .emp-itens a, .news-title, .news-title a { font-size: 15px; }
+    .ln-item .ln-source, .top3-meta, .emp-meta, .news-source, .whats-item-url,
+    .whats-item-order, .emp-qtd { font-size: 12px; }
+    .tag-pill, .tambem-em { font-size: 11px; letter-spacing: 0.5px; }
+    .section-label, .top3-title, .whats-section-label { font-size: 11px; letter-spacing: 1.2px; }
+    /* A fonte do veiculo cabia em 1 linha no desktop; em 12px no celular ela
+       precisa poder quebrar, senao vira reticencias logo no dominio. */
+    .news-source { white-space: normal; }
+
+    /* ---- 3. ALVO DE TOQUE NO LINK DA NOTICIA ----
+       O min-height 44px valia so' para .subtab e .main-tab. Os links de materia
+       ficavam com a altura do proprio texto: 36px em titulo de 2 linhas e ~19px
+       em titulo de 1 linha. O padding negativo aumenta a area de toque sem
+       mexer no espacamento visual da lista. */
+    .ln-item .ln-title a, .top3-item a, .emp-itens a, .news-title a {
+      display: block; padding: 7px 0; margin: -7px 0;
+    }
+
+    /* ---- 4. CABECALHO MENOR ----
+       Era 141px grudado no topo: 17% de uma tela de 812px gastos antes da
+       primeira noticia. */
+    .header { padding: 10px 14px 0; }
+    .logo { font-size: 16px; }
+    .main-tab { padding: 10px 12px; }
+
+    /* ---- 5. LARGURA UTIL ----
+       .content e .subpanel tinham 16px de cada lado, e o cartao mais 14px:
+       sobravam 282px de 375 para o titulo. */
+    .content { padding: 12px 10px 40px; }
+    .subpanel { padding: 0 10px 20px; }
+    .ln-item { padding: 12px 12px; }
+    .top3 { padding: 12px 12px; }
+
+    /* ---- 6. CONTRASTE ----
+       Oito combinacoes cor/fundo ficavam abaixo do minimo WCAG AA (4.5:1 para
+       texto pequeno), medidas na edicao real. As piores, e a de baixo aparece
+       sob CADA uma das ~100 materias:
+         .ln-source e demais metadados  #8a8580  3.65:1
+         .main-tab inativa (no escuro)  #6a6560  3.05:1
+         .subtab inativa                #8a8580  3.30:1
+         .date no cabecalho             #7a7570  3.86:1
+       Valores novos calculados, nao chutados: sao o menor ajuste que cruza
+       4.5:1 mantendo o mesmo tom de cinza da paleta. Escopo mobile porque e'
+       onde se le sob luz do sol; no desktop a cor segue como esta. */
+    .ln-item .ln-source, .top3-meta, .emp-meta, .news-source,
+    .whats-item-url, .whats-item-order, .emp-qtd,
+    .section-label, .top3-title, .whats-section-label,
+    .subtab, .tambem-em { color: #736e69; }
+    .main-tab, .date { color: #86817c; }
+
+    /* ---- 8. AREA SEGURA (iPhone com notch) ----
+       Em paisagem, o recorte da tela e os cantos arredondados comem a borda
+       esquerda/direita. env() vale 0 em aparelho sem notch, entao nao muda
+       nada nos outros. */
+    .header { padding-left: max(14px, env(safe-area-inset-left));
+              padding-right: max(14px, env(safe-area-inset-right)); }
+    .content { padding-left: max(10px, env(safe-area-inset-left));
+               padding-right: max(10px, env(safe-area-inset-right));
+               padding-bottom: max(40px, env(safe-area-inset-bottom)); }
+
+    /* ---- 7. AFFORDANCE DA FAIXA DE ABAS ----
+       A faixa rola, mas nada dizia isso: o usuario nao tinha como saber que
+       existiam abas a direita. Um degrade na borda direita sugere continuacao. */
+    .subtabs {
+      -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 22px), transparent 100%);
+      mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 22px), transparent 100%);
+    }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-top">
+    <h1 class="logo">IBBA - TMT Daily News</h1>
+    <span class="date" id="data-hoje"></span>
+  </div>
+  <div class="main-tabs">
+    <button class="main-tab active" id="mtab-lastnews" onclick="switchMain('lastnews')">Last News</button>
+    <button class="main-tab" id="mtab-clipping" onclick="switchMain('clipping')">Clipping</button>
+  </div>
+</div>
+<div class="content">
+
+  <!-- ========= LAST NEWS (rolling 24h, lista simples por score) ========= -->
+  <section id="last-news-section" class="main-panel active">
+    <div class="ln-bar">
+      <div class="ln-info">Last update: <b id="ln-last-update">&mdash;</b> &middot; Last 24h</div>
+      <div class="ln-actions">
+        <div class="run-status"></div>
+      </div>
+    </div>
+    <div class="run-progress"><div class="bar"></div></div>
+    <div class="subtabs">
+      <button class="subtab brazil active" id="ln-stab-br" onclick="switchLN('brazil')">Brazil</button>
+      <button class="subtab global" id="ln-stab-gl" onclick="switchLN('global')">Global</button>
+    </div>
+    <div id="ln-panel-brazil" class="subpanel active">
+      <div id="ln-list-brazil"></div>
+    </div>
+    <div id="ln-panel-global" class="subpanel">
+      <div id="ln-list-global"></div>
+    </div>
+  </section>
+
+  <!-- ========= CLIPPING (janela editorial, comportamento atual) ========= -->
+  <section id="clipping-section" class="main-panel">
+    <div class="ln-bar">
+      <div class="ln-info">Last update: <b id="cl-last-update">&mdash;</b></div>
+      <div class="ln-actions">
+        <div class="run-status"></div>
+      </div>
+    </div>
+    <div class="run-progress"><div class="bar"></div></div>
+    <section class="top3" id="top3-bloco" hidden>
+      <h2 class="top3-title">Top 3 do dia</h2>
+      <ol class="top3-list" id="top3-list"></ol>
+    </section>
+    <div class="subtabs" style="margin-bottom:0;">
+      <button class="subtab brazil active" id="cl-stab-br" onclick="switchClipping('brazil')">Brazil</button>
+      <button class="subtab global" id="cl-stab-gl" onclick="switchClipping('global')">Global</button>
+      <button class="subtab" id="cl-stab-em" onclick="switchClipping('empresas')" style="color:var(--muted);">Empresas</button>
+      <button class="subtab" id="cl-stab-wa" onclick="switchClipping('whats')" style="color:var(--muted);">WhatsApp</button>
+      <button class="subtab" id="cl-stab-hi" onclick="switchClipping('historico')" style="color:var(--muted);">Histórico</button>
+    </div>
+    <div id="panel-brazil" class="tab-panel active">
+      <div class="panel-header">
+        <h2 class="panel-title">Brazil</h2>
+        <div class="panel-meta" id="brazil-count">0 selecionadas</div>
+      </div>
+      <h3 class="section-label brazil">Official Brazil</h3>
+      <div id="list-brazil-official"></div>
+      <h3 class="section-label others">Other News &mdash; Brazil</h3>
+      <div id="list-brazil-others"></div>
+    </div>
+    <div id="panel-global" class="tab-panel">
+      <div class="panel-header">
+        <h2 class="panel-title">Global</h2>
+        <div class="panel-meta" id="global-count">0 selecionadas</div>
+      </div>
+      <h3 class="section-label global">Official Global</h3>
+      <div id="list-global-official"></div>
+      <h3 class="section-label others">Other News &mdash; Global</h3>
+      <div id="list-global-others"></div>
+    </div>
+    <div id="panel-empresas" class="tab-panel">
+      <div class="panel-header">
+        <h2 class="panel-title">Empresas</h2>
+        <div class="panel-meta" id="emp-count">&mdash;</div>
+      </div>
+      <div id="emp-lista"></div>
+    </div>
+    <div id="panel-whats" class="tab-panel">
+      <div class="panel-header">
+        <h2 class="panel-title">WhatsApp</h2>
+        <div class="panel-meta" id="whats-count">0 noticias</div>
+      </div>
+      <div class="whats-meta">
+        <div class="stat-chip">Brazil: <b id="stat-brazil">0</b></div>
+        <div class="stat-chip">Global: <b id="stat-global">0</b></div>
+        <div class="stat-chip">Total: <b id="stat-total">0</b></div>
+      </div>
+      <div id="whats-news-list" class="whats-news-list"></div>
+      <button class="btn-copy" id="btn-copy" onclick="copyClipping()">Copiar para area de transferencia</button>
+    </div>
+    <div id="panel-historico" class="tab-panel">
+      <div class="panel-header">
+        <h2 class="panel-title">Histórico</h2>
+        <div class="panel-meta" id="hist-count">&mdash;</div>
+      </div>
+      <ul id="hist-list" class="hist-list">
+        <li class="hist-empty">Carregando edições…</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+<script>
+// Top 3 do dia (tag editorial + score). Vinha sendo calculado no
+// resumo-*.json e descartado; agora chega na tela.
+var RAW_TOP3 = [
+  ["Sob críticas de Pieranti, Anatel aprova uso de espectro de regionais pela TIM","https://telesintese.com.br/sob-criticas-de-pieranti-anatel-aprova-uso-de-espectro-de-regionais-pela-tim/","must-read","BR Off"],
+      ["Totvs tem lucro de R$ 238 milhões no 3º trimestre","https://valor.globo.com/empresas/noticia/2026/11/04/totvs-tem-lucro-de-r-238-milhoes-no-3o-trimestre.ghtml","must-read","BR Off"],
+      ["Anatel aprova uso secundário da faixa de 700 MHz da Unifique pela TIM","https://teletime.com.br/04/11/2026/anatel-aprova-uso-secundario-da-faixa-de-700-mhz-da-unifique-pela-tim/","must-read","BR Off"]
+];
+// Itens agrupados pelas empresas de cobertura, ordenados por volume.
+var RAW_EMPRESAS = [
+  ["TIM",[["Sob críticas de Pieranti, Anatel aprova uso de espectro de regionais pela TIM","https://telesintese.com.br/sob-criticas-de-pieranti-anatel-aprova-uso-de-espectro-de-regionais-pela-tim/","must-read"],["Anatel aprova uso secundário da faixa de 700 MHz da Unifique pela TIM","https://teletime.com.br/04/11/2026/anatel-aprova-uso-secundario-da-faixa-de-700-mhz-da-unifique-pela-tim/","must-read"],["Acionistas votam incorporação da I-Systems pela TIM em 30 de novembro","https://telesintese.com.br/acionistas-votam-incorporacao-da-i-systems-pela-tim-em-30-de-novembro/","must-read"],["Possível venda da TIM agita o mercado","https://valor.globo.com/impresso/noticia/2026/11/04/possivel-venda-da-tim-agita-o-mercado.ghtml","must-read"],["TIM aprova incorporação da rede neutra I-Systems para otimizar operação de fibra óptica","https://paranahoje.com.br/tim-aprova-incorporacao-da-rede-neutra-i-systems-para-otimizar-operacao-de-fibra-optica/","must-read"],["TIM vai incorporar rede neutra I-Systems para reforçar banda larga","https://convergenciadigital.com.br/internet/tim-vai-incorporar-rede-neutra-i-systems-para-reforcar-banda-larga/","must-read"],["Funcionário da TIM é preso no Rio suspeito de repassar dados de clientes a golpistas","https://g1.globo.com/rj/rio-de-janeiro/rj1/noticia/2026/11/04/funcionario-operadora-preso-quadrilha-golpistas.ghtml","must-read"],["TIM Brasil (TIMS3) entra no radar de venda: V.tal pode comprar operadora avaliada em R$ 31 bilhões","https://guiadoinvestidor.com.br/mercado/tim-brasil-tims3-entra-no-radar-de-venda-v-tal-pode-comprar-operadora-avaliada-em-r-31-bilhoes/","company-specific"]]],
+      ["Starlink",[["Anatel abre consulta para discutir ampliação de frequências utilizadas pela Starlink","https://valor.globo.com/empresas/noticia/2026/11/04/anatel-abre-consulta-para-discutir-ampliacao-de-frequencias-utilizadas-pela-starlink.ghtml","must-read"],["SpaceX escolhe Qualcomm para acelerar rede 5G da Starlink Mobile nos EUA","https://tiinside.com.br/04/11/2026/spacex-escolhe-a-qualcomm-para-acelerar-a-rede-5g-da-starlink-mobile-nos-eua/","must-read"],["AT&T, Rakuten tout integration with Starlink rival AST SpaceMobile for D2D services","https://www.lightreading.com/satellite/at-t-rakuten-tout-integration-with-starlink-rival-ast-spacemobile-for-d2d-services","company-specific"],["Dona da Sky distribuirá Starlink para empresas no Brasil","https://dplnews.com/dona-da-sky-distribuira-starlink/","company-specific"],["O crescimento explosivo da Starlink no Brasil","https://oglobo.globo.com/blogs/capital/post/2026/11/o-crescimento-explosivo-da-starlink-no-brasil.ghtml","company-specific"]]],
+      ["Vivo",[["Vivo vai substituir URA de atendimento por IA conversacional","https://teletime.com.br/03/11/2026/vivo-ura-atendimento-ia-conversacional/","must-read"],["Vivo adiciona 30 GB do Google Cloud no pré-pago para recargas a partir de R$ 35","https://www.mobiletime.com.br/noticias/03/11/2026/vivo-google-cloud-pre/","must-read"]]],
+      ["TOTVS",[["Totvs tem lucro de R$ 238 milhões no 3º trimestre","https://valor.globo.com/empresas/noticia/2026/11/04/totvs-tem-lucro-de-r-238-milhoes-no-3o-trimestre.ghtml","must-read"],["Totvs reporta ganho ajustado de R$ 237,2 milhões","https://www.spacemoney.com.br/investimentos/acoes/totvs-resultado-3t26/","company-specific"]]],
+      ["V.tal",[["V.tal vai emitir R$ 200 milhões com garantia da Nio","https://telesintese.com.br/v-tal-vai-emitir-r-200-milhoes-com-garantia-da-nio/","must-read"],["TIM Brasil (TIMS3) entra no radar de venda: V.tal pode comprar operadora avaliada em R$ 31 bilhões","https://guiadoinvestidor.com.br/mercado/tim-brasil-tims3-entra-no-radar-de-venda-v-tal-pode-comprar-operadora-avaliada-em-r-31-bilhoes/","company-specific"]]],
+      ["Claro",[["Claro amplia parceria com Oracle e leva modelo de nuvem do Brasil para a Argentina","https://tiinside.com.br/03/11/2026/claro-amplia-parceria-com-oracle-e-leva-modelo-de-nuvem-do-brasil-para-a-argentina/","must-read"]]],
+      ["Unifique",[["Anatel aprova uso secundário da faixa de 700 MHz da Unifique pela TIM","https://teletime.com.br/04/11/2026/anatel-aprova-uso-secundario-da-faixa-de-700-mhz-da-unifique-pela-tim/","must-read"]]]
+];
+var TAG_LABEL = {"must-read":"Must-read","company-specific":"Empresa",
+  "sector-regulatory":"Regulatorio","competitor-read-through":"Concorrente",
+  "broad-tech":"Setor"};
+var RAW = {
+  brazil: {
+    official: [
+      ["Totvs tem lucro de R$ 238 milhões no 3º trimestre","https://valor.globo.com/empresas/noticia/2026/11/04/totvs-tem-lucro-de-r-238-milhoes-no-3o-trimestre.ghtml","must-read",0,"estadao.com.br, infomoney.com.br, timesbrasil.com.br",0],
+      ["Anatel abre consulta para discutir ampliação de frequências utilizadas pela Starlink","https://valor.globo.com/empresas/noticia/2026/11/04/anatel-abre-consulta-para-discutir-ampliacao-de-frequencias-utilizadas-pela-starlink.ghtml","must-read",0,"teletime.com.br, convergenciadigital.com.br",0],
+      ["Sob críticas de Pieranti, Anatel aprova uso de espectro de regionais pela TIM","https://telesintese.com.br/sob-criticas-de-pieranti-anatel-aprova-uso-de-espectro-de-regionais-pela-tim/","must-read",1,"",0],
+      ["Anatel aprova uso secundário da faixa de 700 MHz da Unifique pela TIM","https://teletime.com.br/04/11/2026/anatel-aprova-uso-secundario-da-faixa-de-700-mhz-da-unifique-pela-tim/","must-read",1,"dplnews.com",0],
+      ["Claro amplia parceria com Oracle e leva modelo de nuvem do Brasil para a Argentina","https://tiinside.com.br/03/11/2026/claro-amplia-parceria-com-oracle-e-leva-modelo-de-nuvem-do-brasil-para-a-argentina/","must-read",1,"",0],
+      ["Vivo vai substituir URA de atendimento por IA conversacional","https://teletime.com.br/03/11/2026/vivo-ura-atendimento-ia-conversacional/","must-read",1,"",0],
+      ["Acionistas votam incorporação da I-Systems pela TIM em 30 de novembro","https://telesintese.com.br/acionistas-votam-incorporacao-da-i-systems-pela-tim-em-30-de-novembro/","must-read",1,"",0],
+      ["Possível venda da TIM agita o mercado","https://valor.globo.com/impresso/noticia/2026/11/04/possivel-venda-da-tim-agita-o-mercado.ghtml","must-read",1,"valor.globo.com",0],
+      ["Vivo adiciona 30 GB do Google Cloud no pré-pago para recargas a partir de R$ 35","https://www.mobiletime.com.br/noticias/03/11/2026/vivo-google-cloud-pre/","must-read",1,"",0],
+      ["V.tal vai emitir R$ 200 milhões com garantia da Nio","https://telesintese.com.br/v-tal-vai-emitir-r-200-milhoes-com-garantia-da-nio/","must-read",1,"",0]
+    ],
+    others: [
+      ["Dona da Sky distribuirá Starlink para empresas no Brasil","https://dplnews.com/dona-da-sky-distribuira-starlink/","company-specific",0,"",0],
+      ["Totvs reporta ganho ajustado de R$ 237,2 milhões","https://www.spacemoney.com.br/investimentos/acoes/totvs-resultado-3t26/","company-specific",0,"",0],
+      ["Anatel celebra 29 anos com despedida de Baigorri e balanço da regulação","https://telesintese.com.br/anatel-celebra-29-anos-com-despedida-de-baigorri-e-balanco-da-regulacao/","sector-regulatory",0,"",0],
+      ["Anatel aprova R$ 1,3 bi para compra de kits de TV 3.0, mas vinculado a projeto-piloto","https://teletime.com.br/04/11/2026/anatel-aprova-r-13-bi-para-compra-de-kits-de-tv-3-0-mas-vinculado-a-projeto-piloto/","sector-regulatory",0,"",0],
+      ["Baigorri deixa Anatel e admite que não conseguiu fazer tudo o que pretendia","https://telesintese.com.br/baigorri-deixa-anatel-e-admite-que-nao-conseguiu-fazer-tudo-o-que-pretendia/","sector-regulatory",0,"",0],
+      ["Câmara aprova novas regras para compartilhamento de postes entre empresas de energia e teles","https://valor.globo.com/politica/noticia/2026/11/04/cmara-aprova-novas-regras-para-compartilhamento-de-postes-entre-empresas-de-energia-e-teles.ghtml","sector-regulatory",0,"Tele.Sintese, convergenciadigital.com.br",0],
+      ["SMS A2P: Anatel apresenta regras para operadoras e brokers","https://www.mobiletime.com.br/noticias/04/11/2026/anatel-regras-sms/","sector-regulatory",0,"",0],
+      ["Baigorri deixa o comando da Anatel. Agência comemora 29 anos de atividades","https://convergenciadigital.com.br/telecom/baigorri-deixa-o-comando-da-anatel-agencia-comemora-29-anos-de-atividades/","sector-regulatory",0,"",0],
+      ["Entidades apoiam PL dos Postes, mas alertam para risco de aumento de custos","https://telesintese.com.br/entidades-apoiam-pl-dos-postes-mas-alertam-para-risco-de-aumento-de-custos/","sector-regulatory",0,"",0],
+      ["Sete entidades apoiam proposta de Baigorri sobre receitas de SVA","https://telesintese.com.br/sete-entidades-apoiam-proposta-de-baigorri-sobre-receitas-de-sva/","sector-regulatory",0,"",0],
+      ["Movimento Fique Esperto alerta para os riscos do uso de TV Boxes piratas","https://telaviva.com.br/04/11/2026/movimento-fique-esperto-alerta-para-os-riscos-do-uso-de-tv-boxes-piratas/","sector-regulatory",0,"",0],
+      ["Mercado Livre (MELI34) tem lucro líquido abaixo do esperado e registra US$ 448 mi","https://www.infomoney.com.br/mercados/resultado-mercado-livre-meli34-terceiro-trimestre-2026/","competitor-read-through",0,"",0],
+      ["Elea avança no Rio, mas energia desafia expansão de data centers","https://telesintese.com.br/elea-avanca-no-rio-mas-energia-desafia-expansao-de-data-centers/","broad-tech",0,"",0],
+      ["TIM aprova incorporação da rede neutra I-Systems para otimizar operação de fibra óptica","https://paranahoje.com.br/tim-aprova-incorporacao-da-rede-neutra-i-systems-para-otimizar-operacao-de-fibra-optica/","must-read",1,"",0],
+      ["TIM vai incorporar rede neutra I-Systems para reforçar banda larga","https://convergenciadigital.com.br/internet/tim-vai-incorporar-rede-neutra-i-systems-para-reforcar-banda-larga/","must-read",1,"teletime.com.br",0],
+      ["Funcionário da TIM é preso no Rio suspeito de repassar dados de clientes a golpistas","https://g1.globo.com/rj/rio-de-janeiro/rj1/noticia/2026/11/04/funcionario-operadora-preso-quadrilha-golpistas.ghtml","must-read",1,"",0],
+      ["O crescimento explosivo da Starlink no Brasil","https://oglobo.globo.com/blogs/capital/post/2026/11/o-crescimento-explosivo-da-starlink-no-brasil.ghtml","company-specific",1,"",0],
+      ["TIM Brasil (TIMS3) entra no radar de venda: V.tal pode comprar operadora avaliada em R$ 31 bilhões","https://guiadoinvestidor.com.br/mercado/tim-brasil-tims3-entra-no-radar-de-venda-v-tal-pode-comprar-operadora-avaliada-em-r-31-bilhoes/","company-specific",1,"",0],
+      ["Anatel aprova destinação de R$ 1,65 bi do leilão 5G a data center e TV 3.0","https://telesintese.com.br/anatel-destina-r-165-bilhao-do-leilao-do-5g-a-data-center-de-ia-e-tv-3-0/","sector-regulatory",1,"telesintese.com.br",0],
+      ["Anatel e GSI fazem acordo de proteção à cibersegurança nacional","https://www.mobiletime.com.br/noticias/03/11/2026/anatel-gsi-acordo-ciber/","sector-regulatory",1,"",0],
+      ["GSI e Anatel firmam acordo de cooperação em segurança cibernética","https://teletime.com.br/03/11/2026/gsi-anatel-ciberseguranca/","sector-regulatory",1,"",0],
+      ["Data center da Anatel pode parar por falta de pagamento","https://www.mobiletime.com.br/noticias/03/11/2026/data-center-anatel-parar/","sector-regulatory",1,"",0],
+      ["Anatel estabelece roaming obrigatório em rodovias e pequenos municípios","https://teletime.com.br/04/11/2026/anatel-roaming-rodovias/","sector-regulatory",1,"Tele.Sintese",0],
+      ["Anatel manda operadoras bloquearem SMS de códigos curtos não cadastrados","https://teletime.com.br/04/11/2026/anatel-sms-codigos-curtos/","sector-regulatory",1,"",0],
+      ["Anatel suspende nova coleta de dados de cobertura móvel após recurso da Conexis","https://telesintese.com.br/anatel-suspende-nova-coleta-de-dados-de-cobertura-movel-apos-recurso-da-conexis/","sector-regulatory",1,"",0],
+      ["ClickIP vê risco de bolha com obrigação de investir em data centers","https://telesintese.com.br/clickip-ve-risco-de-bolha-com-obrigacao-de-investir-em-data-centers/","sector-regulatory",1,"",0],
+      ["Anatel e EAD terão R$ 23 milhões para novo leilão reverso de cobertura móvel","https://teletime.com.br/03/11/2026/anatel-leilao-reverso/","sector-regulatory",1,"",0],
+      ["Por que a euforia com os data centers já corre risco","https://braziljournal.com/por-que-a-euforia-com-os-data-centers-ja-corre-risco","sector-regulatory",1,"",0],
+      ["Baigorri propõe novo critério para fiscalizar SVA","https://telesintese.com.br/baigorri-propoe-novo-criterio-para-fiscalizar-sva/","sector-regulatory",1,"",0],
+      ["Novo relatório do PL dos postes flexibiliza posteiro e deixa valor teto com Aneel","https://teletime.com.br/03/11/2026/postes-pl-novo-relatorio/","sector-regulatory",1,"",0],
+      ["Operadoras deverão bloquear quem dispara SMS irregular","https://telesintese.com.br/operadoras-deverao-bloquear-quem-dispara-sms-irregular/","sector-regulatory",1,"",0],
+      ["PL dos Postes pode reduzir gastos das teles em R$ 800 milhões por ano","https://telesintese.com.br/pl-dos-postes-pode-reduzir-gastos-das-teles-em-r-800-milhoes-por-ano/","sector-regulatory",1,"TI Inside, Mobile Time, TELETIME",0],
+      ["Reforma Tributária: Relator da CBS, senador Eduardo Braga quer rever alíquota de 11,3% do TCU","https://convergenciadigital.com.br/governo/reforma-tributaria-relator-da-cbs-senador-eduardo-braga-quer-rever-aliquota-de-113-do-tcu/","sector-regulatory",1,"",0],
+      ["Anatel e GSI preveem protocolo conjunto de resposta a ataques cibernéticos","https://telesintese.com.br/anatel-e-gsi-preveem-protocolo-conjunto-de-resposta-a-ataques-ciberneticos/","sector-regulatory",1,"",0],
+      ["Anatel pede desbloqueio de R$ 30 milhões para evitar atrasos em pagamentos","https://telesintese.com.br/anatel-pede-desbloqueio-de-r-30-milhoes-para-evitar-atrasos-em-pagamentos/","sector-regulatory",1,"",0],
+      ["Algar economiza R$ 2,8 milhões com uso de IA em processos de compras","https://teletime.com.br/03/11/2026/algar-economiza-ia-compras/","competitor-read-through",1,"",0],
+      ["Agentes de compras com IA podem ameaçar os negócios de Amazon e Walmart","https://www.cnnbrasil.com.br/economia/money/inteligencia-artificial/agentes-de-compras-com-ia-podem-ameacar-os-negocios-de-amazon-e-walmart/","competitor-read-through",1,"",0],
+      ["A migração SAP precisa justificar o investimento","https://tiinside.com.br/03/11/2026/a-migracao-sap-precisa-justificar-o-investimento/","competitor-read-through",1,"",0],
+      ["PGMC deve mudar para acomodar demandas de MVNOs dedicadas a IoT e M2M","https://teletime.com.br/03/11/2026/pgmc-deve-mudar-para-acomodar-demandas-de-mvnos-dedicadas-a-iot-e-m2m/","broad-tech",1,"",0],
+      ["Ascenty inaugura laboratório de IA em data center no interior de SP","https://teletime.com.br/04/11/2026/ascenty-laboratorio-ia-data-center-sp/","broad-tech",1,"",0],
+      ["CPQD quer D2D brasileiro com satélite no espaço e Open RAN","https://teletime.com.br/03/11/2026/cpqd-d2d-brasileiro-satelite-open-ran/","broad-tech",1,"",0],
+      ["‘Big techs’ operam com gargalo de chip, energia e prédio de data center","https://valor.globo.com/empresas/noticia/2026/11/04/big-techs-operam-com-gargalo-de-chip-energia-e-predio-de-data-center.ghtml","broad-tech",1,"",0],
+      ["IA exige nova infraestrutura de energia e refrigeração em data centers, dizem especialistas","https://www.mobiletime.com.br/noticias/03/11/2026/migracao-para-ia-precisa/","broad-tech",1,"",0],
+      ["Do El Niño à Black Friday: o fim das certezas no abastecimento","https://www.ecommercebrasil.com.br/artigos/do-el-nino-a-black-friday-o-fim-das-certezas-no-abastecimento","broad-tech",1,"",0],
+      ["Vitória democrata nas eleições mostra força dos opositores aos data centers","https://valor.globo.com/mundo/noticia/2026/11/04/vitria-democrata-nas-eleies-mostra-fora-dos-opositores-aos-data-centers.ghtml","broad-tech",1,"",0],
+      ["Quando é a Black Friday em 2026? Veja data e como não cair em golpes","https://valor.globo.com/empresas/noticia/2026/11/03/quando-e-a-black-friday-em-2026-veja-data-e-como-nao-cair-em-golpes.ghtml","broad-tech",1,"",0],
+      ["Vero reforça planos de contingência diante do risco de eventos climáticos extremos","https://teletime.com.br/04/11/2026/vero-eventos-extremos/","broad-tech",1,"",0],
+      ["Granado automatiza reposição de estoques para preparar operação para a Black Friday","https://tiinside.com.br/03/11/2026/granado-automatiza-reposicao-de-estoques-para-preparar-operacao-para-a-black-friday/","broad-tech",1,"",0],
+      ["Como a inteligência artificial está mudando a forma de desenvolver software","https://tiinside.com.br/03/11/2026/como-a-inteligencia-artificial-esta-mudando-a-forma-de-desenvolver-software/","broad-tech",1,"",0],
+      ["Telcos buscam receita além da conectividade para virar TechCos","https://telesintese.com.br/telcos-buscam-receita-alem-da-conectividade-para-virar-techcos/","broad-tech",1,"",0],
+      ["Onde a IA deve funcionar: na nuvem ou perto dos dados?","https://telesintese.com.br/onde-a-ia-deve-funcionar-na-nuvem-ou-perto-dos-dados/","broad-tech",1,"",0],
+      ["TIP Brasil e AgroPlay lançam conteúdo infantil para planos de internet","https://telesintese.com.br/tip-brasil-e-agroplay-lancam-conteudo-infantil-para-planos-de-internet/","sector-regulatory",1,"",0]
+    ]
+  },
+  global: {
+    official: [
+      ["Snap shares fall over 10% on third-quarter earnings miss","https://www.cnbc.com/2026/11/04/snap-q3-earnings-report-2026.html","sector-regulatory",0,"",0],
+      ["Qualcomm issues disappointing earnings forecast as memory shortage weighs on smartphone sales","https://www.cnbc.com/2026/11/04/qualcomm-qcom-earnings-report-q4-2026.html","sector-regulatory",0,"infomoney.com.br",0],
+      ["Oracle cancels $7bn Tencent AI deal under Trump pressure","https://www.ft.com/content/c5a6a738-cd78-4a8e-a814-57a7473ebb9c?syn-25a6b1a6=1","competitor-read-through",1,"",0],
+      ["Accenture accused of publishing AI paper littered with AI hallucinations","https://www.ft.com/content/874e3f05-0be3-4a2d-b2a2-7b5823441794?syn-25a6b1a6=1","competitor-read-through",1,"",0],
+      ["Anthropic is an opportunity to rethink IPO rules","https://www.ft.com/content/5083bad9-2a6e-4dc8-9627-1d41f9aa5b5b","broad-tech",1,"",0],
+      ["Palantir sinks after earnings as analysts point to slowdown in total contract value","https://www.cnbc.com/2026/11/03/apple-palantir-stock-earnings.html","sector-regulatory",1,"",0]
+    ],
+    others: [
+      ["SpaceX escolhe Qualcomm para acelerar rede 5G da Starlink Mobile nos EUA","https://tiinside.com.br/04/11/2026/spacex-escolhe-a-qualcomm-para-acelerar-a-rede-5g-da-starlink-mobile-nos-eua/","must-read",0,"",0],
+      ["Figma sinks after earnings beat as company prioritizes long-term growth with AI changes","https://www.cnbc.com/2026/11/04/figma-fig-q3-earnings-report-2026.html","sector-regulatory",0,"",0],
+      ["Qualcomm assina parceria com SpaceX para implantar rede 5G nos EUA","https://www.estadao.com.br/em-alta/tecmundo/big-techs/qualcomm-assina-parceria-com-spacex-para-implantar-rede-5g-nos-eua/","sector-regulatory",0,"lightreading.com",0],
+      ["Salesforce : Your AI Agents Are Fast. Your Process Isn’t. Here’s How to Fix It.","https://www.marketscreener.com/news/salesforce-your-ai-agents-are-fast-your-process-isna-t-herea-s-how-to-fix-it-ce785fdfdf8ef12c","competitor-read-through",0,"",0],
+      ["Salesforce (CRM) Moves to Strong Buy: Rationale Behind the Upgrade","https://finance.yahoo.com/markets/stocks/articles/salesforce-crm-moves-strong-buy-160002337.html","broad-tech",0,"",0],
+      ["OpenAI to Bring Pierre Computer’s Code Storage to Codex Through Acquisition","https://www.wsj.com/tech/ai/openai-to-bring-pierre-computers-code-storage-to-codex-through-acquisition-05f53582","broad-tech",0,"",0],
+      ["Arm’s third-quarter revenue forecast above estimates but investors unimpressed","https://www.businesstimes.com.sg/companies-markets/telcos-media-tech/arms-third-quarter-revenue-forecast-above-estimates-investors-unimpressed","broad-tech",0,"",0],
+      ["Hyperscalers and Apple surge after election results remove investor uncertainty","https://www.cnbc.com/2026/11/04/apple-and-other-big-tech-stocks-surge-after-2026-midterm-elections.html","broad-tech",0,"",0],
+      ["Tencent rolls out AI model trained with limited cybersecurity data amid hacking fears","https://www.reuters.com/legal/litigation/tencent-rolls-out-ai-model-trained-with-limited-cybersecurity-data-amid-hacking-2026-11-04/","broad-tech",0,"",0],
+      ["Voters rebuff data centers in every ballot measure except one during the 2026 midterms","https://www.cnbc.com/2026/11/04/data-center-ballot-measures-2026-midterm.html","broad-tech",0,"",0],
+      ["Bill Gates: AI bioweapons ‘could be worse than Covid’","https://www.ft.com/content/8ede113c-1e4a-49a6-8199-3936b7d58340?syn-25a6b1a6=1","broad-tech",0,"",0],
+      ["AT&T, Rakuten tout integration with Starlink rival AST SpaceMobile for D2D services","https://www.lightreading.com/satellite/at-t-rakuten-tout-integration-with-starlink-rival-ast-spacemobile-for-d2d-services","company-specific",1,"",0],
+      ["Oracle cancela acordo de US$ 7 bilhões após pressão de Trump","https://redir.folha.com.br/redir/online/tec/rss091/*https://c-level.folha.uol.com.br/ia/2026/11/oracle-cancela-acordo-de-us-7-bilhoes-apos-pressao-de-trump.shtml","competitor-read-through",1,"",0],
+      ["EPAM earnings: what to look for from EPAM","https://www.theglobeandmail.com/investing/markets/stocks/EPAM/pressreleases/8635623/epam-earnings-what-to-look-for-from-epam/","competitor-read-through",1,"",0],
+      ["Shopify cai 7% após trimestre abaixo do esperado","https://www.spacemoney.com.br/investimentos/acoes/shopify-cai-7-apos-resultados-abaixo-das-estimativas/","competitor-read-through",1,"cnbc.com",0],
+      ["Galaxy S25 Plus (512 GB) com tela grande entra em oferta na Amazon","https://tecnoblog.net/achados/galaxy-s25-plus-512-gb-com-tela-grande-entra-em-oferta-na-amazon/","competitor-read-through",1,"tecnoblog.net",0],
+      ["TV LG OLED 55″ recebe oferta histórica em até 12x na Amazon","https://tecnoblog.net/achados/tv-lg-oled-55-recebe-oferta-historica-em-ate-12x-na-amazon/","competitor-read-through",1,"",0],
+      ["Apple registra aumento de 12% no lucro líquido, chegando a US$ 31 bi no trimestre","https://www.mobiletime.com.br/noticias/03/11/2026/apple-lucro-liq-12-tri/","broad-tech",1,"",0],
+      ["Is There A Risk Hiding In Salesforce Stock's Record Quarter?","https://finance.yahoo.com/markets/stocks/articles/risk-hiding-salesforce-stocks-record-115300937.html","broad-tech",1,"",0],
+      ["Google investirá US$ 15 bi na Malásia em infraestrutura digital, energia limpa e empregos","https://valor.globo.com/empresas/noticia/2026/11/04/google-investir-us-15-bi-na-malsia-em-infraestrutura-digital-energia-limpa-e-empregos.ghtml","broad-tech",1,"",0],
+      ["Receita da AMD dá um salto de 45%","https://valor.globo.com/empresas/noticia/2026/11/04/receita-da-amd-da-um-salto-de-45.ghtml","broad-tech",1,"businesstimes.com.sg, estadao.com.br, infomoney.com.br",0],
+      ["SpaceX signs deal with Qualcomm to provide network technology for U.S. mobile service","https://www.cnbc.com/2026/11/04/spacex-strikes-deal-with-qualcomm-for-mobile-network-infrastructure.html","broad-tech",1,"",0],
+      ["Super Micro forecasts quarterly revenue above estimates on strong AI server demand","https://www.reuters.com/business/super-micro-forecasts-quarterly-revenue-above-estimates-strong-ai-server-demand-2026-11-03/","broad-tech",1,"",0],
+      ["Google obriga escolas a escolher entre permitir uso de IA ou perder acesso a seu buscador","https://g1.globo.com/educacao/noticia/2026/11/04/google-uso-de-ia-acesso-a-buscador.ghtml","broad-tech",1,"",0],
+      ["‘Campus de Computação de IA’: OpenAI propõe novo nome para os data centers","https://www.estadao.com.br/em-alta/tecmundo/inteligencia-artificial/campus-de-computacao-de-ia-openai-propoe-novo-nome-para-os-data-centers/","broad-tech",1,"",0],
+      ["Meta Starts Debut Euro Bond Sale After $15 Billion Dollar Deal","https://www.bloomberg.com/news/articles/2026-11-04/meta-starts-debut-euro-bond-sale-after-15-billion-dollar-deal","broad-tech",1,"cnbc.com, businesstimes.com.sg",0],
+      ["SoftBank and Sceye seal five-year commercial HAPS deal","https://www.lightreading.com/satellite/softbank-and-sceye-seal-five-year-commercial-haps-deal","broad-tech",1,"",0],
+      ["Bringing sustainability into the Dynamics 365 ERP portfolio","https://www.microsoft.com/en-us/dynamics-365/blog/business-leader/2026/11/03/bringing-sustainability-into-the-dynamics-365-erp-portfolio/","broad-tech",1,"",0],
+      ["Super Micro Computer Revenue Surges on AI Infrastructure Demand","https://www.wsj.com/business/earnings/super-micro-computer-revenue-surges-on-ai-infrastructure-demand-32e5542c","broad-tech",1,"",0],
+      ["Google responds to political backlash over removing search from schools that ban AI","https://www.cnbc.com/2026/11/03/google-responds-to-outrage-over-removing-search-in-schools-that-ban-ai.html","broad-tech",1,"",0],
+      ["Apple warns of risks related to AI agents behaving in 'unintended or unpredictable' ways","https://www.cnbc.com/2026/11/03/apple-warns-of-ai-agents-behave-in-unintended-or-unpredictable-ways.html","broad-tech",1,"",0],
+      ["CrowdStrike e Anthropic ampliam parceria para aumentar amplia a adoção da IA empresarial Claude Cowork com a proteção do Falcon Guardian","https://tiinside.com.br/03/11/2026/crowdstrike-e-anthropic-ampliam-parceria-para-aumentar-amplia-a-adocao-da-ia-empresarial-claude-cowork-com-a-protecao-do-falcon-guardian/","broad-tech",1,"",0],
+      ["EY amplia parceria com CrowdStrike para levar segurança de IA a infraestruturas críticas","https://tiinside.com.br/04/11/2026/ey-amplia-parceria-com-crowdstrike-para-levar-seguranca-de-ia-a-infraestruturas-criticas/","broad-tech",1,"",0],
+      ["IA responderá por 44% do tráfego global de redes em 2035, projeta Nokia","https://telesintese.com.br/ia-respondera-por-44-do-trafego-global-de-redes-em-2035-projeta-nokia/","broad-tech",1,"",0]
+    ]
+  }
+};
+
+// Last News (rolling 24h): listas planas ja ordenadas por score desc no
+// pipeline. Sem buckets/quotas — diferente do RAW acima que e' o editorial.
+var RAW_LN = {
+  brazil: [
+    ["Sob críticas de Pieranti, Anatel aprova uso de espectro de regionais pela TIM","https://telesintese.com.br/sob-criticas-de-pieranti-anatel-aprova-uso-de-espectro-de-regionais-pela-tim/","04/11 11:32"],
+      ["Anatel aprova uso secundário da faixa de 700 MHz da Unifique pela TIM","https://teletime.com.br/04/11/2026/anatel-aprova-uso-secundario-da-faixa-de-700-mhz-da-unifique-pela-tim/","04/11 10:59"],
+      ["Totvs tem lucro de R$ 238 milhões no 3º trimestre","https://valor.globo.com/empresas/noticia/2026/11/04/totvs-tem-lucro-de-r-238-milhoes-no-3o-trimestre.ghtml","04/11 18:59"],
+      ["Anatel aprova destinação de R$ 1,65 bi do leilão 5G a data center e TV 3.0","https://telesintese.com.br/anatel-destina-r-165-bilhao-do-leilao-do-5g-a-data-center-de-ia-e-tv-3-0/","04/11 13:39"],
+      ["Possível venda da TIM agita o mercado","https://valor.globo.com/impresso/noticia/2026/11/04/possivel-venda-da-tim-agita-o-mercado.ghtml","04/11 05:00"],
+      ["PGMC deve mudar para acomodar demandas de MVNOs dedicadas a IoT e M2M","https://teletime.com.br/03/11/2026/pgmc-deve-mudar-para-acomodar-demandas-de-mvnos-dedicadas-a-iot-e-m2m/","03/11 23:44"],
+      ["Ascenty inaugura laboratório de IA em data center no interior de SP","https://teletime.com.br/04/11/2026/ascenty-laboratorio-ia-data-center-sp/","04/11 13:11"],
+      ["Anatel celebra 29 anos com despedida de Baigorri e balanço da regulação","https://telesintese.com.br/anatel-celebra-29-anos-com-despedida-de-baigorri-e-balanco-da-regulacao/","04/11 18:56"],
+      ["Anatel abre consulta para discutir ampliação de frequências utilizadas pela Starlink","https://valor.globo.com/empresas/noticia/2026/11/04/anatel-abre-consulta-para-discutir-ampliacao-de-frequencias-utilizadas-pela-starlink.ghtml","04/11 13:55"],
+      ["Mercado Livre (MELI34) tem lucro líquido abaixo do esperado e registra US$ 448 mi","https://www.infomoney.com.br/mercados/resultado-mercado-livre-meli34-terceiro-trimestre-2026/","04/11 18:49"],
+      ["CPQD quer D2D brasileiro com satélite no espaço e Open RAN","https://teletime.com.br/03/11/2026/cpqd-d2d-brasileiro-satelite-open-ran/","03/11 22:15"],
+      ["‘Big techs’ operam com gargalo de chip, energia e prédio de data center","https://valor.globo.com/empresas/noticia/2026/11/04/big-techs-operam-com-gargalo-de-chip-energia-e-predio-de-data-center.ghtml","04/11 05:14"],
+      ["Anatel e GSI fazem acordo de proteção à cibersegurança nacional","https://www.mobiletime.com.br/noticias/03/11/2026/anatel-gsi-acordo-ciber/","03/11 21:05"],
+      ["TIM aprova incorporação da rede neutra I-Systems para otimizar operação de fibra óptica","https://paranahoje.com.br/tim-aprova-incorporacao-da-rede-neutra-i-systems-para-otimizar-operacao-de-fibra-optica/","03/11 21:12"],
+      ["IA exige nova infraestrutura de energia e refrigeração em data centers, dizem especialistas","https://www.mobiletime.com.br/noticias/03/11/2026/migracao-para-ia-precisa/","03/11 21:20"],
+      ["Do El Niño à Black Friday: o fim das certezas no abastecimento","https://www.ecommercebrasil.com.br/artigos/do-el-nino-a-black-friday-o-fim-das-certezas-no-abastecimento","04/11 09:00"],
+      ["Funcionário da TIM é preso no Rio suspeito de repassar dados de clientes a golpistas","https://g1.globo.com/rj/rio-de-janeiro/rj1/noticia/2026/11/04/funcionario-operadora-preso-quadrilha-golpistas.ghtml","04/11 12:59"],
+      ["Data center da Anatel pode parar por falta de pagamento","https://www.mobiletime.com.br/noticias/03/11/2026/data-center-anatel-parar/","03/11 21:09"],
+      ["Anatel estabelece roaming obrigatório em rodovias e pequenos municípios","https://teletime.com.br/04/11/2026/anatel-roaming-rodovias/","04/11 12:00"],
+      ["Anatel manda operadoras bloquearem SMS de códigos curtos não cadastrados","https://teletime.com.br/04/11/2026/anatel-sms-codigos-curtos/","04/11 12:07"],
+      ["Anatel suspende nova coleta de dados de cobertura móvel após recurso da Conexis","https://telesintese.com.br/anatel-suspende-nova-coleta-de-dados-de-cobertura-movel-apos-recurso-da-conexis/","03/11 20:12"],
+      ["AST projeta expansão no Brasil com rede D2D aberta a novas operadoras","https://telesintese.com.br/ast-projeta-expansao-no-brasil-com-rede-d2d-aberta-a-novas-operadoras/","03/11 20:15"],
+      ["Vitória democrata nas eleições mostra força dos opositores aos data centers","https://valor.globo.com/mundo/noticia/2026/11/04/vitria-democrata-nas-eleies-mostra-fora-dos-opositores-aos-data-centers.ghtml","04/11 09:01"],
+      ["Anatel aprova R$ 1,3 bi para compra de kits de TV 3.0, mas vinculado a projeto-piloto","https://teletime.com.br/04/11/2026/anatel-aprova-r-13-bi-para-compra-de-kits-de-tv-3-0-mas-vinculado-a-projeto-piloto/","04/11 14:34"],
+      ["Vero reforça planos de contingência diante do risco de eventos climáticos extremos","https://teletime.com.br/04/11/2026/vero-eventos-extremos/","04/11 13:20"],
+      ["Elea avança no Rio, mas energia desafia expansão de data centers","https://telesintese.com.br/elea-avanca-no-rio-mas-energia-desafia-expansao-de-data-centers/","04/11 17:57"],
+      ["Baigorri deixa Anatel e admite que não conseguiu fazer tudo o que pretendia","https://telesintese.com.br/baigorri-deixa-anatel-e-admite-que-nao-conseguiu-fazer-tudo-o-que-pretendia/","04/11 18:54"],
+      ["Redes sociais e marketplaces concentram jornada de compra de moda no Brasil","https://www.ecommercebrasil.com.br/noticias/redes-sociais-marketplaces-jornada-compra-moda","04/11 12:00"],
+      ["O consumidor não separa a experiência de compra da de cobrança, e as empresas também não deveriam","https://www.ecommercebrasil.com.br/artigos/o-consumidor-nao-separa-a-experiencia-de-compra-da-de-cobranca-e-as-empresas-tambem-nao-deveriam","04/11 11:00"],
+      ["Nas contas para o futuro da TIM, um comprador em dupla e um cheque de R$ 40 bilhões","https://exame.com/exame-in/nas-contas-para-o-futuro-da-tim-um-comprador-em-dupla-e-um-cheque-de-r-40-bilhoes/","04/11 07:05"],
+      ["Agentes de compras com IA podem ameaçar os negócios de Amazon e Walmart","https://www.cnnbrasil.com.br/economia/money/inteligencia-artificial/agentes-de-compras-com-ia-podem-ameacar-os-negocios-de-amazon-e-walmart/","04/11 12:07"],
+      ["Segurança digital é prioridade para 77% das PMEs brasileiras","https://www.mobiletime.com.br/noticias/04/11/2026/mastercard-pmes-segur/","04/11 14:59"],
+      ["Por que a euforia com os data centers já corre risco","https://braziljournal.com/por-que-a-euforia-com-os-data-centers-ja-corre-risco","04/11 07:00"],
+      ["Dona da Sky distribuirá Starlink para empresas no Brasil","https://dplnews.com/dona-da-sky-distribuira-starlink/","04/11 16:31"],
+      ["O crescimento explosivo da Starlink no Brasil","https://oglobo.globo.com/blogs/capital/post/2026/11/o-crescimento-explosivo-da-starlink-no-brasil.ghtml","04/11 09:00"],
+      ["Câmara aprova novas regras para compartilhamento de postes entre empresas de energia e teles","https://valor.globo.com/politica/noticia/2026/11/04/cmara-aprova-novas-regras-para-compartilhamento-de-postes-entre-empresas-de-energia-e-teles.ghtml",""],
+      ["SMS A2P: Anatel apresenta regras para operadoras e brokers","https://www.mobiletime.com.br/noticias/04/11/2026/anatel-regras-sms/","04/11 18:27"],
+      ["Baigorri propõe novo critério para fiscalizar SVA","https://telesintese.com.br/baigorri-propoe-novo-criterio-para-fiscalizar-sva/","04/11 12:06"],
+      ["Novo relatório do PL dos postes flexibiliza posteiro e deixa valor teto com Aneel","https://teletime.com.br/03/11/2026/postes-pl-novo-relatorio/","03/11 22:13"],
+      ["Operadoras deverão bloquear quem dispara SMS irregular","https://telesintese.com.br/operadoras-deverao-bloquear-quem-dispara-sms-irregular/","03/11 20:18"],
+      ["Baigorri deixa o comando da Anatel. Agência comemora 29 anos de atividades","https://convergenciadigital.com.br/telecom/baigorri-deixa-o-comando-da-anatel-agencia-comemora-29-anos-de-atividades/","04/11 18:29"],
+      ["Com investimentos de R$ 20 milhões, Ascenty inaugura laboratório preparado para IA em Vinhedo, São Paulo","https://convergenciadigital.com.br/inovacao/com-investimentos-de-r-20-milhoes-ascenty-inaugura-laboratorio-preparado-para-ia-em-vinhedo-sao-paulo/","04/11 16:01"],
+      ["Reforma Tributária: Relator da CBS, senador Eduardo Braga quer rever alíquota de 11,3% do TCU","https://convergenciadigital.com.br/governo/reforma-tributaria-relator-da-cbs-senador-eduardo-braga-quer-rever-aliquota-de-113-do-tcu/","04/11 10:33"],
+      ["Santa Cruz, no Rio de Janeiro, terá data center da Emet Capital","https://convergenciadigital.com.br/telecom/santa-cruz-no-rio-de-janeiro-tera-data-center-da-emet-capital/","04/11 10:04"],
+      ["Black Friday 2026: brasileiro está mais exigente e expectativa por boas ofertas cresce, revela pesquisa da Globo","https://telaviva.com.br/03/11/2026/black-friday-2026-brasileiro-esta-mais-exigente-e-expectativa-por-boas-ofertas-cresce-revela-pesquisa-da-globo/","03/11 22:05"],
+      ["Entidades apoiam PL dos Postes, mas alertam para risco de aumento de custos","https://telesintese.com.br/entidades-apoiam-pl-dos-postes-mas-alertam-para-risco-de-aumento-de-custos/","04/11 19:53"],
+      ["Universidade nos EUA desenvolve drone que rastreia pessoas sem utilizar GPS ou satélite","https://www.estadao.com.br/em-alta/tecmundo/produto-e-review/universidade-nos-eua-desenvolve-drone-que-rastreia-pessoas-sem-utilizar-gps-ou-satelite/","04/11 08:23"],
+      ["Totvs reporta ganho ajustado de R$ 237,2 milhões","https://www.spacemoney.com.br/investimentos/acoes/totvs-resultado-3t26/","04/11 19:43"],
+      ["Sete entidades apoiam proposta de Baigorri sobre receitas de SVA","https://telesintese.com.br/sete-entidades-apoiam-proposta-de-baigorri-sobre-receitas-de-sva/","04/11 19:35"],
+      ["Novos termos da Meta podem custar caro aos produtores de conteúdo","https://telesintese.com.br/novos-termos-da-meta-podem-custar-caro-aos-produtores-de-conteudo/","04/11 18:54"],
+      ["Integração entre redes móveis e satelitais é desafio do setor, aponta executivo da Hughes","https://www.mobiletime.com.br/noticias/03/11/2026/integracao-rede-satelite/","03/11 21:51"],
+      ["Movimento Fique Esperto alerta para os riscos do uso de TV Boxes piratas","https://telaviva.com.br/04/11/2026/movimento-fique-esperto-alerta-para-os-riscos-do-uso-de-tv-boxes-piratas/","04/11 17:23"],
+      ["Orange lança sistema de verificação de chamadas, Branded Call","https://www.mobiletime.com.br/noticias/04/11/2026/orange-branded-call-fr/","04/11 19:49"]
+  ],
+  global: [
+    ["Oracle cancels $7bn Tencent AI deal under Trump pressure","https://www.ft.com/content/c5a6a738-cd78-4a8e-a814-57a7473ebb9c?syn-25a6b1a6=1","04/11 02:00"],
+      ["Oracle cancela acordo de US$ 7 bilhões após pressão de Trump","https://redir.folha.com.br/redir/online/tec/rss091/*https://c-level.folha.uol.com.br/ia/2026/11/oracle-cancela-acordo-de-us-7-bilhoes-apos-pressao-de-trump.shtml","04/11 12:01"],
+      ["EPAM earnings: what to look for from EPAM","https://www.theglobeandmail.com/investing/markets/stocks/EPAM/pressreleases/8635623/epam-earnings-what-to-look-for-from-epam/","04/11 00:01"],
+      ["Salesforce (CRM) Moves to Strong Buy: Rationale Behind the Upgrade","https://finance.yahoo.com/markets/stocks/articles/salesforce-crm-moves-strong-buy-160002337.html","04/11 13:00"],
+      ["Is There A Risk Hiding In Salesforce Stock's Record Quarter?","https://finance.yahoo.com/markets/stocks/articles/risk-hiding-salesforce-stocks-record-115300937.html","04/11 08:53"],
+      ["Snap shares fall over 10% on third-quarter earnings miss","https://www.cnbc.com/2026/11/04/snap-q3-earnings-report-2026.html","04/11 18:29"],
+      ["Google investirá US$ 15 bi na Malásia em infraestrutura digital, energia limpa e empregos","https://valor.globo.com/empresas/noticia/2026/11/04/google-investir-us-15-bi-na-malsia-em-infraestrutura-digital-energia-limpa-e-empregos.ghtml","04/11 08:23"],
+      ["Anthropic is an opportunity to rethink IPO rules","https://www.ft.com/content/5083bad9-2a6e-4dc8-9627-1d41f9aa5b5b","04/11 08:38"],
+      ["OpenAI to Bring Pierre Computer’s Code Storage to Codex Through Acquisition","https://www.wsj.com/tech/ai/openai-to-bring-pierre-computers-code-storage-to-codex-through-acquisition-05f53582","04/11 14:24"],
+      ["Accenture accused of publishing AI paper littered with AI hallucinations","https://www.ft.com/content/874e3f05-0be3-4a2d-b2a2-7b5823441794?syn-25a6b1a6=1","04/11 02:00"],
+      ["SpaceX signs deal with Qualcomm to provide network technology for U.S. mobile service","https://www.cnbc.com/2026/11/04/spacex-strikes-deal-with-qualcomm-for-mobile-network-infrastructure.html","04/11 10:30"],
+      ["Receita da AMD dá um salto de 45%","https://valor.globo.com/empresas/noticia/2026/11/04/receita-da-amd-da-um-salto-de-45.ghtml","04/11 05:00"],
+      ["Arm’s third-quarter revenue forecast above estimates but investors unimpressed","https://www.businesstimes.com.sg/companies-markets/telcos-media-tech/arms-third-quarter-revenue-forecast-above-estimates-investors-unimpressed","04/11 19:43"],
+      ["Hyperscalers and Apple surge after election results remove investor uncertainty","https://www.cnbc.com/2026/11/04/apple-and-other-big-tech-stocks-surge-after-2026-midterm-elections.html","04/11 16:37"],
+      ["Salesforce : Your AI Agents Are Fast. Your Process Isn’t. Here’s How to Fix It.","https://www.marketscreener.com/news/salesforce-your-ai-agents-are-fast-your-process-isna-t-herea-s-how-to-fix-it-ce785fdfdf8ef12c","04/11 14:52"],
+      ["SpaceX escolhe Qualcomm para acelerar rede 5G da Starlink Mobile nos EUA","https://tiinside.com.br/04/11/2026/spacex-escolhe-a-qualcomm-para-acelerar-a-rede-5g-da-starlink-mobile-nos-eua/","04/11 13:43"],
+      ["Qualcomm issues disappointing earnings forecast as memory shortage weighs on smartphone sales","https://www.cnbc.com/2026/11/04/qualcomm-qcom-earnings-report-q4-2026.html","04/11 18:06"],
+      ["Meta Starts Debut Euro Bond Sale After $15 Billion Dollar Deal","https://www.bloomberg.com/news/articles/2026-11-04/meta-starts-debut-euro-bond-sale-after-15-billion-dollar-deal","04/11 06:47"],
+      ["Google obriga escolas a escolher entre permitir uso de IA ou perder acesso a seu buscador","https://g1.globo.com/educacao/noticia/2026/11/04/google-uso-de-ia-acesso-a-buscador.ghtml","04/11 10:33"],
+      ["AT&T, Rakuten tout integration with Starlink rival AST SpaceMobile for D2D services","https://www.lightreading.com/satellite/at-t-rakuten-tout-integration-with-starlink-rival-ast-spacemobile-for-d2d-services","04/11 11:48"],
+      ["‘Campus de Computação de IA’: OpenAI propõe novo nome para os data centers","https://www.estadao.com.br/em-alta/tecmundo/inteligencia-artificial/campus-de-computacao-de-ia-openai-propoe-novo-nome-para-os-data-centers/","04/11 07:08"],
+      ["SoftBank and Sceye seal five-year commercial HAPS deal","https://www.lightreading.com/satellite/softbank-and-sceye-seal-five-year-commercial-haps-deal","04/11 08:39"],
+      ["Figma sinks after earnings beat as company prioritizes long-term growth with AI changes","https://www.cnbc.com/2026/11/04/figma-fig-q3-earnings-report-2026.html","04/11 18:38"],
+      ["Google responds to political backlash over removing search from schools that ban AI","https://www.cnbc.com/2026/11/03/google-responds-to-outrage-over-removing-search-in-schools-that-ban-ai.html","03/11 21:10"],
+      ["Apple Cuts Internal AI Usage Budgets in Move to Reduce Spending","https://www.bloomberg.com/news/articles/2026-11-04/apple-cuts-internal-ai-usage-budgets-in-move-to-reduce-spending","04/11 16:45"],
+      ["Tencent rolls out AI model trained with limited cybersecurity data amid hacking fears","https://www.reuters.com/legal/litigation/tencent-rolls-out-ai-model-trained-with-limited-cybersecurity-data-amid-hacking-2026-11-04/","04/11 09:40"],
+      ["Voters rebuff data centers in every ballot measure except one during the 2026 midterms","https://www.cnbc.com/2026/11/04/data-center-ballot-measures-2026-midterm.html","04/11 15:58"],
+      ["Qualcomm assina parceria com SpaceX para implantar rede 5G nos EUA","https://www.estadao.com.br/em-alta/tecmundo/big-techs/qualcomm-assina-parceria-com-spacex-para-implantar-rede-5g-nos-eua/","04/11 18:39"],
+      ["EY amplia parceria com CrowdStrike para levar segurança de IA a infraestruturas críticas","https://tiinside.com.br/04/11/2026/ey-amplia-parceria-com-crowdstrike-para-levar-seguranca-de-ia-a-infraestruturas-criticas/","04/11 11:00"],
+      ["IA responderá por 44% do tráfego global de redes em 2035, projeta Nokia","https://telesintese.com.br/ia-respondera-por-44-do-trafego-global-de-redes-em-2035-projeta-nokia/","04/11 09:09"],
+      ["Bill Gates: AI bioweapons ‘could be worse than Covid’","https://www.ft.com/content/8ede113c-1e4a-49a6-8199-3936b7d58340?syn-25a6b1a6=1","04/11 15:15"],
+      ["Gates says Trump inaction leaves world exposed to AI bioweapons","https://www.ft.com/content/a94656af-513d-4f40-a98a-cb57eecaed85?syn-25a6b1a6=1","04/11 15:00"],
+      ["Japan to seek software vulnerability data from US AI firms amid cyberattack surge, Nikkei reports","https://www.reuters.com/legal/litigation/japan-seek-software-vulnerability-data-us-ai-firms-amid-cyberattack-surge-nikkei-2026-11-04/","04/11 14:08"],
+      ["Exclusive | AI Security Startup Sentra Raises $150 Million to Police Autonomous Agents","https://www.wsj.com/pro/cybersecurity/ai-security-startup-sentra-raises-150-million-to-police-autonomous-agents-4ab9da29","04/11 09:00"],
+      ["India's payments authority NPCI forms unit to push into AI, blockchain tech","https://www.reuters.com/world/india/indias-payments-authority-npci-forms-unit-push-into-ai-blockchain-tech-2026-11-04/","04/11 08:02"],
+      ["‘Wait and See Environment’: How Venture Investors Are Weighing the AI Trade","https://www.wsj.com/pro/venture-capital/wait-and-see-environment-how-venture-investors-are-weighing-the-ai-trade-c5f00441","04/11 07:30"],
+      ["CrowdStrike's new kill switch can stop rogue AI agents in their tracks, CEO says","https://www.cnbc.com/2026/11/03/crowdstrikes-new-kill-switch-can-stop-rogue-ai-agents-in-their-tracks-ceo-says.html","03/11 20:37"],
+      ["Voters have put a helpful chill on the US data centre boom","https://www.ft.com/content/b7d0761f-e5fb-4746-924f-b15420a57844?syn-25a6b1a6=1","04/11 15:33"],
+      ["The economic risks of the AI boom","https://www.ft.com/content/b954b99c-b71e-4334-9789-18e2b69de76d?syn-25a6b1a6=1","04/11 02:00"],
+      ["AI-generated 'slopaganda' in political ads puts internet platforms on alert","https://www.cnbc.com/2026/11/03/ai-generated-slopaganda-in-political-ads-puts-platforms-on-alert.html","04/11 13:30"],
+      ["Block raises full-year profit outlook as Cash App drives Q3 growth","https://www.businesstimes.com.sg/companies-markets/telcos-media-tech/block-raises-full-year-profit-outlook-cash-app-drives-q3-growth","03/11 21:13"],
+      ["Europe to invest €525 million in chip startups to catch up with US and China","https://www.reuters.com/world/china/europe-invest-525-million-chip-startups-catch-up-with-us-china-2026-11-04/","04/11 14:43"],
+      ["Texas data centers face uncertain future after Hinojosa wins governor’s race","https://www.reuters.com/world/us/texas-data-centers-face-uncertain-future-after-hinojosa-wins-governors-race-2026-11-04/","04/11 14:24"],
+      ["Big Tech Stocks Soar as Traders Bet Democrats Will Slow AI Spend","https://www.bloomberg.com/news/articles/2026-11-04/big-tech-stocks-soar-as-traders-bet-democrats-will-slow-ai-spend","04/11 14:07"],
+      ["Democratic Wave Changes AI Policy Calculus","https://www.wsj.com/cio-journal/democratic-wave-changes-ai-policy-calculus-bec0ffe5","04/11 11:26"],
+      ["Cyber Investors Put Money Into Tech to Keep AI Agents In Check","https://www.wsj.com/pro/cybersecurity/cyber-investors-put-money-into-tech-to-keep-ai-agents-in-check-51a041b1?mod=cybersecurity_newsletters_pos1","04/11 09:46"],
+      ["Democrats’ Win Rattles Trump Trades From AI Stocks to Crypto","https://www.bloomberg.com/news/articles/2026-11-04/democrats-win-rattles-trump-trades-from-ai-stocks-to-crypto","04/11 03:10"],
+      ["Silicon Valley Promises AI Will Cure Disease. Drugmaker CEOs Aren’t Buying It.","https://www.wsj.com/tech/ai/silicon-valley-promises-ai-will-cure-disease-drugmaker-ceos-arent-buying-it-5218511c","03/11 23:00"],
+      ["Uber beats on revenue even as mobility and delivery units miss estimates","https://www.cnbc.com/2026/11/04/uber-stock-q3-2026-earnings.html","04/11 10:27"],
+      ["Qualcomm’s smartphone chip sales miss estimates, shares fall","https://www.businesstimes.com.sg/companies-markets/telcos-media-tech/qualcomms-smartphone-chip-sales-miss-estimates-shares-fall","04/11 19:26"],
+      ["‘Population collapse’ makes AI productivity gains vital, says top Meta executive","https://www.ft.com/content/5e84ee60-4ccf-4b67-b2f6-d26cd2b27e7e?syn-25a6b1a6=1","04/11 09:18"],
+      ["Nvidia China Clients to Get 1% of $70 Billion RTX Chips Ordered","https://www.bloomberg.com/news/articles/2026-11-04/nvidia-china-clients-to-get-1-of-70-billion-rtx-chips-ordered","04/11 00:14"],
+      ["Hong Kong deal boom slows with most IPOs abandoned since 2008","https://www.businesstimes.com.sg/companies-markets/telcos-media-tech/hong-kong-deal-boom-slows-most-ipos-abandoned-2008","03/11 22:22"],
+      ["CrowdStrike integra Falcon Shield à Lovable para ampliar segurança de aplicações criadas com IA","https://tiinside.com.br/04/11/2026/crowdstrike-integra-falcon-shield-a-lovable-para-ampliar-seguranca-de-aplicacoes-criadas-com-ia/","04/11 09:00"],
+      ["Democratic governors elected on promises to stop data centre building","https://www.ft.com/content/badd6af9-88b7-47b7-b1c2-067814e70fb5?syn-25a6b1a6=1","04/11 03:40"]
+  ]
+};
+
+// A DATA DA EDICAO, nao a de hoje, e em pt-BR.
+// O Pages abria com "Sunday, October 25, 2026" sobre a edicao de 23/10, e em
+// ingles (editor, E11/E12): o HTML e' escrito uma vez e lido por dias, entao
+// `new Date()` e' sempre a data de quem abre, nunca a do que esta na tela.
+// O "Gerado:" que o setLastUpdate ja extrai do proprio documento tem a data
+// certa; aqui so' lemos ela antes, pelo mesmo regex.
+function setDataEdicao(){
+  var el = document.getElementById('data-hoje');
+  if (!el) return;
+  var m = document.body.textContent.match(/Gerado:\s*(\d{4})-(\d{2})-(\d{2})/);
+  var d = m ? new Date(+m[1], +m[2]-1, +m[3]) : new Date();
+  var txt = d.toLocaleDateString('pt-BR', {weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+  el.textContent = txt.charAt(0).toUpperCase() + txt.slice(1);
+}
+
+// Backend URL — Cloudflare Pages Functions. POST dispara workflow_dispatch
+// no GitHub Actions. Aceita query params:
+//   ?janela=24h        -> --ultimas-24h (rolling)
+//   ?data=YYYY-MM-DD   -> --data X (regra deduzida do weekday no Python)
+//   sem params         -> default editorial do dia atual
+//
+// Migramos de *.workers.dev (antes ibba-clipping-cron.leonardojdesousa.workers.dev)
+// pra *.pages.dev porque iPhones com iCloud Private Relay bloqueiam workers.dev.
+// Cron continua no Worker (worker-cron.js scheduled handler) — so o trigger
+// browser-side migrou.
+// WORKER_URL removido em 2026-10-21: o endpoint de trigger so' conferia o
+// header Origin, que qualquer cliente escreve a mao. Publicado numa pagina
+// aberta, era um botao para queimar a cota do Inoreader de fora.
+const AVG_URL = "https://ibba-clipping.pages.dev/api/avg-duration";
+const REPO_API = "https://api.github.com/repos/leocintra01/clipping/commits?per_page=1";
+const POLL_MS = 4000;
+const MAX_WAIT_MS = 5 * 60 * 1000;
+const FALLBACK_AVG_SEC = 90;
+
+// =========================================================================
+// runClipping: dispara workflow no Worker e poll-aguarda novo commit no
+// repo publico. Mesmo fluxo da pagina indice (com spinner/progresso/redirect).
+// Funciona em qualquer browser moderno (Safari/Chrome desktop+mobile).
+// =========================================================================
+// Cada aba (Last News / Clipping) tem sua propria .run-status e
+// .run-progress — atualizamos as duas em paralelo via querySelectorAll
+// pra que o usuario veja a mesma feedback em qualquer aba.
+function _setStatus(msg, kind, withSpinner){
+  var els = document.querySelectorAll(".run-status");
+  var inner = "";
+  if (withSpinner) inner += '<span class="spinner"></span>';
+  inner += '<span class="status-text">' + msg + '</span>';
+  for (var i=0;i<els.length;i++) {
+    els[i].className = "run-status visible" + (kind ? " " + kind : "");
+    els[i].innerHTML = inner;
+  }
+}
+function _setProgress(pct){
+  var wraps = document.querySelectorAll(".run-progress");
+  var w = Math.min(100, Math.max(0, pct)) + "%";
+  for (var i=0;i<wraps.length;i++) {
+    wraps[i].classList.add("visible");
+    var bar = wraps[i].querySelector(".bar");
+    if (bar) bar.style.width = w;
+  }
+}
+function _hideProgress(){
+  var wraps = document.querySelectorAll(".run-progress");
+  for (var i=0;i<wraps.length;i++) wraps[i].classList.remove("visible");
+}
+function _fmtTime(sec){ var m=Math.floor(sec/60); var s=Math.max(0,Math.floor(sec%60)); return m+":"+(s<10?"0":"")+s; }
+async function _getLatestCommitSha(){
+  try { var r = await fetch(REPO_API, {headers:{"Accept":"application/vnd.github+json"}}); if(!r.ok) return null; var j = await r.json(); return j[0] && j[0].sha; }
+  catch(e){ return null; }
+}
+async function _getNovoClippingHtml(sha){
+  try {
+    var r = await fetch("https://api.github.com/repos/leocintra01/clipping/commits/"+sha,
+      {headers:{"Accept":"application/vnd.github+json"}});
+    if (!r.ok) return null;
+    var j = await r.json();
+    var f = (j.files||[]).find(function(x){ return /^clipping-.*\.html$/.test(x.filename); });
+    return f ? f.filename : null;
+  } catch(e){ return null; }
+}
+async function _getAvgDuration(){
+  try { var r = await fetch(AVG_URL); if(!r.ok) return FALLBACK_AVG_SEC; var j = await r.json(); return (j && j.avg) || FALLBACK_AVG_SEC; }
+  catch(e){ return FALLBACK_AVG_SEC; }
+}
+async function _waitForPagesUrl(url, maxMs, intervalMs){
+  maxMs = maxMs || 90000; intervalMs = intervalMs || 4000;
+  var inicio = Date.now();
+  while (Date.now() - inicio < maxMs) {
+    try { var r = await fetch(url, {method:'HEAD', cache:'no-store'}); if (r.ok) return true; }
+    catch(e){}
+    await new Promise(function(r){ setTimeout(r, intervalMs); });
+  }
+  return false;
+}
+function _disableButtons(disabled){
+  var ids = ["btn-ln-run", "btn-cl-run"];
+  for (var i=0;i<ids.length;i++) {
+    var el = document.getElementById(ids[i]);
+    if (el) el.disabled = disabled;
+  }
+}
+// runClipping foi desligada em 2026-10-21 junto com os botoes.
+// O clipping roda por cron (Cloudflare Worker -> workflow_dispatch) tres
+// vezes por dia. Disparo manual gasta cota do Inoreader e nao existe mais
+// aqui; se um dia voltar, tem que vir com segredo no POST, nao com Origin.
+function runClipping(){ return false; }
+
+var state={};var selectionCounter=0;
+function init(){state={brazil:{official:[],others:[]},global:{official:[],others:[]}};var secs=["brazil","global"],types=["official","others"];for(var s=0;s<secs.length;s++){for(var t=0;t<types.length;t++){var sec=secs[s],typ=types[t],arr=RAW[sec][typ];for(var i=0;i<arr.length;i++){var isOff=(typ==="official");var prefix=sec[0]+(isOff?"f":"t")+i;state[sec][typ].push({title:arr[i][0],editedTitle:arr[i][0],url:arr[i][1],checked:(isOff||arr[i][5]===1),prio:null,selectedAt:isOff?(selectionCounter++):null,id:prefix,section:sec,tag:(arr[i][2]||""),repetido:(arr[i][3]===1),tambem:(arr[i][4]||""),desviado:(arr[i][5]===1)});}}}}
+function getSource(url){try{return url.replace("https://","").replace("http://","").split("/")[0].replace("www.","");}catch(e){return "";}}
+function allItems(){return state.brazil.official.concat(state.brazil.others,state.global.official,state.global.others);}
+function findItem(id){var all=allItems();for(var i=0;i<all.length;i++){if(all[i].id===id)return all[i];}return null;}
+function renderList(listId,items){var container=document.getElementById(listId);container.innerHTML="";for(var i=0;i<items.length;i++){var item=items[i];var cbId="cb-"+item.id;var wrapper=document.createElement("div");wrapper.className="card-wrapper";var cb=document.createElement("input");cb.type="checkbox";cb.id=cbId;cb.className="native-cb";cb.checked=item.checked;cb.setAttribute("data-id",item.id);cb.addEventListener("change",(function(id){return function(){onCheck(id,this.checked);};})(item.id));wrapper.appendChild(cb);var lbl=document.createElement("label");lbl.htmlFor=cbId;lbl.className="news-card"+(item.checked?" checked":"");lbl.id="card-"+item.id;var checkBox=document.createElement("div");checkBox.className="card-check-box";var visual=document.createElement("div");visual.className="check-visual";checkBox.appendChild(visual);var body=document.createElement("div");body.className="card-body";var titleDiv=document.createElement("div");titleDiv.className="news-title";var a=document.createElement("a");a.href=item.url;a.target="_blank";a.rel="noopener";a.textContent=item.title;a.addEventListener("click",function(e){e.stopPropagation();});titleDiv.appendChild(a);var srcDiv=document.createElement("div");srcDiv.className="news-source";srcDiv.textContent=getSource(item.url);if(item.tag){var tg=document.createElement("span");tg.className="tag-pill tag-"+item.tag;tg.textContent=TAG_LABEL[item.tag]||item.tag;srcDiv.appendChild(tg);}if(item.tambem){var tb=document.createElement("span");tb.className="tambem-em";tb.title="A mesma noticia saiu tambem nestes veiculos";tb.textContent="+ "+item.tambem;srcDiv.appendChild(tb);}if(item.repetido){var rp=document.createElement("span");rp.className="tag-pill tag-repetido";rp.title="Ja apareceu em uma edicao anterior - de hoje ou do dia util anterior";rp.textContent="ja publicado";srcDiv.appendChild(rp);}body.appendChild(titleDiv);body.appendChild(srcDiv);lbl.appendChild(checkBox);lbl.appendChild(body);wrapper.appendChild(lbl);var prioWrap=document.createElement("div");prioWrap.className="card-prio-wrap"+(item.checked?" checked":"");prioWrap.id="priowrap-"+item.id;var sel=document.createElement("select");sel.className="prio-select"+(item.prio?" has-value":"");sel.id="prio-"+item.id;var opts=[["--",""]];for(var k=1;k<=10;k++){opts.push([String(k),String(k)]);}for(var o=0;o<opts.length;o++){var op=document.createElement("option");op.value=opts[o][1];op.textContent=opts[o][0];if(String(item.prio)===opts[o][1])op.selected=true;sel.appendChild(op);}sel.onchange=(function(id){return function(){setPrio(id,this.value);};})(item.id);prioWrap.appendChild(sel);wrapper.appendChild(prioWrap);container.appendChild(wrapper);}}
+function onCheck(id,checked){var item=findItem(id);if(!item)return;item.checked=checked;item.editedTitle=item.title;if(checked){item.selectedAt=selectionCounter++;}else{item.selectedAt=null;item.prio=null;}var card=document.getElementById("card-"+id);if(card){if(checked)card.classList.add("checked");else card.classList.remove("checked");}var pw=document.getElementById("priowrap-"+id);if(pw){if(checked)pw.classList.add("checked");else pw.classList.remove("checked");}updateCounts();renderWhatsApp();}
+function renderTop3(){
+  var bloco=document.getElementById("top3-bloco"), lista=document.getElementById("top3-list");
+  if(!bloco||!lista) return;
+  if(!RAW_TOP3.length){ bloco.hidden=true; return; }
+  lista.innerHTML="";
+  for(var i=0;i<RAW_TOP3.length;i++){
+    var t=RAW_TOP3[i][0], u=RAW_TOP3[i][1], tag=RAW_TOP3[i][2]||"", bucket=RAW_TOP3[i][3]||"";
+    var li=document.createElement("li"); li.className="top3-item";
+    var box=document.createElement("div");
+    var a=document.createElement("a"); a.href=u; a.target="_blank"; a.rel="noopener"; a.textContent=t;
+    box.appendChild(a);
+    var meta=document.createElement("div"); meta.className="top3-meta";
+    meta.appendChild(document.createTextNode(getSource(u)+(bucket?"  ·  "+bucket:"")));
+    if(tag){ var tg=document.createElement("span"); tg.className="tag-pill tag-"+tag;
+             tg.textContent=TAG_LABEL[tag]||tag; meta.appendChild(tg); }
+    box.appendChild(meta); li.appendChild(box); lista.appendChild(li);
+  }
+  bloco.hidden=false;
+}
+function renderEmpresas(){
+  var box=document.getElementById("emp-lista"), cnt=document.getElementById("emp-count");
+  if(!box) return;
+  box.innerHTML="";
+  if(!RAW_EMPRESAS.length){ box.innerHTML='<div class="empty-state">Nenhuma empresa de cobertura nesta edicao.</div>';
+    if(cnt) cnt.textContent="0 empresas"; return; }
+  var tot=0;
+  for(var e=0;e<RAW_EMPRESAS.length;e++){
+    var nome=RAW_EMPRESAS[e][0], itens=RAW_EMPRESAS[e][1]||[];
+    tot+=itens.length;
+    var bloco=document.createElement("section"); bloco.className="emp-bloco";
+    var h=document.createElement("h3"); h.className="emp-nome";
+    h.appendChild(document.createTextNode(nome));
+    var b=document.createElement("span"); b.className="emp-qtd"; b.textContent=itens.length;
+    h.appendChild(b); bloco.appendChild(h);
+    var ul=document.createElement("ul"); ul.className="emp-itens";
+    for(var i=0;i<itens.length;i++){
+      var li=document.createElement("li");
+      var a=document.createElement("a"); a.href=itens[i][1]; a.target="_blank"; a.rel="noopener";
+      a.textContent=itens[i][0]; li.appendChild(a);
+      var m=document.createElement("div"); m.className="emp-meta";
+      m.appendChild(document.createTextNode(getSource(itens[i][1])));
+      var tg=itens[i][2];
+      if(tg){ var p=document.createElement("span"); p.className="tag-pill tag-"+tg;
+              p.textContent=TAG_LABEL[tg]||tg; m.appendChild(p); }
+      li.appendChild(m); ul.appendChild(li);
+    }
+    bloco.appendChild(ul); box.appendChild(bloco);
+  }
+  if(cnt) cnt.textContent=RAW_EMPRESAS.length+" empresas / "+tot+" itens";
+}
+function renderAll(){renderTop3();renderEmpresas();renderList("list-brazil-official",state.brazil.official);renderList("list-brazil-others",state.brazil.others);renderList("list-global-official",state.global.official);renderList("list-global-others",state.global.others);updateCounts();renderWhatsApp();}
+function setPrio(id,val){var item=findItem(id);if(!item)return;item.prio=val||null;var sel=document.getElementById("prio-"+id);if(sel)sel.className="prio-select"+(val?" has-value":"");renderWhatsApp();}
+function updateCounts(){var b=state.brazil.official.concat(state.brazil.others).filter(function(i){return i.checked;}).length;var g=state.global.official.concat(state.global.others).filter(function(i){return i.checked;}).length;function el(id){return document.getElementById(id);}if(el("brazil-count"))el("brazil-count").textContent=b+" selecionada"+(b!==1?"s":"");if(el("global-count"))el("global-count").textContent=g+" selecionada"+(g!==1?"s":"");if(el("stat-brazil"))el("stat-brazil").textContent=b;if(el("stat-global"))el("stat-global").textContent=g;if(el("stat-total"))el("stat-total").textContent=b+g;if(el("whats-count"))el("whats-count").textContent=(b+g)+" noticias";}
+function sortItems(items){var checked=items.filter(function(i){return i.checked;});var withP=checked.filter(function(i){return i.prio;});withP.sort(function(a,b){return Number(a.prio)-Number(b.prio);});var noP=checked.filter(function(i){return !i.prio;});noP.sort(function(a,b){return(a.selectedAt||0)-(b.selectedAt||0);});return withP.concat(noP);}
+function renderWhatsApp(){var bItems=sortItems(state.brazil.official.concat(state.brazil.others));var gItems=sortItems(state.global.official.concat(state.global.others));var container=document.getElementById("whats-news-list");if(!container)return;container.innerHTML="";if(!bItems.length&&!gItems.length){container.innerHTML='<div class="empty-state">Nenhuma noticia selecionada.</div>';return;}function renderSection(label,cssClass,items){if(!items.length)return;var lbl=document.createElement("div");lbl.className="whats-section-label "+cssClass;lbl.textContent=label;container.appendChild(lbl);for(var i=0;i<items.length;i++){var item=items[i];var card=document.createElement("div");card.className="whats-item";var orderDiv=document.createElement("div");orderDiv.className="whats-item-order";orderDiv.textContent=(item.prio?"TOP "+item.prio:"#"+(i+1))+" \u00B7 "+getSource(item.url);card.appendChild(orderDiv);var ta=document.createElement("textarea");ta.className="whats-item-title";ta.value=item.editedTitle;ta.rows=2;ta.addEventListener("input",(function(id){return function(){var it=findItem(id);if(it)it.editedTitle=this.value;};})(item.id));card.appendChild(ta);var urlDiv=document.createElement("div");urlDiv.className="whats-item-url";urlDiv.textContent=item.url;card.appendChild(urlDiv);container.appendChild(card);}}renderSection("> Brazil","brazil",bItems);renderSection("> Global","global",gItems);}
+function copyClipping(){var bItems=sortItems(state.brazil.official.concat(state.brazil.others));var gItems=sortItems(state.global.official.concat(state.global.others));var lines=["*IBBA TMT Daily News*"];if(bItems.length){lines.push("");lines.push("> Brazil");lines.push("");for(var i=0;i<bItems.length;i++){lines.push("- *"+bItems[i].editedTitle+"*");lines.push(bItems[i].url);lines.push("");}}if(gItems.length){lines.push("");lines.push("> Global");lines.push("");for(var j=0;j<gItems.length;j++){lines.push("- *"+gItems[j].editedTitle+"*");lines.push(gItems[j].url);lines.push("");}}var text=lines.join("\n").trim();var btn=document.getElementById("btn-copy");function done(){if(btn){btn.textContent="Copiado!";btn.classList.add("copied");}setTimeout(function(){if(btn){btn.textContent="Copiar para area de transferencia";btn.classList.remove("copied");}},2000);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(function(){fallback(text,done);});}else{fallback(text,done);}}
+function fallback(text,cb){var ta=document.createElement("textarea");ta.value=text;ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand("copy");cb();}catch(e){}document.body.removeChild(ta);}
+// ===== Main tabs (Last News / Clipping) =====
+// Ao trocar de aba, duas correcoes medidas em 375px:
+//
+// 1) A aba selecionada podia ficar fora de vista. A faixa de subabas rola na
+//    horizontal no celular (as 5 do Clipping somam mais que a largura da tela),
+//    entao "Historico" continuava com a borda direita em 411px de 375 mesmo
+//    depois de clicada — o usuario nao via qual estava ativa.
+//
+// 2) A rolagem VERTICAL era preservada. Estando em 1200px na lista do Brazil e
+//    trocando para Global, voce caia no meio da outra lista, sem contexto.
+//    Volta para o topo do painel, logo abaixo do cabecalho grudado. So' sobe:
+//    se ja estiver acima, nao mexe.
+function _aoTrocarAba(btn){
+  try {
+    if (btn && btn.scrollIntoView) btn.scrollIntoView({inline:"nearest", block:"nearest"});
+    var faixa = btn ? btn.parentElement : null;
+    if (faixa) {
+      var h = document.querySelector(".header");
+      var alturaFixa = h ? h.getBoundingClientRect().height : 0;
+      var topo = faixa.getBoundingClientRect().top + window.pageYOffset - alturaFixa - 8;
+      if (window.pageYOffset > topo) window.scrollTo(0, Math.max(0, topo));
+    }
+  } catch (e) {}
+}
+
+function switchMain(name){
+  var lns = document.getElementById("last-news-section");
+  var cls = document.getElementById("clipping-section");
+  var btnLN = document.getElementById("mtab-lastnews");
+  var btnCL = document.getElementById("mtab-clipping");
+  if (name === "lastnews") {
+    lns.classList.add("active"); cls.classList.remove("active");
+    btnLN.classList.add("active"); btnCL.classList.remove("active");
+  } else {
+    cls.classList.add("active"); lns.classList.remove("active");
+    btnCL.classList.add("active"); btnLN.classList.remove("active");
+  }
+}
+
+// ===== Sub-tabs do Last News (Brazil / Global) =====
+function switchLN(name){
+  var br = document.getElementById("ln-panel-brazil");
+  var gl = document.getElementById("ln-panel-global");
+  var bbtn = document.getElementById("ln-stab-br");
+  var gbtn = document.getElementById("ln-stab-gl");
+  if (name === "brazil") {
+    br.classList.add("active"); gl.classList.remove("active");
+    bbtn.classList.add("active"); gbtn.classList.remove("active");
+  } else {
+    gl.classList.add("active"); br.classList.remove("active");
+    gbtn.classList.add("active"); bbtn.classList.remove("active");
+  }
+  _aoTrocarAba(name === "brazil" ? bbtn : gbtn);
+}
+
+// ===== Sub-tabs do Clipping (Brazil / Global / WhatsApp / Histórico) =====
+function switchClipping(name){
+  var panels = document.querySelectorAll("#clipping-section .tab-panel");
+  for (var i=0;i<panels.length;i++) panels[i].classList.remove("active");
+  var subtabs = document.querySelectorAll("#clipping-section .subtab");
+  for (var j=0;j<subtabs.length;j++) subtabs[j].classList.remove("active");
+  var p = document.getElementById("panel-"+name);
+  if (p) p.classList.add("active");
+  var map = {brazil:"cl-stab-br", global:"cl-stab-gl", empresas:"cl-stab-em", whats:"cl-stab-wa", historico:"cl-stab-hi"};
+  var t = document.getElementById(map[name]);
+  if (t) { t.classList.add("active"); _aoTrocarAba(t); }
+  // Lazy-load do Historico: so' fetcha a API do GitHub quando o user
+  // clica na aba. Evita gastar requests (60/h sem auth) em quem nunca
+  // abre o historico. Cacheado depois do 1o fetch.
+  if (name === "historico") loadHistorico();
+}
+
+// ===== Histórico de runs (sub-aba do Clipping) =====
+// Le /contents/ do repo publico (leocintra01/clipping) via GitHub API
+// anonimous (sem auth, 60 req/h/IP — suficiente). Filtra clipping-*.html,
+// agrupa por data, renderiza igual ao archive.html.
+var _histLoaded = false;
+var _HIST_WEEKDAYS = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira",
+                      "Quinta-feira","Sexta-feira","Sábado"];
+function _histCurrentFilename(){
+  var seg = location.pathname.split("/").pop();
+  return /^clipping-.*\.html$/.test(seg) ? seg : "";
+}
+async function loadHistorico(){
+  if (_histLoaded) return;
+  var list = document.getElementById("hist-list");
+  var meta = document.getElementById("hist-count");
+  try {
+    var r = await fetch("https://api.github.com/repos/leocintra01/clipping/contents/",
+      {headers:{"Accept":"application/vnd.github+json"}});
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    var entries = await r.json();
+    var pat = /^clipping-(\d{4})-(\d{2})-(\d{2})(?:-(\d{2})(\d{2}))?\.html$/;
+    var items = [];
+    for (var i=0;i<entries.length;i++) {
+      var m = pat.exec(entries[i].name);
+      if (!m) continue;
+      items.push({
+        date: m[1]+"-"+m[2]+"-"+m[3],
+        hh: m[4] || "ZZ", mm: m[5] || "ZZ",
+        timeLabel: m[4] ? (m[4]+":"+m[5]) : "Fechamento do dia",
+        fname: entries[i].name,
+      });
+    }
+    // Sort: data desc, hora desc. "Fechamento" (ZZ:ZZ) vai pro topo do dia.
+    items.sort(function(a,b){
+      if (a.date !== b.date) return a.date < b.date ? 1 : -1;
+      if (a.hh !== b.hh) return a.hh < b.hh ? 1 : -1;
+      return a.mm < b.mm ? 1 : -1;
+    });
+    // Group by date preservando ordem
+    var byDate = {}, order = [];
+    for (var k=0;k<items.length;k++) {
+      var d = items[k].date;
+      if (!(d in byDate)) { byDate[d] = []; order.push(d); }
+      byDate[d].push(items[k]);
+    }
+    var current = _histCurrentFilename();
+    var html = "";
+    for (var di=0;di<order.length;di++) {
+      var dt = order[di];
+      var parts = dt.split("-");
+      var dObj = new Date(Date.UTC(+parts[0], +parts[1]-1, +parts[2]));
+      var wd = _HIST_WEEKDAYS[dObj.getUTCDay()];
+      var versions = byDate[dt];
+      html += '<li class="date-row">'
+            + '<span class="date">' + dt + '</span>'
+            + '<span class="label">' + wd + '</span>'
+            // "edição" + "ões" dava "ediçãoões". O plural de edição e'
+            // edições: troca a palavra inteira, nao concatena sufixo.
+            + '<span class="count">' + versions.length + ' '
+            + (versions.length === 1 ? 'edição' : 'edições') + '</span></li>';
+      for (var vi=0;vi<versions.length;vi++) {
+        var v = versions[vi];
+        var isCur = v.fname === current;
+        html += '<li class="version-row' + (isCur ? " current" : "") + '">'
+              + (isCur
+                  ? '<a><span class="time">' + v.timeLabel + '</span>'
+                    + '<span class="arrow"></span></a>'
+                  : '<a href="' + v.fname + '">'
+                    + '<span class="time">' + v.timeLabel + '</span>'
+                    + '<span class="arrow">→</span></a>')
+              + '</li>';
+      }
+    }
+    list.innerHTML = html || '<li class="hist-empty">Nenhuma edição encontrada.</li>';
+    meta.textContent = items.length + " edições · " + order.length + " dias";
+    _histLoaded = true;
+  } catch(e) {
+    list.innerHTML = '<li class="hist-error">Erro ao carregar histórico: '
+                   + (e.message || e) + '</li>';
+  }
+}
+
+// ===== Render Last News (lista simples por relevancia, rolling 24h) =====
+// Dataset RAW_LN ja vem ordenado por score desc do pipeline.
+function renderLastNews(){
+  var listBR = document.getElementById("ln-list-brazil");
+  var listGL = document.getElementById("ln-list-global");
+  function montar(container, items){
+    container.innerHTML = "";
+    if (!items.length) {
+      container.innerHTML = '<div class="empty-state">Sem noticias nas ultimas 24h.</div>';
+      return;
+    }
+    for (var i=0;i<items.length;i++) {
+      var title = items[i][0], url = items[i][1];
+      var when = items[i][2] || "";  // hora opcional ("HH:MM" / "ontem HH:MM" / "")
+      var card = document.createElement("div"); card.className = "ln-item";
+      var t = document.createElement("div"); t.className = "ln-title";
+      var a = document.createElement("a"); a.href = url; a.target = "_blank"; a.rel = "noopener";
+      a.textContent = title; t.appendChild(a); card.appendChild(t);
+      var s = document.createElement("div"); s.className = "ln-source";
+      var src = getSource(url);
+      // Sem hora = a resolucao de data nao teve confianca suficiente. Omitir
+    // silenciosamente fazia parecer bug; dizer o que houve e a mesma regra
+    // do banner de fontes com erro, aplicada ao item.
+    if (when) { s.textContent = src + "  ·  " + when; }
+    else { s.textContent = src + "  ·  "; var w=document.createElement("span");
+           w.className="sem-data"; w.textContent="data nao confirmada"; s.appendChild(w); }
+      card.appendChild(s);
+      container.appendChild(card);
+    }
+  }
+  montar(listBR, RAW_LN.brazil);
+  montar(listGL, RAW_LN.global);
+}
+
+// ===== Last update timestamp (extrai do rodape diagnostico do clipping) =====
+// Popula em ambas as abas (Last News + Clipping) — mesmo timestamp pois
+// um run gera as duas projecoes simultaneamente.
+// IMPORTANTE: usar textContent (nao innerText). O "Gerado: ..." fica dentro
+// de um <details> fechado por default, e innerText ignora conteudo oculto
+// — caia no fallback, que retornava UTC (3h a frente de BRT).
+function setLastUpdate(){
+  var diag = document.body.textContent.match(/Gerado:\s*(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}(?::\d{2})?)/);
+  // Fallback (caso o "Gerado:" suma do template): hora local BRT em formato
+  // YYYY-MM-DD HH:MM, nao UTC. Usar sv-SE locale + timeZone explicito por
+  // robustez (Date.toLocaleString sem locale varia por browser).
+  var nowBRT = new Date().toLocaleString("sv-SE", {timeZone: "America/Sao_Paulo"}).slice(0,16);
+  var ts = diag ? diag[1] : nowBRT;
+  var ids = ["ln-last-update", "cl-last-update"];
+  for (var i=0;i<ids.length;i++) {
+    var el = document.getElementById(ids[i]);
+    if (el) el.textContent = ts;
+  }
+}
+
+// Alias retrocompat (caso algum onclick antigo ainda chame)
+function switchTab(name){ switchClipping(name); }
+
+init(); renderAll(); renderLastNews();
+// IMPORTANTE: setLastUpdate roda apos DOMContentLoaded. O <details> com
+// "Gerado: ..." vem DEPOIS desta tag <script> no HTML; como o script bloqueia
+// o parsing, document.body.textContent ainda nao inclui o diagnostico aqui.
+// Sem o defer, o regex falha e cai no fallback (hora atual em BRT — exatamente
+// o sintoma que o usuario reportou em 2026-05-19).
+// As duas leem o "Gerado:" do proprio documento, que vem DEPOIS desta tag
+// <script>; por isso as duas esperam o DOM. Sem isso o regex falha e cada uma
+// cai no seu fallback — hora de quem abre, data de quem abre.
+function aposDom(){ setLastUpdate(); setDataEdicao(); }
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", aposDom);
+} else {
+  aposDom();
+}
+</script>
+
+<details style="margin:24px 16px;font-family:'IBM Plex Sans',sans-serif;color:#4a4744;">
+<summary style="cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#736e69;padding:8px 0;border-top:1px solid #d8d4cc;">Diagnostico do run (clica pra abrir)</summary>
+<div style="background:#fff;border:1px solid #d8d4cc;border-radius:6px;padding:14px;margin-top:8px;">
+<div style="background:#fef0e0;border:1px solid #aa6622;padding:8px;border-radius:4px;margin-bottom:10px;font-family:monospace;font-size:11px;color:#a52;">ATENCAO: Fontes com erro: IT Forum (direto)</div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#736e69;margin-bottom:10px;">
+Pipeline v5.0 pipeline:7bb7b8d | Janela: 2026-11-03 09:30:00 -> 2026-11-04 20:01:11 | Gerado: 2026-11-04 20:02:48
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+<div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#736e69;margin-bottom:6px;">Fontes</div>
+<div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;"> 45 finais | 1055 brutos | TMT-Cobertura</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;"> 10 finais |  367 brutos | TMT-Global</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |  100 brutos | Bloomberg Linea Negocios (direto)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |  100 brutos | Bloomberg Linea Startups (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;"> 20 finais |  100 brutos | TeleSintese (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  2 finais |   50 brutos | Tecnoblog (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  2 finais |   50 brutos | Light Reading (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  5 finais |   30 brutos | TI Inside (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;"> 11 finais |   30 brutos | TELETIME (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   30 brutos | TELA VIVA (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  9 finais |   30 brutos | CNBC Tech (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  4 finais |   25 brutos | FT Technology (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   22 brutos | NuCel (MVNO do Nubank)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   20 brutos | DCD Brasil (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  6 finais |   20 brutos | Mobile Time (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   20 brutos | Estadao Negocios (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   20 brutos | TechCrunch (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   18 brutos | Business Times SG (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   15 brutos | Brazil Journal (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   10 brutos | InfoMoney (direto)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |   10 brutos | NeoFeed (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  2 finais |   10 brutos | Convergencia Digital (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   10 brutos | E-commerce Brasil (Chrome)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |    8 brutos | Valor Tecnologia (Chrome)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |    8 brutos | Valor Telecom (Chrome)</div><div style="font-family:monospace;font-size:11px;color:#b03030;padding:2px 0;">      ERRO |    0 brutos | IT Forum (direto) — <unknown>:69:50: undefined entity</div>
+</div>
+<div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#736e69;margin-bottom:6px;">Quotas por bucket</div>
+<div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">BR Off: 10/10 (threshold score >= 8, candidatos pre-quota: 10)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">GL Off: 6/6 (threshold score >= 7, candidatos pre-quota: 40)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">BR Oth: 52/100 (threshold score >= 5, candidatos pre-quota: 73)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">GL Oth: 34/100 (threshold score >= 7, candidatos pre-quota: 62)</div>
+<div style="font-family:monospace;font-size:11px;color:#767676;padding:8px 0 0 0;border-top:1px solid #eee;margin-top:8px;">
+Funil: 2158 brutos -> 1948 dedup -> 1064 pos-desc -> 705 pos-janela -> 190 pos-regra -> 102 finais
+</div>
+</div>
+</div>
+</div>
+</details>
+
+</body>
+</html>
