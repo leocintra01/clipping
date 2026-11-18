@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBBA - TMT Daily News</title>
+<!-- Preenchido pelo gerar_clipping com a data e a contagem reais da edicao.
+     Sem isso, colar o link no WhatsApp mostrava so' a URL crua: quem recebe
+     nao sabia de que dia era nem quantas materias tinha antes de abrir. -->
+<meta name="description" content="Clipping TMT de 18/11/2026 — 80 noticias de telecom, midia e tecnologia selecionadas para o Itau BBA.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IBBA - TMT Daily News · 18/11/2026">
+<meta property="og:description" content="Clipping TMT de 18/11/2026 — 80 noticias de telecom, midia e tecnologia selecionadas para o Itau BBA.">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IBBA - TMT Daily News · 18/11/2026">
+<meta name="twitter:description" content="Clipping TMT de 18/11/2026 — 80 noticias de telecom, midia e tecnologia selecionadas para o Itau BBA.">
+<meta name="theme-color" content="#1a1916">
+<!-- preconnect: o css2 do Google Fonts so' diz de onde baixar a fonte;
+     o arquivo vem de fonts.gstatic.com, outro host. Sem preconnect o
+     celular paga DNS + TLS desse segundo host so' quando o CSS chega. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f3ef; --surface: #ffffff; --border: #d8d4cc; --accent: #8B6914;
+    --green: #2e6b2c; --blue: #1a4f8a; --text: #1a1916; --sub: #4a4744;
+    --muted: #8a8580; --checked-bg: #eef4ee; --checked-border: #a8cca6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; line-height: 1.5; }
+  .header { background: #1a1916; padding: 16px 20px 0; position: sticky; top: 0; z-index: 10; }
+  .header-top { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #c8a96e; }
+  .date { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #7a7570; }
+  .run-controls { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+  .run-controls-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: #7a7570; margin-right: 4px; }
+  .run-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.5px; padding: 6px 11px; background: #2a2826; color: #c8a96e; border: 1px solid #3a3835; border-radius: 4px; text-decoration: none; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .run-btn:hover { background: #3a3530; border-color: #c8a96e; color: #e0c896; }
+  .run-btn.default-do-dia { background: #c8a96e; color: #1a1916; border-color: #c8a96e; font-weight: 500; }
+  .run-btn.default-do-dia:hover { background: #d8b97e; color: #1a1916; }
+  .run-btn-arrow { opacity: 0.7; margin-right: 3px; }
+  /* Grupo botao + setinha (Ter-Sex com seletor de data) */
+  .run-btn-group { position: relative; display: inline-flex; align-items: stretch; }
+  .run-btn-group .run-btn-main { border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0; }
+  .run-btn-caret { font-family: 'IBM Plex Mono', monospace; font-size: 10px; padding: 0 8px; background: #2a2826; color: #c8a96e; border: 1px solid #3a3835; border-top-left-radius: 0; border-bottom-left-radius: 0; cursor: pointer; transition: all 0.15s; }
+  .run-btn-caret:hover { background: #3a3530; border-color: #c8a96e; color: #e0c896; }
+  .run-btn-group.default-do-dia .run-btn-main { background: #c8a96e; color: #1a1916; border-color: #c8a96e; font-weight: 500; }
+  .run-btn-group.default-do-dia .run-btn-caret { background: #c8a96e; color: #1a1916; border-color: #c8a96e; }
+  .run-btn-group.default-do-dia .run-btn-main:hover, .run-btn-group.default-do-dia .run-btn-caret:hover { background: #d8b97e; }
+  .date-drop { display: none; position: absolute; top: calc(100% + 4px); right: 0; background: #1a1916; border: 1px solid #3a3835; border-radius: 4px; padding: 10px; z-index: 100; min-width: 200px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  .date-drop.open { display: block; }
+  .date-drop label { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: #7a7570; margin-bottom: 6px; }
+  .date-drop input[type=date] { width: 100%; padding: 5px 7px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; background: #2a2826; color: #e0c896; border: 1px solid #3a3835; border-radius: 3px; margin-bottom: 8px; box-sizing: border-box; }
+  .date-drop .run-btn-confirm { width: 100%; padding: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.5px; background: #c8a96e; color: #1a1916; border: 0; border-radius: 3px; cursor: pointer; font-weight: 500; }
+  .date-drop .run-btn-confirm:hover { background: #d8b97e; }
+  .date-drop .date-warn { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #d88a4a; margin-top: 6px; display: none; }
+  .date-drop .date-warn.show { display: block; }
+  /* Status overlay do botao "Rodar agora" — aparece apos dispatch */
+  .run-status { display: none; align-items: center; gap: 8px; padding: 6px 10px; background: #2a2826; border: 1px solid #3a3835; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #c8a96e; min-width: 0; max-width: 100%; }
+  .run-status.visible { display: inline-flex; }
+  .run-status.ok { color: #7ec87c; border-color: #2e6b2c; }
+  .run-status.err { color: #d88a4a; border-color: #884a1a; }
+  .run-status .status-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .run-progress { display: none; height: 2px; background: #3a3835; border-radius: 1px; overflow: hidden; width: 100%; margin-top: 4px; }
+  .run-progress.visible { display: block; }
+  .run-progress .bar { height: 100%; background: #c8a96e; width: 0; transition: width 0.25s linear; }
+  .spinner { width: 10px; height: 10px; border: 2px solid #3a3835; border-top-color: #c8a96e; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .run-btn:disabled, .run-btn-confirm:disabled { opacity: 0.5; cursor: not-allowed; }
+  .tabs { display: flex; }
+  .tab { padding: 11px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; border: none; background: transparent; color: #6a6560; border-bottom: 3px solid transparent; transition: all 0.15s; position: relative; top: 1px; user-select: none; }
+  .tab.active { color: #fff; border-bottom-color: #c8a96e; }
+  .tab-brazil.active { color: #7ec87c; border-bottom-color: #7ec87c; }
+  .tab-global.active { color: #7ab0e0; border-bottom-color: #7ab0e0; }
+  .tab-whats.active { color: #c8a96e; border-bottom-color: #c8a96e; }
+  .content { padding: 16px 16px 48px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+  .panel-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--text); }
+  .panel-meta { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); background: var(--surface); padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); }
+  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 5px 10px; border-radius: 3px; display: inline-block; margin-bottom: 8px; margin-top: 20px; font-weight: 500; }
+  .section-label.brazil { background: #e8f4e8; color: var(--green); }
+  .section-label.global { background: #e8eef8; color: var(--blue); }
+  .section-label.others { background: #f0ede8; color: var(--sub); }
+  .native-cb { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+  .card-wrapper { display: flex; align-items: stretch; margin-bottom: 6px; }
+  .news-card { flex: 1; display: flex; align-items: stretch; background: var(--surface); border: 1px solid var(--border); border-radius: 6px 0 0 6px; cursor: pointer; transition: border-color 0.12s, background 0.12s; user-select: none; border-right: none; }
+  .news-card.checked { background: var(--checked-bg); border-color: var(--checked-border); }
+  .card-check-box { width: 52px; min-height: 60px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .check-visual { width: 24px; height: 24px; border: 2px solid #c0bdb8; border-radius: 4px; background: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.12s; }
+  .news-card.checked .check-visual { background: var(--green); border-color: var(--green); }
+  .news-card.checked .check-visual::after { content: '\2713'; font-size: 14px; color: white; font-weight: bold; line-height: 1; }
+  .card-body { flex: 1; padding: 11px 8px 11px 0; min-width: 0; }
+  .news-title { font-size: 13px; font-weight: 500; line-height: 1.45; }
+  .news-title a { color: var(--text); text-decoration: none; }
+  .news-title a:hover { color: var(--accent); text-decoration: underline; }
+  .news-source { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-prio-wrap { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-left: none; border-radius: 0 6px 6px 0; padding: 0 10px; flex-shrink: 0; transition: background 0.12s, border-color 0.12s; }
+  .card-prio-wrap.checked { background: var(--checked-bg); border-color: var(--checked-border); }
+  .prio-select { border: none; background: transparent; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); cursor: pointer; outline: none; padding: 2px 0; width: 32px; }
+  .prio-select.has-value { color: var(--accent); font-weight: 500; }
+  .whats-meta { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .stat-chip { font-family: 'IBM Plex Mono', monospace; font-size: 11px; background: var(--surface); border: 1px solid var(--border); padding: 4px 10px; border-radius: 20px; }
+  .whats-news-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .whats-section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 6px 0; color: var(--muted); margin-top: 8px; }
+  .whats-section-label.brazil { color: var(--green); }
+  .whats-section-label.global { color: var(--blue); }
+  .whats-item { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+  .whats-item-order { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
+  .whats-item-title { border: none; outline: none; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 500; resize: none; width: 100%; line-height: 1.45; color: var(--text); background: transparent; }
+  .whats-item-url { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); word-break: break-all; }
+  .btn-copy { width: 100%; padding: 14px; background: #1a1916; color: #c8a96e; border: none; border-radius: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: background 0.15s; }
+  .btn-copy:hover { background: #2a2926; }
+  .btn-copy.copied { background: var(--green); color: #fff; }
+  /* Histórico subtab — espelha visual de archive.html (data-row dark + version-row light) */
+  .hist-list { list-style: none; padding: 0; margin: 0; }
+  .hist-list li.date-row { background: #1a1916; color: #c8a96e; padding: 9px 14px; margin-top: 14px; margin-bottom: 4px; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; display: flex; align-items: center; gap: 10px; }
+  .hist-list li.date-row:first-child { margin-top: 0; }
+  .hist-list li.date-row .date { font-weight: 500; letter-spacing: 0.5px; }
+  .hist-list li.date-row .label { color: #c8a96e; opacity: 0.7; font-family: 'IBM Plex Sans', sans-serif; }
+  .hist-list li.date-row .count { margin-left: auto; opacity: 0.6; font-size: 10px; }
+  .hist-list li.version-row { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; margin-bottom: 4px; }
+  .hist-list li.version-row a { display: flex; align-items: center; padding: 10px 14px; color: var(--text); text-decoration: none; transition: background 0.1s; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+  .hist-list li.version-row a:hover { background: #efece5; }
+  .hist-list li.version-row .arrow { margin-left: auto; color: var(--muted); }
+  .hist-list li.version-row.current { background: var(--checked-bg); border-color: var(--checked-border); }
+  .hist-list li.version-row.current a { color: var(--green); font-weight: 500; cursor: default; }
+  .hist-list li.version-row.current .arrow::before { content: '● atual '; font-size: 10px; opacity: 0.7; }
+  .hist-list li.hist-empty, .hist-list li.hist-error { background: var(--surface); padding: 24px; text-align: center; color: var(--muted); border: 1px dashed var(--border); border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+  .hist-list li.hist-error { color: #b03030; border-color: #d4a0a0; }
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+  /* ===== Main tabs (Last News / Clipping) — proeminentes no header ===== */
+  .main-tabs { display: flex; gap: 4px; padding: 8px 0 0; }
+  .main-tab {
+    padding: 12px 22px; font-family: 'Playfair Display', serif;
+    font-size: 15px; cursor: pointer; border: none; background: transparent;
+    color: #6a6560; border-bottom: 3px solid transparent;
+    position: relative; top: 1px; user-select: none; transition: color 0.15s, border-color 0.15s;
+  }
+  .main-tab:hover { color: #d8b97e; }
+  .main-tab.active { color: #c8a96e; border-bottom-color: #c8a96e; font-weight: 700; }
+  .main-panel { display: none; }
+  .main-panel.active { display: block; }
+
+  /* ===== Last News header (timestamp + Rodar Agora) ===== */
+  .ln-bar { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 2px solid var(--border); flex-wrap: wrap; gap: 12px; }
+  .ln-info { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
+  .ln-info b { color: var(--text); font-weight: 500; }
+  .ln-actions { display: flex; gap: 10px; align-items: center; }
+  .btn-run-now {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.5px;
+    padding: 8px 16px; background: #1a1916; color: #c8a96e; border: 1px solid #3a3835;
+    border-radius: 4px; cursor: pointer; transition: all 0.15s; white-space: nowrap;
+  }
+  .btn-run-now:hover { background: #2a2826; border-color: #c8a96e; color: #e0c896; }
+  .btn-run-now:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* ===== Last News sub-tabs (Brazil / Global) ===== */
+  .subtabs { display: flex; padding: 0 12px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+  .subtab {
+    padding: 10px 16px; font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    cursor: pointer; border: none; background: transparent;
+    color: var(--muted); border-bottom: 2px solid transparent;
+    position: relative; top: 1px; user-select: none; transition: all 0.15s;
+  }
+  .subtab.brazil.active { color: var(--green); border-bottom-color: var(--green); }
+  .subtab.global.active { color: var(--blue); border-bottom-color: var(--blue); }
+  .subpanel { display: none; padding: 0 16px 24px; }
+  .subpanel.active { display: block; }
+
+  /* ===== Last News list (simples, sem checkbox/prio) ===== */
+  .ln-item {
+    padding: 11px 14px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; margin-bottom: 6px;
+  }
+  .ln-item .ln-title { font-size: 13px; font-weight: 500; line-height: 1.45; }
+  .ln-item .ln-title a { color: var(--text); text-decoration: none; }
+  .ln-item .ln-title a:hover { color: var(--accent); text-decoration: underline; }
+  .ln-item .ln-source { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 4px; }
+
+  /* ===== Top 3 do dia — camada editorial que o pipeline ja calculava ===== */
+  .top3 { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; margin-bottom: 16px; }
+  .top3[hidden] { display: none; }
+  .top3-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 500; margin-bottom: 10px; }
+  .top3-list { list-style: none; counter-reset: t; display: flex; flex-direction: column; gap: 10px; }
+  .top3-item { counter-increment: t; display: grid; grid-template-columns: 20px 1fr; gap: 10px; align-items: start; }
+  .top3-item::before { content: counter(t); font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; color: var(--accent); line-height: 1.45; }
+  .top3-item a { color: var(--text); text-decoration: none; font-size: 13px; font-weight: 500; line-height: 1.45; }
+  .top3-item a:hover { color: var(--accent); text-decoration: underline; }
+  .top3-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 3px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+
+  /* ===== Visao por empresa de cobertura ===== */
+  .emp-bloco { margin-bottom: 18px; }
+  .emp-nome { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+  .emp-qtd { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); background: var(--bg); border-radius: 10px; padding: 1px 7px; }
+  .emp-itens { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .emp-itens li { padding-left: 2px; }
+  .emp-itens a { color: var(--text); text-decoration: none; font-size: 13px; line-height: 1.45; }
+  .emp-itens a:hover { color: var(--accent); text-decoration: underline; }
+  .emp-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 3px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .emp-meta .tag-pill { margin-left: 0; }
+
+  /* ===== Pilula da tag editorial ===== */
+  .tag-pill { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.8px; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; margin-left: 8px; background: #f0ede8; color: var(--sub); white-space: nowrap; }
+  /* Outros veiculos que deram o mesmo fato (o dedup manteve o melhor) */
+  .tambem-em { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--muted); margin-left: 8px; opacity: 0.8; }
+  /* Item que ja saiu no clipping anterior: entra, mas sinalizado para pular */
+  .tag-pill.tag-repetido { background: transparent; color: var(--muted); border: 1px dashed var(--border); }
+  .tag-pill.tag-must-read { background: #f7efdc; color: var(--accent); font-weight: 500; }
+  .tag-pill.tag-company-specific { background: #e8f4e8; color: var(--green); }
+  .tag-pill.tag-sector-regulatory { background: #e8eef8; color: var(--blue); }
+  .top3-meta .tag-pill { margin-left: 0; }
+
+  /* Data que o pipeline nao conseguiu confirmar: dito, nao omitido */
+  .sem-data { font-style: italic; opacity: 0.75; }
+
+  /* Foco de teclado. .prio-select e .whats-item-title zeram o outline para
+     ficarem discretos na lista; sem nada no lugar, quem navega por Tab fica
+     sem saber onde esta. :focus-visible so' acende no foco por teclado, entao
+     o visual do mouse continua igual. */
+  .prio-select:focus-visible, .whats-item-title:focus-visible,
+  .subtab:focus-visible, .main-tab:focus-visible,
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px;
+  }
+
+  /* ===== Alvo de toque ===== */
+  /* O seletor de prioridade tinha 32x20px. O clipping e' operado do iPhone
+     (a migracao pro Pages Functions aconteceu por causa disso), e 20px de
+     altura torna atribuir prioridade de 1 a 10 um exercicio de pontaria.
+     44px e' o minimo recomendado para toque. */
+  @media (pointer: coarse), (max-width: 640px) {
+    .prio-select { width: 44px; min-height: 44px; font-size: 13px; text-align: center; }
+    .card-prio-wrap { padding: 0 6px; }
+    .subtab, .main-tab { min-height: 44px; }
+    .btn-run-now { min-height: 40px; }
+
+    /* ---- 1. ABAS INALCANCAVEIS (o pior problema no celular) ----
+       .subtabs e' flex nowrap com overflow-x:visible. As 5 abas do Clipping
+       somam 472px de largura intrinseca; nenhum celular passa de ~430px, entao
+       "WhatsApp" ficava cortada e "Historico" simplesmente fora da tela, sem
+       jeito de chegar nela. Vira faixa rolavel na horizontal. */
+    .subtabs {
+      overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; padding: 0 10px;
+      scroll-snap-type: x proximity;
+    }
+    .subtabs::-webkit-scrollbar { display: none; }
+    .subtab { flex: 0 0 auto; scroll-snap-align: start; padding: 10px 12px; letter-spacing: 1px; }
+
+    /* ---- 2. TEXTO LEGIVEL ----
+       Corpo estava em 13px e os metadados em 9-10px. 9px nao se le no celular.
+       So' no mobile: corpo 15px, metadado 12px, pilula 11px. */
+    .ln-item .ln-title, .top3-item a, .emp-itens a, .news-title, .news-title a { font-size: 15px; }
+    .ln-item .ln-source, .top3-meta, .emp-meta, .news-source, .whats-item-url,
+    .whats-item-order, .emp-qtd { font-size: 12px; }
+    .tag-pill, .tambem-em { font-size: 11px; letter-spacing: 0.5px; }
+    .section-label, .top3-title, .whats-section-label { font-size: 11px; letter-spacing: 1.2px; }
+    /* A fonte do veiculo cabia em 1 linha no desktop; em 12px no celular ela
+       precisa poder quebrar, senao vira reticencias logo no dominio. */
+    .news-source { white-space: normal; }
+
+    /* ---- 3. ALVO DE TOQUE NO LINK DA NOTICIA ----
+       O min-height 44px valia so' para .subtab e .main-tab. Os links de materia
+       ficavam com a altura do proprio texto: 36px em titulo de 2 linhas e ~19px
+       em titulo de 1 linha. O padding negativo aumenta a area de toque sem
+       mexer no espacamento visual da lista. */
+    .ln-item .ln-title a, .top3-item a, .emp-itens a, .news-title a {
+      display: block; padding: 7px 0; margin: -7px 0;
+    }
+
+    /* ---- 4. CABECALHO MENOR ----
+       Era 141px grudado no topo: 17% de uma tela de 812px gastos antes da
+       primeira noticia. */
+    .header { padding: 10px 14px 0; }
+    .logo { font-size: 16px; }
+    .main-tab { padding: 10px 12px; }
+
+    /* ---- 5. LARGURA UTIL ----
+       .content e .subpanel tinham 16px de cada lado, e o cartao mais 14px:
+       sobravam 282px de 375 para o titulo. */
+    .content { padding: 12px 10px 40px; }
+    .subpanel { padding: 0 10px 20px; }
+    .ln-item { padding: 12px 12px; }
+    .top3 { padding: 12px 12px; }
+
+    /* ---- 6. CONTRASTE ----
+       Oito combinacoes cor/fundo ficavam abaixo do minimo WCAG AA (4.5:1 para
+       texto pequeno), medidas na edicao real. As piores, e a de baixo aparece
+       sob CADA uma das ~100 materias:
+         .ln-source e demais metadados  #8a8580  3.65:1
+         .main-tab inativa (no escuro)  #6a6560  3.05:1
+         .subtab inativa                #8a8580  3.30:1
+         .date no cabecalho             #7a7570  3.86:1
+       Valores novos calculados, nao chutados: sao o menor ajuste que cruza
+       4.5:1 mantendo o mesmo tom de cinza da paleta. Escopo mobile porque e'
+       onde se le sob luz do sol; no desktop a cor segue como esta. */
+    .ln-item .ln-source, .top3-meta, .emp-meta, .news-source,
+    .whats-item-url, .whats-item-order, .emp-qtd,
+    .section-label, .top3-title, .whats-section-label,
+    .subtab, .tambem-em { color: #736e69; }
+    .main-tab, .date { color: #86817c; }
+
+    /* ---- 8. AREA SEGURA (iPhone com notch) ----
+       Em paisagem, o recorte da tela e os cantos arredondados comem a borda
+       esquerda/direita. env() vale 0 em aparelho sem notch, entao nao muda
+       nada nos outros. */
+    .header { padding-left: max(14px, env(safe-area-inset-left));
+              padding-right: max(14px, env(safe-area-inset-right)); }
+    .content { padding-left: max(10px, env(safe-area-inset-left));
+               padding-right: max(10px, env(safe-area-inset-right));
+               padding-bottom: max(40px, env(safe-area-inset-bottom)); }
+
+    /* ---- 7. AFFORDANCE DA FAIXA DE ABAS ----
+       A faixa rola, mas nada dizia isso: o usuario nao tinha como saber que
+       existiam abas a direita. Um degrade na borda direita sugere continuacao. */
+    .subtabs {
+      -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 22px), transparent 100%);
+      mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 22px), transparent 100%);
+    }
+  }
+</style>
+</head>
+<body>
+<div style="background:#b03030;color:#fff;padding:10px 16px;font-family:monospace;font-size:12px;line-height:1.5;">PIPELINE COM PROBLEMA: FONTE MORTA HA 3+ DIAS: IT Forum (direto)</div>
+<div class="header">
+  <div class="header-top">
+    <h1 class="logo">IBBA - TMT Daily News</h1>
+    <span class="date" id="data-hoje"></span>
+  </div>
+  <div class="main-tabs">
+    <button class="main-tab active" id="mtab-lastnews" onclick="switchMain('lastnews')">Last News</button>
+    <button class="main-tab" id="mtab-clipping" onclick="switchMain('clipping')">Clipping</button>
+  </div>
+</div>
+<div class="content">
+
+  <!-- ========= LAST NEWS (rolling 24h, lista simples por score) ========= -->
+  <section id="last-news-section" class="main-panel active">
+    <div class="ln-bar">
+      <div class="ln-info">Last update: <b id="ln-last-update">&mdash;</b> &middot; Last 24h</div>
+      <div class="ln-actions">
+        <div class="run-status"></div>
+      </div>
+    </div>
+    <div class="run-progress"><div class="bar"></div></div>
+    <div class="subtabs">
+      <button class="subtab brazil active" id="ln-stab-br" onclick="switchLN('brazil')">Brazil</button>
+      <button class="subtab global" id="ln-stab-gl" onclick="switchLN('global')">Global</button>
+    </div>
+    <div id="ln-panel-brazil" class="subpanel active">
+      <div id="ln-list-brazil"></div>
+    </div>
+    <div id="ln-panel-global" class="subpanel">
+      <div id="ln-list-global"></div>
+    </div>
+  </section>
+
+  <!-- ========= CLIPPING (janela editorial, comportamento atual) ========= -->
+  <section id="clipping-section" class="main-panel">
+    <div class="ln-bar">
+      <div class="ln-info">Last update: <b id="cl-last-update">&mdash;</b></div>
+      <div class="ln-actions">
+        <div class="run-status"></div>
+      </div>
+    </div>
+    <div class="run-progress"><div class="bar"></div></div>
+    <section class="top3" id="top3-bloco" hidden>
+      <h2 class="top3-title">Top 3 do dia</h2>
+      <ol class="top3-list" id="top3-list"></ol>
+    </section>
+    <div class="subtabs" style="margin-bottom:0;">
+      <button class="subtab brazil active" id="cl-stab-br" onclick="switchClipping('brazil')">Brazil</button>
+      <button class="subtab global" id="cl-stab-gl" onclick="switchClipping('global')">Global</button>
+      <button class="subtab" id="cl-stab-em" onclick="switchClipping('empresas')" style="color:var(--muted);">Empresas</button>
+      <button class="subtab" id="cl-stab-wa" onclick="switchClipping('whats')" style="color:var(--muted);">WhatsApp</button>
+      <button class="subtab" id="cl-stab-hi" onclick="switchClipping('historico')" style="color:var(--muted);">Histórico</button>
+    </div>
+    <div id="panel-brazil" class="tab-panel active">
+      <div class="panel-header">
+        <h2 class="panel-title">Brazil</h2>
+        <div class="panel-meta" id="brazil-count">0 selecionadas</div>
+      </div>
+      <h3 class="section-label brazil">Official Brazil</h3>
+      <div id="list-brazil-official"></div>
+      <h3 class="section-label others">Other News &mdash; Brazil</h3>
+      <div id="list-brazil-others"></div>
+    </div>
+    <div id="panel-global" class="tab-panel">
+      <div class="panel-header">
+        <h2 class="panel-title">Global</h2>
+        <div class="panel-meta" id="global-count">0 selecionadas</div>
+      </div>
+      <h3 class="section-label global">Official Global</h3>
+      <div id="list-global-official"></div>
+      <h3 class="section-label others">Other News &mdash; Global</h3>
+      <div id="list-global-others"></div>
+    </div>
+    <div id="panel-empresas" class="tab-panel">
+      <div class="panel-header">
+        <h2 class="panel-title">Empresas</h2>
+        <div class="panel-meta" id="emp-count">&mdash;</div>
+      </div>
+      <div id="emp-lista"></div>
+    </div>
+    <div id="panel-whats" class="tab-panel">
+      <div class="panel-header">
+        <h2 class="panel-title">WhatsApp</h2>
+        <div class="panel-meta" id="whats-count">0 noticias</div>
+      </div>
+      <div class="whats-meta">
+        <div class="stat-chip">Brazil: <b id="stat-brazil">0</b></div>
+        <div class="stat-chip">Global: <b id="stat-global">0</b></div>
+        <div class="stat-chip">Total: <b id="stat-total">0</b></div>
+      </div>
+      <div id="whats-news-list" class="whats-news-list"></div>
+      <button class="btn-copy" id="btn-copy" onclick="copyClipping()">Copiar para area de transferencia</button>
+    </div>
+    <div id="panel-historico" class="tab-panel">
+      <div class="panel-header">
+        <h2 class="panel-title">Histórico</h2>
+        <div class="panel-meta" id="hist-count">&mdash;</div>
+      </div>
+      <ul id="hist-list" class="hist-list">
+        <li class="hist-empty">Carregando edições…</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+<script>
+// Top 3 do dia (tag editorial + score). Vinha sendo calculado no
+// resumo-*.json e descartado; agora chega na tela.
+var RAW_TOP3 = [
+  ["V.tal avança na banda larga, mas prejuízo cresce 80% no terceiro tri","https://teletime.com.br/17/11/2026/v-tal-prejuizo-terceiro-trimestre-2026/","must-read","BR Off"],
+      ["CI&T Inc. 2026 Q3 - Results - Earnings Call Presentation (NYSE:CINT) 2026-11-17","https://seekingalpha.com/article/4969319-ci-and-t-inc-2026-q3-results-earnings-call-presentation","must-read","BR Oth"],
+      ["Unifique estende suspensão de assembleia sobre novo laudo de OPA até quinta-feira","https://valor.globo.com/empresas/noticia/2026/11/18/unifique-estende-suspensao-de-assembleia-sobre-novo-laudo-de-opa-ate-quinta-feira.ghtml","must-read","BR Off"]
+];
+// Itens agrupados pelas empresas de cobertura, ordenados por volume.
+var RAW_EMPRESAS = [
+  ["Unifique",[["Unifique estende suspensão de assembleia sobre novo laudo de OPA até quinta-feira","https://valor.globo.com/empresas/noticia/2026/11/18/unifique-estende-suspensao-de-assembleia-sobre-novo-laudo-de-opa-ate-quinta-feira.ghtml","must-read"],["Unifique adia assembleia sobre avaliação do valor das ações","https://teletime.com.br/18/11/2026/unifique-adia-assembleia-valor-acoes/","must-read"],["Unifique suspende assembleia sobre nova avaliação de OPA","https://www.spacemoney.com.br/investimentos/acoes/unifique-opa-assembleia-suspensa/","must-read"],["Axia, Simpar, Unifique, Iguatemi e mais ações para acompanhar nesta quarta-feira","https://www.infomoney.com.br/mercados/axia-simpar-unifique-iguatemi-e-mais-acoes-para-acompanhar-nesta-quarta-feira/","company-specific"],["Sabesp (SBSP3), Simpar (SIMH3), Unifique (FIQE3), Iguatemi (IGTI11) e mais: Veja os destaques das empresas","https://valorinveste.globo.com/mercados/renda-variavel/empresas/noticia/2026/11/18/sabesp-sbsp3-simpar-simh3-unifique-fiqe3-iguatemi-igti11-e-mais-veja-os-destaques-das-empresas.ghtml","company-specific"]]],
+      ["TOTVS",[["TOTVS aponta que 53% dos consumidores já usam IA nas compras e 90% veem utilidade na tecnologia para comparar preços na Black Friday","https://timesbrasil.com.br/brasil/totvs-aponta-que-53-dos-consumidores-ja-usam-ia-nas-compras-e-90-veem-utilidade-na-tecnologia-para-comparar-precos-na-black-friday/","company-specific"],["Totvs (TOTS3) e Itaú (ITUB4) anunciam novo CEO para joint venture de serviços financeiros","https://guiadoinvestidor.com.br/mercado/totvs-tots3-e-itau-itub4-anunciam-novo-ceo-para-joint-venture-de-servicos-financeiros/","must-read"],["TOTVS apresenta nova categoria de tecnologia para transformar a gestão das empresas","https://neofeed.com.br/brand-stories/apresentado-por-totvs/totvs-apresenta-nova-categoria-de-tecnologia-para-transformar-a-gestao-das-empresas/","company-specific"],["Unimed Serra Gaúcha adota biometria facial com Totvs","https://www.baguete.com.br/noticias/unimed-serra-gaucha-adota-biometria-facial-com-totvs","company-specific"],["TOTVS Techfin terá novo CEO a partir de 2027","https://www.spacemoney.com.br/investimentos/totvs-techfin-novo-ceo-2027/","company-specific"]]],
+      ["Vivo",[["BTG Pactual: R$ 6,3 bi pela Vero faria sentido para Vivo, apesar de prêmio","https://teletime.com.br/17/11/2026/btg-pactual-r-63-bi-pela-vero-faria-sentido-para-vivo-apesar-de-premio/","company-specific"],["Vivo negocia compra da Vero por cerca de R$ 6,3 bilhões","https://tecnoblog.net/noticias/vivo-negocia-compra-da-vero-por-cerca-de-r-63-bilhoes/","must-read"],["Vivo pode comprar operadora por R$ 6,2 bi para acirrar disputa com Claro","https://canaltech.com.br/telecom/vivo-pode-comprar-operadora-por-r-62-bi-para-acirrar-disputa-com-claro/","company-specific"],["Vivo lança CPF Seguro em seu app","https://www.mobiletime.com.br/noticias/17/11/2026/vivo-lanca-cpf-seguro-em/","must-read"]]],
+      ["TIM",[["Por que você deveria comprar ações da TIM (TIMS3) agora, segundo o Itaú BBA","https://www.seudinheiro.com/2026/empresas/tim-tims3-itau-bba-eleva-recomendacao-para-compra-e-ve-relacao-risco-retorno-atraente-demais-para-ignorar-lmrs/","company-specific"]]],
+      ["Claro",[["Vivo pode comprar operadora por R$ 6,2 bi para acirrar disputa com Claro","https://canaltech.com.br/telecom/vivo-pode-comprar-operadora-por-r-62-bi-para-acirrar-disputa-com-claro/","company-specific"]]],
+      ["CI&T",[["CI&T Inc. 2026 Q3 - Results - Earnings Call Presentation (NYSE:CINT) 2026-11-17","https://seekingalpha.com/article/4969319-ci-and-t-inc-2026-q3-results-earnings-call-presentation","must-read"]]],
+      ["Starlink",[["Ambani Seeks to Build Satellite Capacity for Starlink Challenge","https://www.bloomberg.com/news/articles/2026-11-18/ambani-seeks-to-build-satellite-capacity-for-starlink-challenge","must-read"]]],
+      ["V.tal",[["V.tal avança na banda larga, mas prejuízo cresce 80% no terceiro tri","https://teletime.com.br/17/11/2026/v-tal-prejuizo-terceiro-trimestre-2026/","must-read"]]]
+];
+var TAG_LABEL = {"must-read":"Must-read","company-specific":"Empresa",
+  "sector-regulatory":"Regulatorio","competitor-read-through":"Concorrente",
+  "broad-tech":"Setor"};
+var RAW = {
+  brazil: {
+    official: [
+      ["Unifique estende suspensão de assembleia sobre novo laudo de OPA até quinta-feira","https://valor.globo.com/empresas/noticia/2026/11/18/unifique-estende-suspensao-de-assembleia-sobre-novo-laudo-de-opa-ate-quinta-feira.ghtml","must-read",0,"",0],
+      ["Unifique adia assembleia sobre avaliação do valor das ações","https://teletime.com.br/18/11/2026/unifique-adia-assembleia-valor-acoes/","must-read",0,"telesintese.com.br",0],
+      ["TOTVS apresenta nova categoria de tecnologia para transformar a gestão das empresas","https://neofeed.com.br/brand-stories/apresentado-por-totvs/totvs-apresenta-nova-categoria-de-tecnologia-para-transformar-a-gestao-das-empresas/","company-specific",0,"",0],
+      ["V.tal avança na banda larga, mas prejuízo cresce 80% no terceiro tri","https://teletime.com.br/17/11/2026/v-tal-prejuizo-terceiro-trimestre-2026/","must-read",1,"",0],
+      ["BTG Pactual: R$ 6,3 bi pela Vero faria sentido para Vivo, apesar de prêmio","https://teletime.com.br/17/11/2026/btg-pactual-r-63-bi-pela-vero-faria-sentido-para-vivo-apesar-de-premio/","company-specific",1,"",0],
+      ["Vivo lança CPF Seguro em seu app","https://www.mobiletime.com.br/noticias/17/11/2026/vivo-lanca-cpf-seguro-em/","must-read",1,"",0]
+    ],
+    others: [
+      ["Unifique suspende assembleia sobre nova avaliação de OPA","https://www.spacemoney.com.br/investimentos/acoes/unifique-opa-assembleia-suspensa/","must-read",0,"",0],
+      ["Totvs (TOTS3) e Itaú (ITUB4) anunciam novo CEO para joint venture de serviços financeiros","https://guiadoinvestidor.com.br/mercado/totvs-tots3-e-itau-itub4-anunciam-novo-ceo-para-joint-venture-de-servicos-financeiros/","must-read",0,"",0],
+      ["Vivo pode comprar operadora por R$ 6,2 bi para acirrar disputa com Claro","https://canaltech.com.br/telecom/vivo-pode-comprar-operadora-por-r-62-bi-para-acirrar-disputa-com-claro/","company-specific",0,"",0],
+      ["Axia, Simpar, Unifique, Iguatemi e mais ações para acompanhar nesta quarta-feira","https://www.infomoney.com.br/mercados/axia-simpar-unifique-iguatemi-e-mais-acoes-para-acompanhar-nesta-quarta-feira/","company-specific",0,"",0],
+      ["Sabesp (SBSP3), Simpar (SIMH3), Unifique (FIQE3), Iguatemi (IGTI11) e mais: Veja os destaques das empresas","https://valorinveste.globo.com/mercados/renda-variavel/empresas/noticia/2026/11/18/sabesp-sbsp3-simpar-simh3-unifique-fiqe3-iguatemi-igti11-e-mais-veja-os-destaques-das-empresas.ghtml","company-specific",0,"",0],
+      ["Reforma Tributária: Receita publica primeiro código-fonte aberto no GitHub","https://convergenciadigital.com.br/governo/reforma-tributaria-receita-publica-primeiro-codigo-fonte-aberto-no-github/","sector-regulatory",0,"",0],
+      ["Regulação de big techs pode reduzir custos em até R$ 50,6 bilhões","https://www.ecommercebrasil.com.br/noticias/regulacao-big-techs-reducao-custos-brasil","broad-tech",0,"",0],
+      ["Black Friday: como preparar a logística para os riscos de uma operação de alta demanda","https://www.ecommercebrasil.com.br/artigos/black-friday-como-preparar-a-logistica-para-os-riscos-de-uma-operacao-de-alta-demanda","broad-tech",0,"",0],
+      ["Black Friday 2026: o que o checkout e a plataforma precisam aguentar","https://www.ecommercebrasil.com.br/artigos/black-friday-2026-o-que-o-checkout-e-a-plataforma-precisam-aguentar","broad-tech",0,"",0],
+      ["CI&T Inc. 2026 Q3 - Results - Earnings Call Presentation (NYSE:CINT) 2026-11-17","https://seekingalpha.com/article/4969319-ci-and-t-inc-2026-q3-results-earnings-call-presentation","must-read",1,"",0],
+      ["Vivo negocia compra da Vero por cerca de R$ 6,3 bilhões","https://tecnoblog.net/noticias/vivo-negocia-compra-da-vero-por-cerca-de-r-63-bilhoes/","must-read",1,"",0],
+      ["TOTVS aponta que 53% dos consumidores já usam IA nas compras e 90% veem utilidade na tecnologia para comparar preços na Black Friday","https://timesbrasil.com.br/brasil/totvs-aponta-que-53-dos-consumidores-ja-usam-ia-nas-compras-e-90-veem-utilidade-na-tecnologia-para-comparar-precos-na-black-friday/","company-specific",1,"",0],
+      ["Unimed Serra Gaúcha adota biometria facial com Totvs","https://www.baguete.com.br/noticias/unimed-serra-gaucha-adota-biometria-facial-com-totvs","company-specific",1,"",0],
+      ["TOTVS Techfin terá novo CEO a partir de 2027","https://www.spacemoney.com.br/investimentos/totvs-techfin-novo-ceo-2027/","company-specific",1,"",0],
+      ["Por que você deveria comprar ações da TIM (TIMS3) agora, segundo o Itaú BBA","https://www.seudinheiro.com/2026/empresas/tim-tims3-itau-bba-eleva-recomendacao-para-compra-e-ve-relacao-risco-retorno-atraente-demais-para-ignorar-lmrs/","company-specific",1,"",0],
+      ["Anatel vai coordenar AICI, o Instituto de IA para Mudanças Climáticas","https://teletime.com.br/17/11/2026/anatel-instituto-mudancas-climaticas/","sector-regulatory",1,"",0],
+      ["Edson Holanda quer estudo sobre impactos da conectividade","https://teletime.com.br/17/11/2026/edson-holanda-quer-estudo-sobre-impactos-da-conectividade-em-setores-regulados/","sector-regulatory",1,"",0],
+      ["Aneel adia novamente decisão sobre postes após divergência sobre preço máximo","https://teletime.com.br/17/11/2026/aneel-adia-postes-vista/","sector-regulatory",1,"Tele.Sintese",0],
+      ["Reforma tributária pode reduzir investimentos da Lei de TICs em P&D, alertam empresas","https://telesintese.com.br/reforma-tributaria-pode-reduzir-investimentos-da-lei-de-tics-em-pd-alertam-empresas/","sector-regulatory",1,"",0],
+      ["Aneel diverge e adia decisão sobre compartilhamento de postes às vésperas de votação no Senado","https://valor.globo.com/brasil/noticia/2026/11/17/aneel-diverge-e-adia-deciso-sobre-compartilhamento-de-postes-s-vsperas-de-votao-no-senado.ghtml","sector-regulatory",1,"",0],
+      ["CEO da Amazon diz que EUA precisam construir data centers para não serem superados pela China em IA","https://redir.folha.com.br/redir/online/tec/rss091/*https://c-level.folha.uol.com.br/ia/2026/11/ceo-da-amazon-diz-que-eua-precisam-construir-data-centers-para-nao-serem-superados-pela-china-em-ia.shtml","competitor-read-through",1,"",0],
+      ["Ri Happy estreia na Shopee e amplia vendas online antes da Black Friday e do Natal","https://timesbrasil.com.br/empresas-e-negocios/ri-happy-estreia-shopee-black-friday-natal/","competitor-read-through",1,"",0],
+      ["Amazon espera Black Friday recorde no Brasil com 350 centros logísticos e IA","https://www.infomoney.com.br/business/amazon-espera-black-friday-recorde-no-brasil-com-350-centros-logisticos-e-ia/","competitor-read-through",1,"oglobo.globo.com",0],
+      ["EXA passa a vender seguros para a base da Algar","https://www.mobiletime.com.br/noticias/17/11/2026/exa-algar-seguros/","competitor-read-through",1,"",0],
+      ["Após falhas em data centers, gestão da infraestrutura crítica passa da operação para a estratégia","https://tiinside.com.br/17/11/2026/apos-falhas-em-data-centers-gestao-da-infraestrutura-critica-passa-da-operacao-para-a-estrategia/","broad-tech",1,"",0],
+      ["Hitachi e BCR-i Brasil anunciam parceria para fortalecer a resiliência energética do setor de data centers no Brasil","https://tiinside.com.br/17/11/2026/hitachi-e-bcr-i-brasil-anunciam-parceria-para-fortalecer-a-resiliencia-energetica-do-setor-de-data-centers-no-brasil/","broad-tech",1,"",0],
+      ["Cisco amplia em 10% a receita com produtos no Brasil","https://telesintese.com.br/cisco-amplia-em-10-a-receita-com-produtos-no-brasil/","broad-tech",1,"",0],
+      ["UMB contesta plano de venda de ativos da Oi e cobra respeito a garantias","https://telesintese.com.br/umb-contesta-plano-de-venda-de-ativos-da-oi-e-cobra-respeito-a-garantias/","broad-tech",1,"",0],
+      ["Celular Android na Black Friday: veja como escolher um que não trava","https://g1.globo.com/guia/guia-de-compras/tecnologia/celulares/celular-android-na-black-friday-veja-como-escolher-um-que-nao-trava.ghtml","broad-tech",1,"",0],
+      ["Astella quer transformar Curitiba em hub de infraestrutura digital e interligar data centers no Brasil","https://tiinside.com.br/17/11/2026/astella-quer-transformar-curitiba-em-hub-de-infraestrutura-digital-e-interligar-data-centers-no-brasil/","broad-tech",1,"",0],
+      ["Chip dos EUA pode demorar 60 dias","https://valor.globo.com/empresas/noticia/2026/11/18/chip-dos-eua-pode-demorar-60-dias.ghtml","broad-tech",1,"",0],
+      ["A era de comprar telecom por pedaços está chegando ao fim","https://teletime.com.br/17/11/2026/telecom-artigo-comprar/","broad-tech",1,"",0],
+      ["Fazenda estima ganhos de até R$ 50,6 bilhões com regulação de plataformas digitais","https://telesintese.com.br/fazenda-estima-ganhos-de-ate-r-506-bilhoes-com-regulacao-de-plataformas-digitais/","broad-tech",1,"",0],
+      ["Prêmio IoT ABINC : uso de IA em edge computing quase dobra em um ano","https://convergenciadigital.com.br/governo/premio-iot-abinc-uso-de-ia-em-edge-computing-quase-dobra-em-um-ano/","broad-tech",1,"",0],
+      ["Ligga adia publicação do balanço do 3º trimestre","https://telesintese.com.br/ligga-adia-publicacao-do-balanco-do-3o-trimestre/","broad-tech",1,"",0]
+    ]
+  },
+  global: {
+    official: [
+      ["Coreweave, Iren, Nebius shares sink following Nvidia earnings","https://www.cnbc.com/2026/11/18/nvidia-stock-earnings.html","sector-regulatory",0,"",0],
+      ["With Jensen Huang gone, Colette Kress shows Nvidia is still at the center of AI","https://www.cnbc.com/2026/11/17/jensen-huang-may-be-gone-nvidia-shows-its-still-at-the-center-of-ai-.html","sector-regulatory",0,"FT Technology",0],
+      ["Ambani Seeks to Build Satellite Capacity for Starlink Challenge","https://www.bloomberg.com/news/articles/2026-11-18/ambani-seeks-to-build-satellite-capacity-for-starlink-challenge","must-read",1,"",0],
+      ["Amazon and Google will together own nearly 30% of Anthropic after its IPO","https://techcrunch.com/2026/11/17/amazon-and-google-will-together-own-nearly-30-of-anthropic-after-its-ipo/","competitor-read-through",1,"O Globo - Tecnologia",0],
+      ["Microsoft unveils AI models for coding, cybersecurity as it takes on Anthropic, OpenAI","https://www.reuters.com/legal/litigation/microsoft-unveils-ai-models-coding-cybersecurity-it-takes-anthropic-openai-2026-11-17/","broad-tech",1,"",0],
+      ["Malaysia Seeks Details From Anthropic Over AI Influence Campaign","https://www.bloomberg.com/news/articles/2026-11-18/malaysia-seeks-details-from-anthropic-over-ai-influence-campaign","broad-tech",1,"",0]
+    ],
+    others: [
+      ["Workday Rising EMEA - Workday acquires Honeydew for semantic consistency, strengthens EU Sovereign Cloud","https://diginomica.com/workday-rising-emea-acquires-honeydew-eu-sovereign-cloud","competitor-read-through",0,"constellationr.com",0],
+      ["Salesforce, Microsoft Launch Copilotforce Partnership","https://www.marketscreener.com/news/salesforce-microsoft-launch-copilotforce-partnership-ce785edcdd80f227","competitor-read-through",0,"cxtoday.com, news.microsoft.com",0],
+      ["Nice Announces Strengthening of Collaboration with Microsoft and Expands Integrations Across Microsoft Azure, Microsoft Teams and Microsoft Dynamics 365 Customer Service","https://www.marketscreener.com/news/nice-announces-strengthening-of-collaboration-with-microsoft-and-expands-integrations-across-microso-ce785eddda8ef524","competitor-read-through",0,"",0],
+      ["‘People will ask, agents will act’: Workday CEO outlines how AI is coming to help unleash “an incredible world of work”","https://www.techradar.com/pro/people-will-ask-agents-will-act-workday-ceo-outlines-how-ai-is-coming-to-help-unleash-an-incredible-world-of-work","competitor-read-through",0,"",0],
+      ["Workday Rising EMEA - AI trust is about data context and agentic controls, so how do we get there? Workday's tech leaders have their say","https://diginomica.com/workday-rising-emea-ai-trust-about-data-context-and-agentic-controls-so-how-do-we-get-there","competitor-read-through",0,"",0],
+      ["UK's Network Rail taps Cognizant for £133.2m data center contract","https://www.datacenterdynamics.com/en/news/uks-network-rail-taps-cognizant-for-1332m-data-center-contract/","competitor-read-through",0,"",0],
+      ["Black da Amazon: AirPods Pro 3 com Tradução ao Vivo surge em 10x sem juros","https://tecnoblog.net/achados/black-da-amazon-airpods-pro-3-com-traducao-ao-vivo-surge-em-10x-sem-juros/","competitor-read-through",0,"",0],
+      ["Anthropic IPO: AI lab considers increasing the offering as investor demand surges, sources say","https://www.cnbc.com/2026/11/18/anthropic-ipo-ai-offering-price.html","broad-tech",0,"FT Technology, cnbc.com, bloomberg.com",0],
+      ["Wall Street prepares for Anthropic IPO frenzy, despite broader AI stock slump","https://www.reuters.com/legal/transactional/wall-street-prepares-anthropic-ipo-frenzy-despite-broader-ai-stock-slump-2026-11-18/","broad-tech",0,"",0],
+      ["Na Nvidia, balanço forte e investigações","https://valor.globo.com/empresas/noticia/2026/11/18/na-nvidia-balanco-forte-e-investigacoes.ghtml","broad-tech",0,"G1 Tecnologia, CNBC Tech, cnbc.com",0],
+      ["Tencent Profit Flatlines Amid Surging AI Investments, Revenue Growth Slows","https://www.wsj.com/tech/tencents-core-businesses-help-cushion-burden-of-intensified-ai-push-0c1cfc57","broad-tech",0,"",0],
+      ["Tencent Says US Chip Curbs to Slow Chinese AI in the Short Run","https://www.bloomberg.com/news/articles/2026-11-18/tencent-says-us-chip-curbs-to-slow-chinese-ai-in-the-short-run","broad-tech",0,"",0],
+      ["US tech outages blamed on rush to fix bugs found by AI","https://www.ft.com/content/96c565f1-f229-40b6-91e8-7a849ec4b208?syn-25a6b1a6=1","broad-tech",0,"",0],
+      ["Physical AI Startup Humyn Raises $47 Million From Accel, Prosus","https://www.bloomberg.com/news/articles/2026-11-18/physical-ai-startup-humyn-raises-47-million-from-accel-prosus","broad-tech",0,"",0],
+      ["MediaTek, Ericsson e T-Mobile testam pré-6G na faixa de 7 GHz","https://telesintese.com.br/mediatek-ericsson-e-t-mobile-testam-pre-6g-na-faixa-de-7-ghz/","sector-regulatory",1,"",0],
+      ["Salesforce leads enterprise software stocks lower ahead of Anthropic's IPO","https://seekingalpha.com/news/4673872-salesforce-leads-enterprise-software-stocks-lower-ahead-of-anthropics-ipo","competitor-read-through",1,"finance.yahoo.com",0],
+      ["Anthropic, o maior IPO da história","https://braziljournal.com/anthropic-o-maior-ipo-da-historia","broad-tech",1,"bloomberg.com, wsj.com",0],
+      ["CRM Stock Faces Worst Week Since April: Fresh Layoffs Reportedly Surface Across Salesforce Teams","https://finance.yahoo.com/markets/stocks/articles/crm-stock-faces-worst-week-031048815.html","broad-tech",1,"",0],
+      ["Disney retoma alta nos gastos com conteúdo e prevê US$ 26 bilhões em 2027 após lucro no streaming","https://telaviva.com.br/17/11/2026/disney-retoma-alta-nos-gastos-com-conteudo-e-preve-us-26-bilhoes-em-2027-apos-lucro-no-streaming/","broad-tech",1,"",0],
+      ["Nvidia Gives Upbeat Outlook While Quashing Idea of Huang Return","https://www.bloomberg.com/news/articles/2026-11-17/nvidia-delivers-solid-outlook-in-first-post-huang-earnings","broad-tech",1,"FT Technology, G1 Tecnologia, cnbc.com",0],
+      ["VodafoneThree to test Nokia's AI-RAN with Nvidia GPUs","https://www.lightreading.com/ai-machine-learning/vodafonethree-to-test-nokia-s-ai-ran-with-nvidia-gpus","broad-tech",1,"",0],
+      ["Manulife turns AI leadership into everyday productivity with Microsoft 365 Copilot","https://www.microsoft.com/en/customers/story/27691-the-manufacturers-life-insurance-company-usa-microsoft-365-copilot","broad-tech",1,"",0],
+      ["AMD telco chief says GPU 'backlash' is coming in AI-RAN","https://www.lightreading.com/5g/amd-telco-chief-says-gpu-backlash-is-coming-in-ai-ran","broad-tech",1,"",0],
+      ["OpenAI Unveils New Astra AI Model After Scrapping Prior Release","https://www.bloomberg.com/news/articles/2026-11-17/openai-unveils-new-astra-ai-model-after-scrapping-prior-release","broad-tech",1,"",0],
+      ["China warns US of retaliation over new AI chip restrictions","https://www.businesstimes.com.sg/international/global/china-warns-us-retaliation-over-new-ai-chip-restrictions","broad-tech",1,"",0],
+      ["Microsoft lança Cobalt 200 para nuvem e IA com até 50% mais desempenho","https://telesintese.com.br/microsoft-lanca-cobalt-200-para-nuvem-e-ia-com-ate-50-mais-desempenho/","broad-tech",1,"",0],
+      ["Ataques automatizados por IA devem ganhar força nos próximos meses, diz Google","https://www.estadao.com.br/tecmundo/ciberseguranca/ataques-automatizados-por-ia-devem-ganhar-forca-nos-proximos-meses-diz-google/","broad-tech",1,"",0],
+      ["Southeast Asia’s data center boom leaned on Chinese demand. New U.S. rules put that pipeline at risk","https://www.cnbc.com/2026/11/18/nvidia-us-ai-chip-export-controls-data-centers-.html","broad-tech",1,"",0],
+      ["Infratil CEO Optimistic on Long-Term Demand for Data Centers","https://www.bloomberg.com/news/articles/2026-11-18/infratil-ceo-optimistic-on-long-term-demand-for-data-centers","broad-tech",1,"",0],
+      ["AI Bubble Panic: Wall Street Makes Its Biggest Tech Cut in 20 Years","https://finance.yahoo.com/markets/stocks/articles/ai-bubble-panic-wall-street-154312148.html","broad-tech",1,"",0],
+      ["Security for the agentic era, powered by Microsoft Perception","https://www.microsoft.com/en-us/security/blog/2026/11/17/security-for-the-agentic-era-powered-by-microsoft-perception/","broad-tech",1,"",0],
+      ["Nokia lança solução de fibra pré-paga e mira expansão na América Latina","https://telesintese.com.br/nokia-lanca-solucao-de-fibra-pre-paga-e-mira-expansao-na-america-latina/","broad-tech",1,"",0],
+      ["Banks pause US$480 million chip loan tied to China’s ByteDance","https://www.businesstimes.com.sg/companies-markets/telcos-media-tech/banks-pause-us480-million-chip-loan-tied-chinas-bytedance","broad-tech",1,"",0]
+    ]
+  }
+};
+
+// Last News (rolling 24h): listas planas ja ordenadas por score desc no
+// pipeline. Sem buckets/quotas — diferente do RAW acima que e' o editorial.
+var RAW_LN = {
+  brazil: [
+    ["V.tal avança na banda larga, mas prejuízo cresce 80% no terceiro tri","https://teletime.com.br/17/11/2026/v-tal-prejuizo-terceiro-trimestre-2026/","17/11 16:41"],
+      ["CI&T Inc. 2026 Q3 - Results - Earnings Call Presentation (NYSE:CINT) 2026-11-17","https://seekingalpha.com/article/4969319-ci-and-t-inc-2026-q3-results-earnings-call-presentation","17/11 20:11"],
+      ["Cisco amplia em 10% a receita com produtos no Brasil","https://telesintese.com.br/cisco-amplia-em-10-a-receita-com-produtos-no-brasil/","17/11 19:28"],
+      ["Unifique estende suspensão de assembleia sobre novo laudo de OPA até quinta-feira","https://valor.globo.com/empresas/noticia/2026/11/18/unifique-estende-suspensao-de-assembleia-sobre-novo-laudo-de-opa-ate-quinta-feira.ghtml","18/11 08:53"],
+      ["BTG Pactual: R$ 6,3 bi pela Vero faria sentido para Vivo, apesar de prêmio","https://teletime.com.br/17/11/2026/btg-pactual-r-63-bi-pela-vero-faria-sentido-para-vivo-apesar-de-premio/","17/11 20:59"],
+      ["Prêmio IoT ABINC : uso de IA em edge computing quase dobra em um ano","https://convergenciadigital.com.br/governo/premio-iot-abinc-uso-de-ia-em-edge-computing-quase-dobra-em-um-ano/","17/11 17:02"],
+      ["CEO da Amazon diz que EUA precisam construir data centers para não serem superados pela China em IA","https://redir.folha.com.br/redir/online/tec/rss091/*https://c-level.folha.uol.com.br/ia/2026/11/ceo-da-amazon-diz-que-eua-precisam-construir-data-centers-para-nao-serem-superados-pela-china-em-ia.shtml","17/11 21:45"],
+      ["Anatel vai coordenar AICI, o Instituto de IA para Mudanças Climáticas","https://teletime.com.br/17/11/2026/anatel-instituto-mudancas-climaticas/","17/11 16:09"],
+      ["TOTVS aponta que 53% dos consumidores já usam IA nas compras e 90% veem utilidade na tecnologia para comparar preços na Black Friday","https://timesbrasil.com.br/brasil/totvs-aponta-que-53-dos-consumidores-ja-usam-ia-nas-compras-e-90-veem-utilidade-na-tecnologia-para-comparar-precos-na-black-friday/","17/11 14:30"],
+      ["Vivo pode comprar operadora por R$ 6,2 bi para acirrar disputa com Claro","https://canaltech.com.br/telecom/vivo-pode-comprar-operadora-por-r-62-bi-para-acirrar-disputa-com-claro/","18/11 13:12"],
+      ["Unifique adia assembleia sobre avaliação do valor das ações","https://teletime.com.br/18/11/2026/unifique-adia-assembleia-valor-acoes/","18/11 11:11"],
+      ["Após falhas em data centers, gestão da infraestrutura crítica passa da operação para a estratégia","https://tiinside.com.br/17/11/2026/apos-falhas-em-data-centers-gestao-da-infraestrutura-critica-passa-da-operacao-para-a-estrategia/","17/11 18:43"],
+      ["Ligga adia publicação do balanço do 3º trimestre","https://telesintese.com.br/ligga-adia-publicacao-do-balanco-do-3o-trimestre/","17/11 19:17"],
+      ["Iridium ativa serviço NB-IoT via D2D com alcance global","https://www.mobiletime.com.br/noticias/17/11/2026/iridium-ntn-direct/","17/11 19:20"],
+      ["Regulação de big techs pode reduzir custos em até R$ 50,6 bilhões","https://www.ecommercebrasil.com.br/noticias/regulacao-big-techs-reducao-custos-brasil","18/11 11:10"],
+      ["Black Friday: como preparar a logística para os riscos de uma operação de alta demanda","https://www.ecommercebrasil.com.br/artigos/black-friday-como-preparar-a-logistica-para-os-riscos-de-uma-operacao-de-alta-demanda","18/11 10:00"],
+      ["Black Friday 2026: o que o checkout e a plataforma precisam aguentar","https://www.ecommercebrasil.com.br/artigos/black-friday-2026-o-que-o-checkout-e-a-plataforma-precisam-aguentar","18/11 09:00"],
+      ["Unifique suspende assembleia sobre nova avaliação de OPA","https://www.spacemoney.com.br/investimentos/acoes/unifique-opa-assembleia-suspensa/","18/11 11:33"],
+      ["Totvs (TOTS3) e Itaú (ITUB4) anunciam novo CEO para joint venture de serviços financeiros","https://guiadoinvestidor.com.br/mercado/totvs-tots3-e-itau-itub4-anunciam-novo-ceo-para-joint-venture-de-servicos-financeiros/","18/11 07:45"],
+      ["Vivo lança CPF Seguro em seu app","https://www.mobiletime.com.br/noticias/17/11/2026/vivo-lanca-cpf-seguro-em/","17/11 20:18"],
+      ["Computação de borda mais que dobra em projetos de Internet das Coisas","https://telesintese.com.br/computacao-de-borda-mais-que-dobra-em-projetos-de-internet-das-coisas/","17/11 18:43"],
+      ["Celular Android na Black Friday: veja como escolher um que não trava","https://g1.globo.com/guia/guia-de-compras/tecnologia/celulares/celular-android-na-black-friday-veja-como-escolher-um-que-nao-trava.ghtml","18/11 03:00"],
+      ["Reforma Tributária: Receita publica primeiro código-fonte aberto no GitHub","https://convergenciadigital.com.br/governo/reforma-tributaria-receita-publica-primeiro-codigo-fonte-aberto-no-github/","18/11 11:03"],
+      ["Empresas ligadas a data centers perdem US$ 4,2 tri","https://valor.globo.com/empresas/noticia/2026/11/17/empresas-ligadas-a-data-centers-perdem-us-42-tri.ghtml",""],
+      ["Chip dos EUA pode demorar 60 dias","https://valor.globo.com/empresas/noticia/2026/11/18/chip-dos-eua-pode-demorar-60-dias.ghtml","18/11 05:00"],
+      ["EXA passa a vender seguros para a base da Algar","https://www.mobiletime.com.br/noticias/17/11/2026/exa-algar-seguros/","17/11 20:03"],
+      ["A era de comprar telecom por pedaços está chegando ao fim","https://teletime.com.br/17/11/2026/telecom-artigo-comprar/","17/11 15:09"],
+      ["TikTok e ICC lançam programa de capacitação para pequenos negócios digitais","https://www.ecommercebrasil.com.br/noticias/tiktok-icc-capacitacao-pequenos-negocios-digitais","18/11 10:38"],
+      ["TOTVS apresenta nova categoria de tecnologia para transformar a gestão das empresas","https://neofeed.com.br/brand-stories/apresentado-por-totvs/totvs-apresenta-nova-categoria-de-tecnologia-para-transformar-a-gestao-das-empresas/","18/11 07:52"],
+      ["Unimed Serra Gaúcha adota biometria facial com Totvs","https://www.baguete.com.br/noticias/unimed-serra-gaucha-adota-biometria-facial-com-totvs","17/11 16:18"],
+      ["Edson Holanda quer estudo sobre impactos da conectividade","https://teletime.com.br/17/11/2026/edson-holanda-quer-estudo-sobre-impactos-da-conectividade-em-setores-regulados/","17/11 23:35"],
+      ["Serpro vai ter fábrica de Agentes IA no 1º semestre do ano que vem","https://convergenciadigital.com.br/governo/serpro-vai-ter-fabrica-de-agentes-ia-no-1o-semestre-do-ano-que-vem/","18/11 13:13"],
+      ["Axia, Simpar, Unifique, Iguatemi e mais ações para acompanhar nesta quarta-feira","https://www.infomoney.com.br/mercados/axia-simpar-unifique-iguatemi-e-mais-acoes-para-acompanhar-nesta-quarta-feira/","18/11 08:26"],
+      ["TOTVS Techfin terá novo CEO a partir de 2027","https://www.spacemoney.com.br/investimentos/totvs-techfin-novo-ceo-2027/","17/11 14:07"],
+      ["Restrição de compra de chips pelo Brasil não inviabiliza data centers, mas atrapalha","https://www.estadao.com.br/economia/coluna-da-broad/restricao-de-compra-de-chips-pelo-brasil-nao-inviabiliza-data-centers-mas-atrapalha/","17/11 21:59"],
+      ["Congresso aprova crédito de R$ 34,9 milhões para data center do Serpro em São Paulo","https://convergenciadigital.com.br/governo/congresso-aprova-credito-de-r-349-milhoes-para-data-center-do-serpro-em-sao-paulo/","17/11 18:14"],
+      ["China reage pesado e ameaça retaliar os EUA por restrições a venda de chips de IA","https://convergenciadigital.com.br/mercado/china-reage-pesado-e-ameaca-retaliar-os-eua-por-restricoes-a-venda-de-chips-de-ia/","17/11 15:40"],
+      ["Aneel diverge e adia decisão sobre compartilhamento de postes às vésperas de votação no Senado","https://valor.globo.com/brasil/noticia/2026/11/17/aneel-diverge-e-adia-deciso-sobre-compartilhamento-de-postes-s-vsperas-de-votao-no-senado.ghtml",""],
+      ["Total Express conquista 2º lugar geral no AI Lighthouse Awards 2026","https://www.ecommercebrasil.com.br/noticias/total-express-conquista-2o-lugar-geral-no-ai-lighthouse-awards-2026","18/11 12:00"],
+      ["Como data centers se tornaram novos alvos estratégicos de guerra: ‘Brilham como árvores de Natal’","https://www.estadao.com.br/internacional/como-data-centers-se-tornaram-novos-alvos-estrategicos-de-guerra-brilham-como-arvores-de-natal/","18/11 05:30"],
+      ["Sabesp (SBSP3), Simpar (SIMH3), Unifique (FIQE3), Iguatemi (IGTI11) e mais: Veja os destaques das empresas","https://valorinveste.globo.com/mercados/renda-variavel/empresas/noticia/2026/11/18/sabesp-sbsp3-simpar-simh3-unifique-fiqe3-iguatemi-igti11-e-mais-veja-os-destaques-das-empresas.ghtml","18/11 08:33"],
+      ["Por que você deveria comprar ações da TIM (TIMS3) agora, segundo o Itaú BBA","https://www.seudinheiro.com/2026/empresas/tim-tims3-itau-bba-eleva-recomendacao-para-compra-e-ve-relacao-risco-retorno-atraente-demais-para-ignorar-lmrs/","17/11 16:00"]
+  ],
+  global: [
+    ["Amazon and Google will together own nearly 30% of Anthropic after its IPO","https://techcrunch.com/2026/11/17/amazon-and-google-will-together-own-nearly-30-of-anthropic-after-its-ipo/","17/11 19:29"],
+      ["Salesforce leads enterprise software stocks lower ahead of Anthropic's IPO","https://seekingalpha.com/news/4673872-salesforce-leads-enterprise-software-stocks-lower-ahead-of-anthropics-ipo","17/11 18:12"],
+      ["Microsoft unveils AI models for coding, cybersecurity as it takes on Anthropic, OpenAI","https://www.reuters.com/legal/litigation/microsoft-unveils-ai-models-coding-cybersecurity-it-takes-anthropic-openai-2026-11-17/","17/11 15:18"],
+      ["Anthropic IPO: AI lab considers increasing the offering as investor demand surges, sources say","https://www.cnbc.com/2026/11/18/anthropic-ipo-ai-offering-price.html","18/11 13:49"],
+      ["Wall Street prepares for Anthropic IPO frenzy, despite broader AI stock slump","https://www.reuters.com/legal/transactional/wall-street-prepares-anthropic-ipo-frenzy-despite-broader-ai-stock-slump-2026-11-18/","18/11 08:12"],
+      ["Anthropic, o maior IPO da história","https://braziljournal.com/anthropic-o-maior-ipo-da-historia","17/11 21:51"],
+      ["Na Nvidia, balanço forte e investigações","https://valor.globo.com/empresas/noticia/2026/11/18/na-nvidia-balanco-forte-e-investigacoes.ghtml","18/11 05:00"],
+      ["CRM Stock Faces Worst Week Since April: Fresh Layoffs Reportedly Surface Across Salesforce Teams","https://finance.yahoo.com/markets/stocks/articles/crm-stock-faces-worst-week-031048815.html","18/11 00:10"],
+      ["Workday Rising EMEA - Workday acquires Honeydew for semantic consistency, strengthens EU Sovereign Cloud","https://diginomica.com/workday-rising-emea-acquires-honeydew-eu-sovereign-cloud","18/11 10:29"],
+      ["Salesforce, Microsoft Launch Copilotforce Partnership","https://www.marketscreener.com/news/salesforce-microsoft-launch-copilotforce-partnership-ce785edcdd80f227","17/11 16:00"],
+      ["Stock Market Today, Nov. 17: Stocks Slide on AI Chip and Tech Pressures, Salesforce Plummets 9%","https://www.theglobeandmail.com/investing/markets/stocks/NFLX-Q/pressreleases/8886114/stock-market-today-nov-17-stocks-slide-on-ai-chip-and-tech-pressures-salesforce-plummets-9/","17/11 19:44"],
+      ["Salesforce (CRM) Could Be 16% Undervalued As AI Agent Fears Hit Software Stocks","https://finance.yahoo.com/markets/stocks/articles/salesforce-crm-could-16-undervalued-171244725.html","17/11 14:12"],
+      ["Coreweave, Iren, Nebius shares sink following Nvidia earnings","https://www.cnbc.com/2026/11/18/nvidia-stock-earnings.html","18/11 11:49"],
+      ["Tencent Profit Flatlines Amid Surging AI Investments, Revenue Growth Slows","https://www.wsj.com/tech/tencents-core-businesses-help-cushion-burden-of-intensified-ai-push-0c1cfc57","18/11 08:35"],
+      ["Microsoft lança Cobalt 200 para nuvem e IA com até 50% mais desempenho","https://telesintese.com.br/microsoft-lanca-cobalt-200-para-nuvem-e-ia-com-ate-50-mais-desempenho/","17/11 19:21"],
+      ["Nice Announces Strengthening of Collaboration with Microsoft and Expands Integrations Across Microsoft Azure, Microsoft Teams and Microsoft Dynamics 365 Customer Service","https://www.marketscreener.com/news/nice-announces-strengthening-of-collaboration-with-microsoft-and-expands-integrations-across-microso-ce785eddda8ef524","18/11 12:35"],
+      ["Frenemies once more - after months of ‘Clippy’ claps at Microsoft’s expense, welcome to Salesforce’s Copilotforce","https://diginomica.com/frenemies-once-more-after-months-clippy-claps-microsofts-expense-welcome-salesforces-copilotforce","18/11 10:27"],
+      ["‘People will ask, agents will act’: Workday CEO outlines how AI is coming to help unleash “an incredible world of work”","https://www.techradar.com/pro/people-will-ask-agents-will-act-workday-ceo-outlines-how-ai-is-coming-to-help-unleash-an-incredible-world-of-work","18/11 12:10"],
+      ["Workday Rising EMEA - AI trust is about data context and agentic controls, so how do we get there? Workday's tech leaders have their say","https://diginomica.com/workday-rising-emea-ai-trust-about-data-context-and-agentic-controls-so-how-do-we-get-there","18/11 05:38"],
+      ["Workday Inc. Announces New Governance And Operational Safeguards For WorkdayEU Sovereign Cloud","https://www.marketscreener.com/news/workday-inc-announces-new-governance-and-operational-safeguards-for-workdayeu-sovereign-cloud-ce785edcd08eff25","18/11 05:51"],
+      ["UK's Network Rail taps Cognizant for £133.2m data center contract","https://www.datacenterdynamics.com/en/news/uks-network-rail-taps-cognizant-for-1332m-data-center-contract/","18/11 09:45"],
+      ["Salesforce caps employee AI spending after token bills hit thousands a month","https://startupfortune.com/salesforce-caps-employee-ai-spending-after-token-bills-hit-thousands-a-month/","17/11 18:46"],
+      ["Disney retoma alta nos gastos com conteúdo e prevê US$ 26 bilhões em 2027 após lucro no streaming","https://telaviva.com.br/17/11/2026/disney-retoma-alta-nos-gastos-com-conteudo-e-preve-us-26-bilhoes-em-2027-apos-lucro-no-streaming/","17/11 22:51"],
+      ["Nvidia Gives Upbeat Outlook While Quashing Idea of Huang Return","https://www.bloomberg.com/news/articles/2026-11-17/nvidia-delivers-solid-outlook-in-first-post-huang-earnings","18/11 01:36"],
+      ["With Jensen Huang gone, Colette Kress shows Nvidia is still at the center of AI","https://www.cnbc.com/2026/11/17/jensen-huang-may-be-gone-nvidia-shows-its-still-at-the-center-of-ai-.html","18/11 00:15"],
+      ["Nokia lança solução de fibra pré-paga e mira expansão na América Latina","https://telesintese.com.br/nokia-lanca-solucao-de-fibra-pre-paga-e-mira-expansao-na-america-latina/","17/11 19:20"],
+      ["Ambani Seeks to Build Satellite Capacity for Starlink Challenge","https://www.bloomberg.com/news/articles/2026-11-18/ambani-seeks-to-build-satellite-capacity-for-starlink-challenge","17/11 22:00"],
+      ["VodafoneThree to test Nokia's AI-RAN with Nvidia GPUs","https://www.lightreading.com/ai-machine-learning/vodafonethree-to-test-nokia-s-ai-ran-with-nvidia-gpus","18/11 05:15"],
+      ["China’s military seeks Nvidia’s advanced chips for AI capabilities, commission says","https://www.cnbc.com/2026/11/18/nvidia-chips-china-military-ai.html","18/11 07:45"],
+      ["Nvidia’s startup stakes ballooned to $65B, but Huang’s exit puts future  deals in doubt","https://techcrunch.com/2026/11/17/nvidias-startup-stakes-ballooned-to-65b-but-huangs-exit-puts-future-deals-in-doubt/","17/11 22:44"],
+      ["Nvidia's numbers and Anthropic anticipation drive Nasdaq futures up","https://www.cnbc.com/2026/11/18/nvidias-numbers-and-anthropic-anticipation-drive-nasdaq-futures-up.html","18/11 10:05"],
+      ["Microsoft Executive Says Nvidia Drama Could Boost Rival Chips","https://www.bloomberg.com/news/articles/2026-11-17/microsoft-executive-says-nvidia-drama-could-boost-rival-chips","17/11 19:34"],
+      ["Manulife turns AI leadership into everyday productivity with Microsoft 365 Copilot","https://www.microsoft.com/en/customers/story/27691-the-manufacturers-life-insurance-company-usa-microsoft-365-copilot","17/11 16:08"],
+      ["AMD telco chief says GPU 'backlash' is coming in AI-RAN","https://www.lightreading.com/5g/amd-telco-chief-says-gpu-backlash-is-coming-in-ai-ran","18/11 05:30"],
+      ["OpenAI Unveils New Astra AI Model After Scrapping Prior Release","https://www.bloomberg.com/news/articles/2026-11-17/openai-unveils-new-astra-ai-model-after-scrapping-prior-release","17/11 14:45"],
+      ["Tencent Says US Chip Curbs to Slow Chinese AI in the Short Run","https://www.bloomberg.com/news/articles/2026-11-18/tencent-says-us-chip-curbs-to-slow-chinese-ai-in-the-short-run","18/11 10:19"],
+      ["Malaysia Seeks Details From Anthropic Over AI Influence Campaign","https://www.bloomberg.com/news/articles/2026-11-18/malaysia-seeks-details-from-anthropic-over-ai-influence-campaign","17/11 22:09"],
+      ["US tech outages blamed on rush to fix bugs found by AI","https://www.ft.com/content/96c565f1-f229-40b6-91e8-7a849ec4b208?syn-25a6b1a6=1","18/11 09:44"],
+      ["Southeast Asia’s data center boom leaned on Chinese demand. New U.S. rules put that pipeline at risk","https://www.cnbc.com/2026/11/18/nvidia-us-ai-chip-export-controls-data-centers-.html","18/11 05:09"],
+      ["China warns US of retaliation over new AI chip restrictions","https://www.businesstimes.com.sg/international/global/china-warns-us-retaliation-over-new-ai-chip-restrictions","17/11 23:18"],
+      ["Nvidia interrompe envio de chips Hopper para a China em meio à crise por espionagem","https://g1.globo.com/tecnologia/noticia/2026/11/18/nvidia-interrompe-envio-de-chips-hopper-para-a-china-em-meio-a-crise-por-espionagem.ghtml","18/11 08:37"],
+      ["Black da Amazon: AirPods Pro 3 com Tradução ao Vivo surge em 10x sem juros","https://tecnoblog.net/achados/black-da-amazon-airpods-pro-3-com-traducao-ao-vivo-surge-em-10x-sem-juros/","18/11 12:05"],
+      ["Ataques automatizados por IA devem ganhar força nos próximos meses, diz Google","https://www.estadao.com.br/tecmundo/ciberseguranca/ataques-automatizados-por-ia-devem-ganhar-forca-nos-proximos-meses-diz-google/","17/11 21:00"],
+      ["Physical AI Startup Humyn Raises $47 Million From Accel, Prosus","https://www.bloomberg.com/news/articles/2026-11-18/physical-ai-startup-humyn-raises-47-million-from-accel-prosus","18/11 08:30"],
+      ["Infratil CEO Optimistic on Long-Term Demand for Data Centers","https://www.bloomberg.com/news/articles/2026-11-18/infratil-ceo-optimistic-on-long-term-demand-for-data-centers","17/11 23:12"],
+      ["Nvidia’s Kress faces a divided workforce as some employees push for Huang’s return","https://www.cnbc.com/2026/11/18/nvidia-kress-jensen-huang-return.html","18/11 08:04"],
+      ["SoftBank regrets ‘mistake’ of not backing Anthropic, says Son","https://www.ft.com/content/08086201-6359-47ec-8854-70462ad5a4c0?syn-25a6b1a6=1","18/11 04:56"],
+      ["Wall Street set to open higher after Nvidia results reassure investors","https://www.ft.com/content/f085b811-fc20-425f-88d8-9f98e178636a?syn-25a6b1a6=1","18/11 08:34"],
+      ["Nvidia’s big business in Singapore","https://www.ft.com/content/fd1e1939-8a5c-47ac-bb38-47d147f8bc7a?syn-25a6b1a6=1","18/11 02:00"],
+      ["Nvidia has a chance to trade drama for durability","https://www.ft.com/content/2d3e1b32-4b45-418b-8b06-90874057eac0?syn-25a6b1a6=1","17/11 23:56"],
+      ["Nvidia's Colette Kress tells Cramer: Employees and customers are not going anywhere","https://www.cnbc.com/2026/11/17/nvidias-colette-kress-tells-cramer-customers-and-employees-are-not-going-anywhere.html","17/11 22:02"],
+      ["Nvidia’s Strong Fundamentals Give New CEO a Much-Needed Tailwind","https://www.wsj.com/business/nvidias-strong-fundamentals-give-new-ceo-a-much-needed-tailwind-65859856","18/11 07:30"],
+      ["Widespread outages hit banks, air travel, the NSA and Apple, disrupting seemingly everything","https://www.cnbc.com/2026/11/17/apple-microsoft-faa-jpmorgan-outages.html","17/11 17:52"],
+      ["Booking Holdings creates new enterprise division as AI reshapes travel planning","https://www.cnbc.com/2026/11/18/booking-holdings-enterprise.html","18/11 09:55"],
+      ["AI borrowing binge has ‘historic parallels’ with subprime bubble, says ECB","https://www.ft.com/content/d16475ce-efce-4dc1-b5a3-2f7c79e9dea9?syn-25a6b1a6=1","18/11 06:00"],
+      ["The rise of AI facial analysers","https://www.ft.com/content/b4591749-e1f9-4231-acce-9d09782acf3b","18/11 02:00"],
+      ["AI asked ‘better questions’ than KPMG accountants in pilot audit","https://www.ft.com/content/5168b3e9-75d0-4be0-9ccd-d327d6b16c05?syn-25a6b1a6=1","18/11 02:00"],
+      ["JPMorgan is working on AI agent transactions that don’t involve humans","https://www.cnbc.com/2026/11/18/jpmorgan-hyundai-card-ai-agents-payments.html","17/11 20:30"],
+      ["Union Nurses Tell Researchers That AI Can Make Their Jobs Harder","https://www.bloomberg.com/news/articles/2026-11-18/union-nurses-tell-researchers-that-ai-can-make-their-jobs-harder","18/11 11:40"],
+      ["EXCLUSIVE: Trump administration weighs forcing US firms to disclose Chinese AI use","https://www.reuters.com/world/china/trump-administration-weighs-forcing-us-firms-disclose-chinese-ai-use-2026-11-18/","18/11 08:34"]
+  ]
+};
+
+// A DATA DA EDICAO, nao a de hoje, e em pt-BR.
+// O Pages abria com "Sunday, October 25, 2026" sobre a edicao de 23/10, e em
+// ingles (editor, E11/E12): o HTML e' escrito uma vez e lido por dias, entao
+// `new Date()` e' sempre a data de quem abre, nunca a do que esta na tela.
+// O "Gerado:" que o setLastUpdate ja extrai do proprio documento tem a data
+// certa; aqui so' lemos ela antes, pelo mesmo regex.
+function setDataEdicao(){
+  var el = document.getElementById('data-hoje');
+  if (!el) return;
+  var m = document.body.textContent.match(/Gerado:\s*(\d{4})-(\d{2})-(\d{2})/);
+  var d = m ? new Date(+m[1], +m[2]-1, +m[3]) : new Date();
+  var txt = d.toLocaleDateString('pt-BR', {weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+  el.textContent = txt.charAt(0).toUpperCase() + txt.slice(1);
+}
+
+// Backend URL — Cloudflare Pages Functions. POST dispara workflow_dispatch
+// no GitHub Actions. Aceita query params:
+//   ?janela=24h        -> --ultimas-24h (rolling)
+//   ?data=YYYY-MM-DD   -> --data X (regra deduzida do weekday no Python)
+//   sem params         -> default editorial do dia atual
+//
+// Migramos de *.workers.dev (antes ibba-clipping-cron.leonardojdesousa.workers.dev)
+// pra *.pages.dev porque iPhones com iCloud Private Relay bloqueiam workers.dev.
+// Cron continua no Worker (worker-cron.js scheduled handler) — so o trigger
+// browser-side migrou.
+// WORKER_URL removido em 2026-10-21: o endpoint de trigger so' conferia o
+// header Origin, que qualquer cliente escreve a mao. Publicado numa pagina
+// aberta, era um botao para queimar a cota do Inoreader de fora.
+const AVG_URL = "https://ibba-clipping.pages.dev/api/avg-duration";
+const REPO_API = "https://api.github.com/repos/leocintra01/clipping/commits?per_page=1";
+const POLL_MS = 4000;
+const MAX_WAIT_MS = 5 * 60 * 1000;
+const FALLBACK_AVG_SEC = 90;
+
+// =========================================================================
+// runClipping: dispara workflow no Worker e poll-aguarda novo commit no
+// repo publico. Mesmo fluxo da pagina indice (com spinner/progresso/redirect).
+// Funciona em qualquer browser moderno (Safari/Chrome desktop+mobile).
+// =========================================================================
+// Cada aba (Last News / Clipping) tem sua propria .run-status e
+// .run-progress — atualizamos as duas em paralelo via querySelectorAll
+// pra que o usuario veja a mesma feedback em qualquer aba.
+function _setStatus(msg, kind, withSpinner){
+  var els = document.querySelectorAll(".run-status");
+  var inner = "";
+  if (withSpinner) inner += '<span class="spinner"></span>';
+  inner += '<span class="status-text">' + msg + '</span>';
+  for (var i=0;i<els.length;i++) {
+    els[i].className = "run-status visible" + (kind ? " " + kind : "");
+    els[i].innerHTML = inner;
+  }
+}
+function _setProgress(pct){
+  var wraps = document.querySelectorAll(".run-progress");
+  var w = Math.min(100, Math.max(0, pct)) + "%";
+  for (var i=0;i<wraps.length;i++) {
+    wraps[i].classList.add("visible");
+    var bar = wraps[i].querySelector(".bar");
+    if (bar) bar.style.width = w;
+  }
+}
+function _hideProgress(){
+  var wraps = document.querySelectorAll(".run-progress");
+  for (var i=0;i<wraps.length;i++) wraps[i].classList.remove("visible");
+}
+function _fmtTime(sec){ var m=Math.floor(sec/60); var s=Math.max(0,Math.floor(sec%60)); return m+":"+(s<10?"0":"")+s; }
+async function _getLatestCommitSha(){
+  try { var r = await fetch(REPO_API, {headers:{"Accept":"application/vnd.github+json"}}); if(!r.ok) return null; var j = await r.json(); return j[0] && j[0].sha; }
+  catch(e){ return null; }
+}
+async function _getNovoClippingHtml(sha){
+  try {
+    var r = await fetch("https://api.github.com/repos/leocintra01/clipping/commits/"+sha,
+      {headers:{"Accept":"application/vnd.github+json"}});
+    if (!r.ok) return null;
+    var j = await r.json();
+    var f = (j.files||[]).find(function(x){ return /^clipping-.*\.html$/.test(x.filename); });
+    return f ? f.filename : null;
+  } catch(e){ return null; }
+}
+async function _getAvgDuration(){
+  try { var r = await fetch(AVG_URL); if(!r.ok) return FALLBACK_AVG_SEC; var j = await r.json(); return (j && j.avg) || FALLBACK_AVG_SEC; }
+  catch(e){ return FALLBACK_AVG_SEC; }
+}
+async function _waitForPagesUrl(url, maxMs, intervalMs){
+  maxMs = maxMs || 90000; intervalMs = intervalMs || 4000;
+  var inicio = Date.now();
+  while (Date.now() - inicio < maxMs) {
+    try { var r = await fetch(url, {method:'HEAD', cache:'no-store'}); if (r.ok) return true; }
+    catch(e){}
+    await new Promise(function(r){ setTimeout(r, intervalMs); });
+  }
+  return false;
+}
+function _disableButtons(disabled){
+  var ids = ["btn-ln-run", "btn-cl-run"];
+  for (var i=0;i<ids.length;i++) {
+    var el = document.getElementById(ids[i]);
+    if (el) el.disabled = disabled;
+  }
+}
+// runClipping foi desligada em 2026-10-21 junto com os botoes.
+// O clipping roda por cron (Cloudflare Worker -> workflow_dispatch) tres
+// vezes por dia. Disparo manual gasta cota do Inoreader e nao existe mais
+// aqui; se um dia voltar, tem que vir com segredo no POST, nao com Origin.
+function runClipping(){ return false; }
+
+var state={};var selectionCounter=0;
+function init(){state={brazil:{official:[],others:[]},global:{official:[],others:[]}};var secs=["brazil","global"],types=["official","others"];for(var s=0;s<secs.length;s++){for(var t=0;t<types.length;t++){var sec=secs[s],typ=types[t],arr=RAW[sec][typ];for(var i=0;i<arr.length;i++){var isOff=(typ==="official");var prefix=sec[0]+(isOff?"f":"t")+i;state[sec][typ].push({title:arr[i][0],editedTitle:arr[i][0],url:arr[i][1],checked:(isOff||arr[i][5]===1),prio:null,selectedAt:isOff?(selectionCounter++):null,id:prefix,section:sec,tag:(arr[i][2]||""),repetido:(arr[i][3]===1),tambem:(arr[i][4]||""),desviado:(arr[i][5]===1)});}}}}
+function getSource(url){try{return url.replace("https://","").replace("http://","").split("/")[0].replace("www.","");}catch(e){return "";}}
+function allItems(){return state.brazil.official.concat(state.brazil.others,state.global.official,state.global.others);}
+function findItem(id){var all=allItems();for(var i=0;i<all.length;i++){if(all[i].id===id)return all[i];}return null;}
+function renderList(listId,items){var container=document.getElementById(listId);container.innerHTML="";for(var i=0;i<items.length;i++){var item=items[i];var cbId="cb-"+item.id;var wrapper=document.createElement("div");wrapper.className="card-wrapper";var cb=document.createElement("input");cb.type="checkbox";cb.id=cbId;cb.className="native-cb";cb.checked=item.checked;cb.setAttribute("data-id",item.id);cb.addEventListener("change",(function(id){return function(){onCheck(id,this.checked);};})(item.id));wrapper.appendChild(cb);var lbl=document.createElement("label");lbl.htmlFor=cbId;lbl.className="news-card"+(item.checked?" checked":"");lbl.id="card-"+item.id;var checkBox=document.createElement("div");checkBox.className="card-check-box";var visual=document.createElement("div");visual.className="check-visual";checkBox.appendChild(visual);var body=document.createElement("div");body.className="card-body";var titleDiv=document.createElement("div");titleDiv.className="news-title";var a=document.createElement("a");a.href=item.url;a.target="_blank";a.rel="noopener";a.textContent=item.title;a.addEventListener("click",function(e){e.stopPropagation();});titleDiv.appendChild(a);var srcDiv=document.createElement("div");srcDiv.className="news-source";srcDiv.textContent=getSource(item.url);if(item.tag){var tg=document.createElement("span");tg.className="tag-pill tag-"+item.tag;tg.textContent=TAG_LABEL[item.tag]||item.tag;srcDiv.appendChild(tg);}if(item.tambem){var tb=document.createElement("span");tb.className="tambem-em";tb.title="A mesma noticia saiu tambem nestes veiculos";tb.textContent="+ "+item.tambem;srcDiv.appendChild(tb);}if(item.repetido){var rp=document.createElement("span");rp.className="tag-pill tag-repetido";rp.title="Ja apareceu em uma edicao anterior - de hoje ou do dia util anterior";rp.textContent="ja publicado";srcDiv.appendChild(rp);}body.appendChild(titleDiv);body.appendChild(srcDiv);lbl.appendChild(checkBox);lbl.appendChild(body);wrapper.appendChild(lbl);var prioWrap=document.createElement("div");prioWrap.className="card-prio-wrap"+(item.checked?" checked":"");prioWrap.id="priowrap-"+item.id;var sel=document.createElement("select");sel.className="prio-select"+(item.prio?" has-value":"");sel.id="prio-"+item.id;var opts=[["--",""]];for(var k=1;k<=10;k++){opts.push([String(k),String(k)]);}for(var o=0;o<opts.length;o++){var op=document.createElement("option");op.value=opts[o][1];op.textContent=opts[o][0];if(String(item.prio)===opts[o][1])op.selected=true;sel.appendChild(op);}sel.onchange=(function(id){return function(){setPrio(id,this.value);};})(item.id);prioWrap.appendChild(sel);wrapper.appendChild(prioWrap);container.appendChild(wrapper);}}
+function onCheck(id,checked){var item=findItem(id);if(!item)return;item.checked=checked;item.editedTitle=item.title;if(checked){item.selectedAt=selectionCounter++;}else{item.selectedAt=null;item.prio=null;}var card=document.getElementById("card-"+id);if(card){if(checked)card.classList.add("checked");else card.classList.remove("checked");}var pw=document.getElementById("priowrap-"+id);if(pw){if(checked)pw.classList.add("checked");else pw.classList.remove("checked");}updateCounts();renderWhatsApp();}
+function renderTop3(){
+  var bloco=document.getElementById("top3-bloco"), lista=document.getElementById("top3-list");
+  if(!bloco||!lista) return;
+  if(!RAW_TOP3.length){ bloco.hidden=true; return; }
+  lista.innerHTML="";
+  for(var i=0;i<RAW_TOP3.length;i++){
+    var t=RAW_TOP3[i][0], u=RAW_TOP3[i][1], tag=RAW_TOP3[i][2]||"", bucket=RAW_TOP3[i][3]||"";
+    var li=document.createElement("li"); li.className="top3-item";
+    var box=document.createElement("div");
+    var a=document.createElement("a"); a.href=u; a.target="_blank"; a.rel="noopener"; a.textContent=t;
+    box.appendChild(a);
+    var meta=document.createElement("div"); meta.className="top3-meta";
+    meta.appendChild(document.createTextNode(getSource(u)+(bucket?"  ·  "+bucket:"")));
+    if(tag){ var tg=document.createElement("span"); tg.className="tag-pill tag-"+tag;
+             tg.textContent=TAG_LABEL[tag]||tag; meta.appendChild(tg); }
+    box.appendChild(meta); li.appendChild(box); lista.appendChild(li);
+  }
+  bloco.hidden=false;
+}
+function renderEmpresas(){
+  var box=document.getElementById("emp-lista"), cnt=document.getElementById("emp-count");
+  if(!box) return;
+  box.innerHTML="";
+  if(!RAW_EMPRESAS.length){ box.innerHTML='<div class="empty-state">Nenhuma empresa de cobertura nesta edicao.</div>';
+    if(cnt) cnt.textContent="0 empresas"; return; }
+  var tot=0;
+  for(var e=0;e<RAW_EMPRESAS.length;e++){
+    var nome=RAW_EMPRESAS[e][0], itens=RAW_EMPRESAS[e][1]||[];
+    tot+=itens.length;
+    var bloco=document.createElement("section"); bloco.className="emp-bloco";
+    var h=document.createElement("h3"); h.className="emp-nome";
+    h.appendChild(document.createTextNode(nome));
+    var b=document.createElement("span"); b.className="emp-qtd"; b.textContent=itens.length;
+    h.appendChild(b); bloco.appendChild(h);
+    var ul=document.createElement("ul"); ul.className="emp-itens";
+    for(var i=0;i<itens.length;i++){
+      var li=document.createElement("li");
+      var a=document.createElement("a"); a.href=itens[i][1]; a.target="_blank"; a.rel="noopener";
+      a.textContent=itens[i][0]; li.appendChild(a);
+      var m=document.createElement("div"); m.className="emp-meta";
+      m.appendChild(document.createTextNode(getSource(itens[i][1])));
+      var tg=itens[i][2];
+      if(tg){ var p=document.createElement("span"); p.className="tag-pill tag-"+tg;
+              p.textContent=TAG_LABEL[tg]||tg; m.appendChild(p); }
+      li.appendChild(m); ul.appendChild(li);
+    }
+    bloco.appendChild(ul); box.appendChild(bloco);
+  }
+  if(cnt) cnt.textContent=RAW_EMPRESAS.length+" empresas / "+tot+" itens";
+}
+function renderAll(){renderTop3();renderEmpresas();renderList("list-brazil-official",state.brazil.official);renderList("list-brazil-others",state.brazil.others);renderList("list-global-official",state.global.official);renderList("list-global-others",state.global.others);updateCounts();renderWhatsApp();}
+function setPrio(id,val){var item=findItem(id);if(!item)return;item.prio=val||null;var sel=document.getElementById("prio-"+id);if(sel)sel.className="prio-select"+(val?" has-value":"");renderWhatsApp();}
+function updateCounts(){var b=state.brazil.official.concat(state.brazil.others).filter(function(i){return i.checked;}).length;var g=state.global.official.concat(state.global.others).filter(function(i){return i.checked;}).length;function el(id){return document.getElementById(id);}if(el("brazil-count"))el("brazil-count").textContent=b+" selecionada"+(b!==1?"s":"");if(el("global-count"))el("global-count").textContent=g+" selecionada"+(g!==1?"s":"");if(el("stat-brazil"))el("stat-brazil").textContent=b;if(el("stat-global"))el("stat-global").textContent=g;if(el("stat-total"))el("stat-total").textContent=b+g;if(el("whats-count"))el("whats-count").textContent=(b+g)+" noticias";}
+function sortItems(items){var checked=items.filter(function(i){return i.checked;});var withP=checked.filter(function(i){return i.prio;});withP.sort(function(a,b){return Number(a.prio)-Number(b.prio);});var noP=checked.filter(function(i){return !i.prio;});noP.sort(function(a,b){return(a.selectedAt||0)-(b.selectedAt||0);});return withP.concat(noP);}
+function renderWhatsApp(){var bItems=sortItems(state.brazil.official.concat(state.brazil.others));var gItems=sortItems(state.global.official.concat(state.global.others));var container=document.getElementById("whats-news-list");if(!container)return;container.innerHTML="";if(!bItems.length&&!gItems.length){container.innerHTML='<div class="empty-state">Nenhuma noticia selecionada.</div>';return;}function renderSection(label,cssClass,items){if(!items.length)return;var lbl=document.createElement("div");lbl.className="whats-section-label "+cssClass;lbl.textContent=label;container.appendChild(lbl);for(var i=0;i<items.length;i++){var item=items[i];var card=document.createElement("div");card.className="whats-item";var orderDiv=document.createElement("div");orderDiv.className="whats-item-order";orderDiv.textContent=(item.prio?"TOP "+item.prio:"#"+(i+1))+" \u00B7 "+getSource(item.url);card.appendChild(orderDiv);var ta=document.createElement("textarea");ta.className="whats-item-title";ta.value=item.editedTitle;ta.rows=2;ta.addEventListener("input",(function(id){return function(){var it=findItem(id);if(it)it.editedTitle=this.value;};})(item.id));card.appendChild(ta);var urlDiv=document.createElement("div");urlDiv.className="whats-item-url";urlDiv.textContent=item.url;card.appendChild(urlDiv);container.appendChild(card);}}renderSection("> Brazil","brazil",bItems);renderSection("> Global","global",gItems);}
+function copyClipping(){var bItems=sortItems(state.brazil.official.concat(state.brazil.others));var gItems=sortItems(state.global.official.concat(state.global.others));var lines=["*IBBA TMT Daily News*"];if(bItems.length){lines.push("");lines.push("> Brazil");lines.push("");for(var i=0;i<bItems.length;i++){lines.push("- *"+bItems[i].editedTitle+"*");lines.push(bItems[i].url);lines.push("");}}if(gItems.length){lines.push("");lines.push("> Global");lines.push("");for(var j=0;j<gItems.length;j++){lines.push("- *"+gItems[j].editedTitle+"*");lines.push(gItems[j].url);lines.push("");}}var text=lines.join("\n").trim();var btn=document.getElementById("btn-copy");function done(){if(btn){btn.textContent="Copiado!";btn.classList.add("copied");}setTimeout(function(){if(btn){btn.textContent="Copiar para area de transferencia";btn.classList.remove("copied");}},2000);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done).catch(function(){fallback(text,done);});}else{fallback(text,done);}}
+function fallback(text,cb){var ta=document.createElement("textarea");ta.value=text;ta.style.cssText="position:fixed;top:0;left:0;opacity:0;";document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand("copy");cb();}catch(e){}document.body.removeChild(ta);}
+// ===== Main tabs (Last News / Clipping) =====
+// Ao trocar de aba, duas correcoes medidas em 375px:
+//
+// 1) A aba selecionada podia ficar fora de vista. A faixa de subabas rola na
+//    horizontal no celular (as 5 do Clipping somam mais que a largura da tela),
+//    entao "Historico" continuava com a borda direita em 411px de 375 mesmo
+//    depois de clicada — o usuario nao via qual estava ativa.
+//
+// 2) A rolagem VERTICAL era preservada. Estando em 1200px na lista do Brazil e
+//    trocando para Global, voce caia no meio da outra lista, sem contexto.
+//    Volta para o topo do painel, logo abaixo do cabecalho grudado. So' sobe:
+//    se ja estiver acima, nao mexe.
+function _aoTrocarAba(btn){
+  try {
+    if (btn && btn.scrollIntoView) btn.scrollIntoView({inline:"nearest", block:"nearest"});
+    var faixa = btn ? btn.parentElement : null;
+    if (faixa) {
+      var h = document.querySelector(".header");
+      var alturaFixa = h ? h.getBoundingClientRect().height : 0;
+      var topo = faixa.getBoundingClientRect().top + window.pageYOffset - alturaFixa - 8;
+      if (window.pageYOffset > topo) window.scrollTo(0, Math.max(0, topo));
+    }
+  } catch (e) {}
+}
+
+function switchMain(name){
+  var lns = document.getElementById("last-news-section");
+  var cls = document.getElementById("clipping-section");
+  var btnLN = document.getElementById("mtab-lastnews");
+  var btnCL = document.getElementById("mtab-clipping");
+  if (name === "lastnews") {
+    lns.classList.add("active"); cls.classList.remove("active");
+    btnLN.classList.add("active"); btnCL.classList.remove("active");
+  } else {
+    cls.classList.add("active"); lns.classList.remove("active");
+    btnCL.classList.add("active"); btnLN.classList.remove("active");
+  }
+}
+
+// ===== Sub-tabs do Last News (Brazil / Global) =====
+function switchLN(name){
+  var br = document.getElementById("ln-panel-brazil");
+  var gl = document.getElementById("ln-panel-global");
+  var bbtn = document.getElementById("ln-stab-br");
+  var gbtn = document.getElementById("ln-stab-gl");
+  if (name === "brazil") {
+    br.classList.add("active"); gl.classList.remove("active");
+    bbtn.classList.add("active"); gbtn.classList.remove("active");
+  } else {
+    gl.classList.add("active"); br.classList.remove("active");
+    gbtn.classList.add("active"); bbtn.classList.remove("active");
+  }
+  _aoTrocarAba(name === "brazil" ? bbtn : gbtn);
+}
+
+// ===== Sub-tabs do Clipping (Brazil / Global / WhatsApp / Histórico) =====
+function switchClipping(name){
+  var panels = document.querySelectorAll("#clipping-section .tab-panel");
+  for (var i=0;i<panels.length;i++) panels[i].classList.remove("active");
+  var subtabs = document.querySelectorAll("#clipping-section .subtab");
+  for (var j=0;j<subtabs.length;j++) subtabs[j].classList.remove("active");
+  var p = document.getElementById("panel-"+name);
+  if (p) p.classList.add("active");
+  var map = {brazil:"cl-stab-br", global:"cl-stab-gl", empresas:"cl-stab-em", whats:"cl-stab-wa", historico:"cl-stab-hi"};
+  var t = document.getElementById(map[name]);
+  if (t) { t.classList.add("active"); _aoTrocarAba(t); }
+  // Lazy-load do Historico: so' fetcha a API do GitHub quando o user
+  // clica na aba. Evita gastar requests (60/h sem auth) em quem nunca
+  // abre o historico. Cacheado depois do 1o fetch.
+  if (name === "historico") loadHistorico();
+}
+
+// ===== Histórico de runs (sub-aba do Clipping) =====
+// Le /contents/ do repo publico (leocintra01/clipping) via GitHub API
+// anonimous (sem auth, 60 req/h/IP — suficiente). Filtra clipping-*.html,
+// agrupa por data, renderiza igual ao archive.html.
+var _histLoaded = false;
+var _HIST_WEEKDAYS = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira",
+                      "Quinta-feira","Sexta-feira","Sábado"];
+function _histCurrentFilename(){
+  var seg = location.pathname.split("/").pop();
+  return /^clipping-.*\.html$/.test(seg) ? seg : "";
+}
+async function loadHistorico(){
+  if (_histLoaded) return;
+  var list = document.getElementById("hist-list");
+  var meta = document.getElementById("hist-count");
+  try {
+    var r = await fetch("https://api.github.com/repos/leocintra01/clipping/contents/",
+      {headers:{"Accept":"application/vnd.github+json"}});
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    var entries = await r.json();
+    var pat = /^clipping-(\d{4})-(\d{2})-(\d{2})(?:-(\d{2})(\d{2}))?\.html$/;
+    var items = [];
+    for (var i=0;i<entries.length;i++) {
+      var m = pat.exec(entries[i].name);
+      if (!m) continue;
+      items.push({
+        date: m[1]+"-"+m[2]+"-"+m[3],
+        hh: m[4] || "ZZ", mm: m[5] || "ZZ",
+        timeLabel: m[4] ? (m[4]+":"+m[5]) : "Fechamento do dia",
+        fname: entries[i].name,
+      });
+    }
+    // Sort: data desc, hora desc. "Fechamento" (ZZ:ZZ) vai pro topo do dia.
+    items.sort(function(a,b){
+      if (a.date !== b.date) return a.date < b.date ? 1 : -1;
+      if (a.hh !== b.hh) return a.hh < b.hh ? 1 : -1;
+      return a.mm < b.mm ? 1 : -1;
+    });
+    // Group by date preservando ordem
+    var byDate = {}, order = [];
+    for (var k=0;k<items.length;k++) {
+      var d = items[k].date;
+      if (!(d in byDate)) { byDate[d] = []; order.push(d); }
+      byDate[d].push(items[k]);
+    }
+    var current = _histCurrentFilename();
+    var html = "";
+    for (var di=0;di<order.length;di++) {
+      var dt = order[di];
+      var parts = dt.split("-");
+      var dObj = new Date(Date.UTC(+parts[0], +parts[1]-1, +parts[2]));
+      var wd = _HIST_WEEKDAYS[dObj.getUTCDay()];
+      var versions = byDate[dt];
+      html += '<li class="date-row">'
+            + '<span class="date">' + dt + '</span>'
+            + '<span class="label">' + wd + '</span>'
+            // "edição" + "ões" dava "ediçãoões". O plural de edição e'
+            // edições: troca a palavra inteira, nao concatena sufixo.
+            + '<span class="count">' + versions.length + ' '
+            + (versions.length === 1 ? 'edição' : 'edições') + '</span></li>';
+      for (var vi=0;vi<versions.length;vi++) {
+        var v = versions[vi];
+        var isCur = v.fname === current;
+        html += '<li class="version-row' + (isCur ? " current" : "") + '">'
+              + (isCur
+                  ? '<a><span class="time">' + v.timeLabel + '</span>'
+                    + '<span class="arrow"></span></a>'
+                  : '<a href="' + v.fname + '">'
+                    + '<span class="time">' + v.timeLabel + '</span>'
+                    + '<span class="arrow">→</span></a>')
+              + '</li>';
+      }
+    }
+    list.innerHTML = html || '<li class="hist-empty">Nenhuma edição encontrada.</li>';
+    meta.textContent = items.length + " edições · " + order.length + " dias";
+    _histLoaded = true;
+  } catch(e) {
+    list.innerHTML = '<li class="hist-error">Erro ao carregar histórico: '
+                   + (e.message || e) + '</li>';
+  }
+}
+
+// ===== Render Last News (lista simples por relevancia, rolling 24h) =====
+// Dataset RAW_LN ja vem ordenado por score desc do pipeline.
+function renderLastNews(){
+  var listBR = document.getElementById("ln-list-brazil");
+  var listGL = document.getElementById("ln-list-global");
+  function montar(container, items){
+    container.innerHTML = "";
+    if (!items.length) {
+      container.innerHTML = '<div class="empty-state">Sem noticias nas ultimas 24h.</div>';
+      return;
+    }
+    for (var i=0;i<items.length;i++) {
+      var title = items[i][0], url = items[i][1];
+      var when = items[i][2] || "";  // hora opcional ("HH:MM" / "ontem HH:MM" / "")
+      var card = document.createElement("div"); card.className = "ln-item";
+      var t = document.createElement("div"); t.className = "ln-title";
+      var a = document.createElement("a"); a.href = url; a.target = "_blank"; a.rel = "noopener";
+      a.textContent = title; t.appendChild(a); card.appendChild(t);
+      var s = document.createElement("div"); s.className = "ln-source";
+      var src = getSource(url);
+      // Sem hora = a resolucao de data nao teve confianca suficiente. Omitir
+    // silenciosamente fazia parecer bug; dizer o que houve e a mesma regra
+    // do banner de fontes com erro, aplicada ao item.
+    if (when) { s.textContent = src + "  ·  " + when; }
+    else { s.textContent = src + "  ·  "; var w=document.createElement("span");
+           w.className="sem-data"; w.textContent="data nao confirmada"; s.appendChild(w); }
+      card.appendChild(s);
+      container.appendChild(card);
+    }
+  }
+  montar(listBR, RAW_LN.brazil);
+  montar(listGL, RAW_LN.global);
+}
+
+// ===== Last update timestamp (extrai do rodape diagnostico do clipping) =====
+// Popula em ambas as abas (Last News + Clipping) — mesmo timestamp pois
+// um run gera as duas projecoes simultaneamente.
+// IMPORTANTE: usar textContent (nao innerText). O "Gerado: ..." fica dentro
+// de um <details> fechado por default, e innerText ignora conteudo oculto
+// — caia no fallback, que retornava UTC (3h a frente de BRT).
+function setLastUpdate(){
+  var diag = document.body.textContent.match(/Gerado:\s*(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}(?::\d{2})?)/);
+  // Fallback (caso o "Gerado:" suma do template): hora local BRT em formato
+  // YYYY-MM-DD HH:MM, nao UTC. Usar sv-SE locale + timeZone explicito por
+  // robustez (Date.toLocaleString sem locale varia por browser).
+  var nowBRT = new Date().toLocaleString("sv-SE", {timeZone: "America/Sao_Paulo"}).slice(0,16);
+  var ts = diag ? diag[1] : nowBRT;
+  var ids = ["ln-last-update", "cl-last-update"];
+  for (var i=0;i<ids.length;i++) {
+    var el = document.getElementById(ids[i]);
+    if (el) el.textContent = ts;
+  }
+}
+
+// Alias retrocompat (caso algum onclick antigo ainda chame)
+function switchTab(name){ switchClipping(name); }
+
+init(); renderAll(); renderLastNews();
+// IMPORTANTE: setLastUpdate roda apos DOMContentLoaded. O <details> com
+// "Gerado: ..." vem DEPOIS desta tag <script> no HTML; como o script bloqueia
+// o parsing, document.body.textContent ainda nao inclui o diagnostico aqui.
+// Sem o defer, o regex falha e cai no fallback (hora atual em BRT — exatamente
+// o sintoma que o usuario reportou em 2026-05-19).
+// As duas leem o "Gerado:" do proprio documento, que vem DEPOIS desta tag
+// <script>; por isso as duas esperam o DOM. Sem isso o regex falha e cada uma
+// cai no seu fallback — hora de quem abre, data de quem abre.
+function aposDom(){ setLastUpdate(); setDataEdicao(); }
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", aposDom);
+} else {
+  aposDom();
+}
+</script>
+
+<details style="margin:24px 16px;font-family:'IBM Plex Sans',sans-serif;color:#4a4744;">
+<summary style="cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#736e69;padding:8px 0;border-top:1px solid #d8d4cc;">Diagnostico do run (clica pra abrir)</summary>
+<div style="background:#fff;border:1px solid #d8d4cc;border-radius:6px;padding:14px;margin-top:8px;">
+<div style="background:#fee;border:1px solid #b03030;padding:8px;border-radius:4px;margin-bottom:10px;font-family:monospace;font-size:11px;color:#922;">ATENCAO: FONTE MORTA HA 3+ DIAS: IT Forum (direto); Fontes com erro: IT Forum (direto)</div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#736e69;margin-bottom:10px;">
+Pipeline v5.0 pipeline:7bb7b8d | Janela: 2026-11-17 09:30:00 -> 2026-11-18 14:00:49 | Gerado: 2026-11-18 14:02:05
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+<div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#736e69;margin-bottom:6px;">Fontes</div>
+<div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;"> 24 finais |  809 brutos | TMT-Cobertura</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  6 finais |  517 brutos | TMT-Global</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |  100 brutos | Bloomberg Linea Negocios (direto)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |  100 brutos | Bloomberg Linea Startups (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  8 finais |  100 brutos | TeleSintese (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  2 finais |   50 brutos | Tecnoblog (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  2 finais |   50 brutos | Light Reading (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  2 finais |   37 brutos | Business Times SG (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  7 finais |   30 brutos | TELETIME (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  3 finais |   30 brutos | TI Inside (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   30 brutos | TELA VIVA (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  4 finais |   30 brutos | CNBC Tech (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   25 brutos | FT Technology (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   20 brutos | DCD Brasil (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   20 brutos | Estadao Negocios (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   20 brutos | TechCrunch (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  2 finais |   19 brutos | Mobile Time (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   15 brutos | Brazil Journal (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   10 brutos | InfoMoney (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   10 brutos | NeoFeed (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  2 finais |   10 brutos | Convergencia Digital (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   10 brutos | E-commerce Brasil (Chrome)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |    8 brutos | Valor Tecnologia (Chrome)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |    8 brutos | Valor Telecom (Chrome)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |    7 brutos | NuCel (MVNO do Nubank)</div><div style="font-family:monospace;font-size:11px;color:#b03030;padding:2px 0;">      ERRO |    0 brutos | IT Forum (direto) — <unknown>:69:50: undefined entity</div>
+</div>
+<div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#736e69;margin-bottom:6px;">Quotas por bucket</div>
+<div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">BR Off: 6/10 (threshold score >= 8, candidatos pre-quota: 6)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">GL Off: 4/6 (threshold score >= 7, candidatos pre-quota: 33)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">BR Oth: 35/100 (threshold score >= 5, candidatos pre-quota: 47)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">GL Oth: 33/100 (threshold score >= 7, candidatos pre-quota: 56)</div>
+<div style="font-family:monospace;font-size:11px;color:#767676;padding:8px 0 0 0;border-top:1px solid #eee;margin-top:8px;">
+Funil: 2065 brutos -> 1842 dedup -> 1025 pos-desc -> 567 pos-janela -> 198 pos-regra -> 80 finais
+</div>
+</div>
+</div>
+</div>
+</details>
+
+</body>
+</html>
