@@ -15,209 +15,252 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IBBA - TMT Daily News · 24/11/2026">
 <meta name="twitter:description" content="Clipping TMT de 24/11/2026 — 71 noticias de telecom, midia e tecnologia selecionadas para o Itau BBA.">
-<meta name="theme-color" content="#1a1916">
+<meta name="theme-color" content="#fbfaf7">
 <!-- preconnect: o css2 do Google Fonts so' diz de onde baixar a fonte;
      o arquivo vem de fonts.gstatic.com, outro host. Sem preconnect o
      celular paga DNS + TLS desse segundo host so' quando o CSS chega. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style>
+  /* =======================================================================
+     Identidade visual — a MESMA do site do Vercel (src/app/globals.css).
+     Em 24/11/2026 ele pediu para tirar a "cara ultrapassada" desta pagina
+     sem mexer em palavra nem em mecanica. A barra preta com dourado e a
+     fonte mono em caixa alta eram a cara de painel interno que o site do
+     Vercel ja tinha abandonado em 22/10; agora as duas telas sao da mesma
+     casa: fundo de papel, titulo de noticia em serifa, interface em sans, e
+     o laranja #FF5000 do banco como REGRA GRAFICA (fio, numeral, marcador).
+     So' CSS: nenhum id, classe, texto ou script mudou.
+     ======================================================================= */
   :root {
-    --bg: #f5f3ef; --surface: #ffffff; --border: #d8d4cc; --accent: #8B6914;
-    --green: #2e6b2c; --blue: #1a4f8a; --text: #1a1916; --sub: #4a4744;
-    --muted: #8a8580; --checked-bg: #eef4ee; --checked-border: #a8cca6;
+    --laranja: #ff5000;
+    /* #FF5000 em texto pequeno da 3,3:1 no branco; este tom passa 5,3:1. */
+    --laranja-700: #b33800;
+    --laranja-suave: #fff3ec;
+    --tinta: #14130f; --tinta-2: #3a3630; --tinta-3: #5f5a52; --tinta-4: #857f75;
+    --papel: #ffffff; --papel-2: #fbfaf7; --papel-3: #efebe4;
+    --borda: #ddd7cc; --borda-forte: #c7c0b3;
+    --leitura: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --ui: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --coluna: 880px;
+    /* Nomes antigos: o HTML usa var(--muted) em style= inline e o JS nao
+       conhece os novos. Ficam apontando para a paleta nova. */
+    --bg: var(--papel-2); --surface: var(--papel); --border: var(--borda);
+    --accent: var(--laranja-700); --green: #2e6b2c; --blue: #1a4f8a;
+    --text: var(--tinta); --sub: var(--tinta-2); --muted: var(--tinta-3);
+    --checked-bg: var(--laranja-suave); --checked-border: #f3c4a8;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; line-height: 1.5; }
-  .header { background: #1a1916; padding: 16px 20px 0; position: sticky; top: 0; z-index: 10; }
-  .header-top { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
-  .logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #c8a96e; }
-  .date { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #7a7570; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { background: var(--papel-2); color: var(--tinta); font-family: var(--ui); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+
+  /* ===== Cabecalho: papel com fio laranja, no lugar da barra preta ===== */
+  .header {
+    background: var(--papel); position: sticky; top: 0; z-index: 10;
+    border-top: 3px solid var(--laranja); border-bottom: 1px solid var(--borda);
+    /* centraliza o conteudo na mesma coluna da lista, sem mexer no HTML */
+    padding: 16px max(20px, calc((100% - var(--coluna)) / 2 + 16px)) 0;
+  }
+  .header-top { display: flex; align-items: baseline; gap: 4px 14px; margin-bottom: 4px; flex-wrap: wrap; }
+  .logo { font-family: var(--leitura); font-size: 26px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.15; color: var(--tinta); }
+  .date { font-family: var(--ui); font-size: 13px; color: var(--tinta-3); }
   .run-controls { margin-left: auto; display: flex; gap: 6px; align-items: center; }
-  .run-controls-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: #7a7570; margin-right: 4px; }
-  .run-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.5px; padding: 6px 11px; background: #2a2826; color: #c8a96e; border: 1px solid #3a3835; border-radius: 4px; text-decoration: none; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
-  .run-btn:hover { background: #3a3530; border-color: #c8a96e; color: #e0c896; }
-  .run-btn.default-do-dia { background: #c8a96e; color: #1a1916; border-color: #c8a96e; font-weight: 500; }
-  .run-btn.default-do-dia:hover { background: #d8b97e; color: #1a1916; }
+  .run-controls-label { font-family: var(--ui); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tinta-3); margin-right: 4px; }
+  .run-btn { font-family: var(--ui); font-size: 12px; font-weight: 500; padding: 7px 12px; background: var(--papel); color: var(--tinta-2); border: 1px solid var(--borda-forte); border-radius: 8px; text-decoration: none; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .run-btn:hover { border-color: var(--tinta-3); color: var(--tinta); }
+  .run-btn.default-do-dia { background: var(--tinta); color: #fff; border-color: var(--tinta); font-weight: 600; }
+  .run-btn.default-do-dia:hover { background: #2a2722; color: #fff; }
   .run-btn-arrow { opacity: 0.7; margin-right: 3px; }
   /* Grupo botao + setinha (Ter-Sex com seletor de data) */
   .run-btn-group { position: relative; display: inline-flex; align-items: stretch; }
   .run-btn-group .run-btn-main { border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: 0; }
-  .run-btn-caret { font-family: 'IBM Plex Mono', monospace; font-size: 10px; padding: 0 8px; background: #2a2826; color: #c8a96e; border: 1px solid #3a3835; border-top-left-radius: 0; border-bottom-left-radius: 0; cursor: pointer; transition: all 0.15s; }
-  .run-btn-caret:hover { background: #3a3530; border-color: #c8a96e; color: #e0c896; }
-  .run-btn-group.default-do-dia .run-btn-main { background: #c8a96e; color: #1a1916; border-color: #c8a96e; font-weight: 500; }
-  .run-btn-group.default-do-dia .run-btn-caret { background: #c8a96e; color: #1a1916; border-color: #c8a96e; }
-  .run-btn-group.default-do-dia .run-btn-main:hover, .run-btn-group.default-do-dia .run-btn-caret:hover { background: #d8b97e; }
-  .date-drop { display: none; position: absolute; top: calc(100% + 4px); right: 0; background: #1a1916; border: 1px solid #3a3835; border-radius: 4px; padding: 10px; z-index: 100; min-width: 200px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  .run-btn-caret { font-family: var(--ui); font-size: 11px; padding: 0 9px; background: var(--papel); color: var(--tinta-2); border: 1px solid var(--borda-forte); border-radius: 0 8px 8px 0; cursor: pointer; transition: all 0.15s; }
+  .run-btn-caret:hover { border-color: var(--tinta-3); color: var(--tinta); }
+  .run-btn-group.default-do-dia .run-btn-main { background: var(--tinta); color: #fff; border-color: var(--tinta); font-weight: 600; }
+  .run-btn-group.default-do-dia .run-btn-caret { background: var(--tinta); color: #fff; border-color: var(--tinta); }
+  .run-btn-group.default-do-dia .run-btn-main:hover, .run-btn-group.default-do-dia .run-btn-caret:hover { background: #2a2722; }
+  .date-drop { display: none; position: absolute; top: calc(100% + 6px); right: 0; background: var(--papel); border: 1px solid var(--borda); border-radius: 10px; padding: 12px; z-index: 100; min-width: 210px; box-shadow: 0 8px 24px rgba(20,19,15,0.12); }
   .date-drop.open { display: block; }
-  .date-drop label { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: #7a7570; margin-bottom: 6px; }
-  .date-drop input[type=date] { width: 100%; padding: 5px 7px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; background: #2a2826; color: #e0c896; border: 1px solid #3a3835; border-radius: 3px; margin-bottom: 8px; box-sizing: border-box; }
-  .date-drop .run-btn-confirm { width: 100%; padding: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.5px; background: #c8a96e; color: #1a1916; border: 0; border-radius: 3px; cursor: pointer; font-weight: 500; }
-  .date-drop .run-btn-confirm:hover { background: #d8b97e; }
-  .date-drop .date-warn { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #d88a4a; margin-top: 6px; display: none; }
+  .date-drop label { display: block; font-family: var(--ui); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tinta-3); margin-bottom: 6px; }
+  .date-drop input[type=date] { width: 100%; padding: 6px 8px; font-family: var(--ui); font-size: 13px; background: var(--papel); color: var(--tinta); border: 1px solid var(--borda-forte); border-radius: 6px; margin-bottom: 8px; box-sizing: border-box; }
+  .date-drop .run-btn-confirm { width: 100%; padding: 8px; font-family: var(--ui); font-size: 12px; font-weight: 600; background: var(--tinta); color: #fff; border: 0; border-radius: 6px; cursor: pointer; }
+  .date-drop .run-btn-confirm:hover { background: #2a2722; }
+  .date-drop .date-warn { font-family: var(--ui); font-size: 11px; color: var(--laranja-700); margin-top: 6px; display: none; }
   .date-drop .date-warn.show { display: block; }
   /* Status overlay do botao "Rodar agora" — aparece apos dispatch */
-  .run-status { display: none; align-items: center; gap: 8px; padding: 6px 10px; background: #2a2826; border: 1px solid #3a3835; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #c8a96e; min-width: 0; max-width: 100%; }
+  .run-status { display: none; align-items: center; gap: 8px; padding: 6px 12px; background: var(--papel-3); border: 0; border-radius: 999px; font-family: var(--ui); font-size: 12px; color: var(--tinta-2); min-width: 0; max-width: 100%; }
   .run-status.visible { display: inline-flex; }
-  .run-status.ok { color: #7ec87c; border-color: #2e6b2c; }
-  .run-status.err { color: #d88a4a; border-color: #884a1a; }
+  .run-status.ok { color: var(--green); background: #e9f2e8; }
+  .run-status.err { color: #b03030; background: #fbeaea; }
   .run-status .status-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .run-progress { display: none; height: 2px; background: #3a3835; border-radius: 1px; overflow: hidden; width: 100%; margin-top: 4px; }
+  .run-progress { display: none; height: 2px; background: var(--borda); border-radius: 1px; overflow: hidden; width: 100%; margin-top: 4px; }
   .run-progress.visible { display: block; }
-  .run-progress .bar { height: 100%; background: #c8a96e; width: 0; transition: width 0.25s linear; }
-  .spinner { width: 10px; height: 10px; border: 2px solid #3a3835; border-top-color: #c8a96e; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+  .run-progress .bar { height: 100%; background: var(--laranja); width: 0; transition: width 0.25s linear; }
+  .spinner { width: 11px; height: 11px; border: 2px solid var(--borda); border-top-color: var(--laranja); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .run-btn:disabled, .run-btn-confirm:disabled { opacity: 0.5; cursor: not-allowed; }
   .tabs { display: flex; }
-  .tab { padding: 11px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; border: none; background: transparent; color: #6a6560; border-bottom: 3px solid transparent; transition: all 0.15s; position: relative; top: 1px; user-select: none; }
-  .tab.active { color: #fff; border-bottom-color: #c8a96e; }
-  .tab-brazil.active { color: #7ec87c; border-bottom-color: #7ec87c; }
-  .tab-global.active { color: #7ab0e0; border-bottom-color: #7ab0e0; }
-  .tab-whats.active { color: #c8a96e; border-bottom-color: #c8a96e; }
-  .content { padding: 16px 16px 48px; }
+  .tab { padding: 11px 14px; font-family: var(--ui); font-size: 13px; font-weight: 600; cursor: pointer; border: none; background: transparent; color: var(--tinta-3); border-bottom: 2px solid transparent; transition: all 0.15s; position: relative; top: 1px; user-select: none; }
+  .tab.active, .tab-brazil.active, .tab-global.active, .tab-whats.active { color: var(--tinta); border-bottom-color: var(--laranja); }
+
+  /* ===== Coluna de leitura ===== */
+  .content { max-width: var(--coluna); margin: 0 auto; padding: 4px 16px 56px; }
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
-  .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
-  .panel-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--text); }
-  .panel-meta { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); background: var(--surface); padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); }
-  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 5px 10px; border-radius: 3px; display: inline-block; margin-bottom: 8px; margin-top: 20px; font-weight: 500; }
-  .section-label.brazil { background: #e8f4e8; color: var(--green); }
-  .section-label.global { background: #e8eef8; color: var(--blue); }
-  .section-label.others { background: #f0ede8; color: var(--sub); }
-  .native-cb { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
-  .card-wrapper { display: flex; align-items: stretch; margin-bottom: 6px; }
-  .news-card { flex: 1; display: flex; align-items: stretch; background: var(--surface); border: 1px solid var(--border); border-radius: 6px 0 0 6px; cursor: pointer; transition: border-color 0.12s, background 0.12s; user-select: none; border-right: none; }
-  .news-card.checked { background: var(--checked-bg); border-color: var(--checked-border); }
-  .card-check-box { width: 52px; min-height: 60px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .check-visual { width: 24px; height: 24px; border: 2px solid #c0bdb8; border-radius: 4px; background: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.12s; }
-  .news-card.checked .check-visual { background: var(--green); border-color: var(--green); }
-  .news-card.checked .check-visual::after { content: '\2713'; font-size: 14px; color: white; font-weight: bold; line-height: 1; }
-  .card-body { flex: 1; padding: 11px 8px 11px 0; min-width: 0; }
-  .news-title { font-size: 13px; font-weight: 500; line-height: 1.45; }
-  .news-title a { color: var(--text); text-decoration: none; }
-  .news-title a:hover { color: var(--accent); text-decoration: underline; }
-  .news-source { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .card-prio-wrap { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-left: none; border-radius: 0 6px 6px 0; padding: 0 10px; flex-shrink: 0; transition: background 0.12s, border-color 0.12s; }
-  .card-prio-wrap.checked { background: var(--checked-bg); border-color: var(--checked-border); }
-  .prio-select { border: none; background: transparent; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); cursor: pointer; outline: none; padding: 2px 0; width: 32px; }
-  .prio-select.has-value { color: var(--accent); font-weight: 500; }
-  .whats-meta { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-  .stat-chip { font-family: 'IBM Plex Mono', monospace; font-size: 11px; background: var(--surface); border: 1px solid var(--border); padding: 4px 10px; border-radius: 20px; }
-  .whats-news-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
-  .whats-section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 6px 0; color: var(--muted); margin-top: 8px; }
-  .whats-section-label.brazil { color: var(--green); }
-  .whats-section-label.global { color: var(--blue); }
-  .whats-item { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
-  .whats-item-order { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); }
-  .whats-item-title { border: none; outline: none; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 500; resize: none; width: 100%; line-height: 1.45; color: var(--text); background: transparent; }
-  .whats-item-url { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); word-break: break-all; }
-  .btn-copy { width: 100%; padding: 14px; background: #1a1916; color: #c8a96e; border: none; border-radius: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: background 0.15s; }
-  .btn-copy:hover { background: #2a2926; }
-  .btn-copy.copied { background: var(--green); color: #fff; }
-  /* Histórico subtab — espelha visual de archive.html (data-row dark + version-row light) */
-  .hist-list { list-style: none; padding: 0; margin: 0; }
-  .hist-list li.date-row { background: #1a1916; color: #c8a96e; padding: 9px 14px; margin-top: 14px; margin-bottom: 4px; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; display: flex; align-items: center; gap: 10px; }
-  .hist-list li.date-row:first-child { margin-top: 0; }
-  .hist-list li.date-row .date { font-weight: 500; letter-spacing: 0.5px; }
-  .hist-list li.date-row .label { color: #c8a96e; opacity: 0.7; font-family: 'IBM Plex Sans', sans-serif; }
-  .hist-list li.date-row .count { margin-left: auto; opacity: 0.6; font-size: 10px; }
-  .hist-list li.version-row { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; margin-bottom: 4px; }
-  .hist-list li.version-row a { display: flex; align-items: center; padding: 10px 14px; color: var(--text); text-decoration: none; transition: background 0.1s; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
-  .hist-list li.version-row a:hover { background: #efece5; }
-  .hist-list li.version-row .arrow { margin-left: auto; color: var(--muted); }
-  .hist-list li.version-row.current { background: var(--checked-bg); border-color: var(--checked-border); }
-  .hist-list li.version-row.current a { color: var(--green); font-weight: 500; cursor: default; }
-  .hist-list li.version-row.current .arrow::before { content: '● atual '; font-size: 10px; opacity: 0.7; }
-  .hist-list li.hist-empty, .hist-list li.hist-error { background: var(--surface); padding: 24px; text-align: center; color: var(--muted); border: 1px dashed var(--border); border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
-  .hist-list li.hist-error { color: #b03030; border-color: #d4a0a0; }
-  .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+  .panel-header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 22px 0 0; padding-bottom: 10px; border-bottom: 2px solid var(--tinta); }
+  .panel-title { font-family: var(--leitura); font-size: 22px; font-weight: 700; letter-spacing: -0.01em; color: var(--tinta); }
+  .panel-meta { font-family: var(--ui); font-size: 12px; font-weight: 500; color: var(--tinta-3); background: var(--papel-3); padding: 5px 11px; border-radius: 999px; border: 0; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  /* Rotulo de secao: a unica caixa alta que sobra, bem espacada, com fio. */
+  .section-label { display: block; font-family: var(--ui); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--tinta-3); background: none; border-radius: 0; padding: 0 0 8px; margin: 26px 0 0; border-bottom: 1px solid var(--borda); }
+  .section-label.brazil, .section-label.global { color: var(--laranja-700); border-bottom-color: var(--laranja); background: none; }
+  .section-label.others { color: var(--tinta-3); background: none; }
 
-  /* ===== Main tabs (Last News / Clipping) — proeminentes no header ===== */
-  .main-tabs { display: flex; gap: 4px; padding: 8px 0 0; }
+  /* ===== Lista do Clipping: linha de jornal, nao cartao ===== */
+  .native-cb { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+  .card-wrapper { display: flex; align-items: stretch; margin: 0; border-bottom: 1px solid var(--borda); }
+  /* min-width:0 porque item flex nao encolhe abaixo do conteudo: sem ele,
+     no celular, uma linha com dominio longo empurrava a pagina para 477px
+     de largura numa tela de 390 (medido na edicao de 24/11 14:02). */
+  .news-card { flex: 1; min-width: 0; display: flex; align-items: stretch; background: transparent; border: 0; border-radius: 0; cursor: pointer; transition: background 0.12s; user-select: none; }
+  .news-card:hover { background: rgba(239,235,228,0.5); }
+  .news-card.checked { background: var(--laranja-suave); }
+  .card-check-box { width: 44px; min-height: 56px; display: flex; align-items: flex-start; justify-content: center; padding-top: 15px; flex-shrink: 0; }
+  .check-visual { width: 20px; height: 20px; border: 1.5px solid var(--borda-forte); border-radius: 5px; background: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.12s; }
+  .news-card:hover .check-visual { border-color: var(--tinta-4); }
+  .news-card.checked .check-visual { background: var(--laranja); border-color: var(--laranja); }
+  .news-card.checked .check-visual::after { content: '\2713'; font-size: 13px; color: white; font-weight: bold; line-height: 1; }
+  .card-body { flex: 1; padding: 13px 10px 13px 0; min-width: 0; }
+  .news-title { font-family: var(--leitura); font-size: 16.5px; font-weight: 600; line-height: 1.35; letter-spacing: -0.005em; }
+  .news-title a { color: var(--tinta); text-decoration: none; }
+  .news-title a:hover { color: var(--laranja-700); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .news-source { font-family: var(--ui); font-size: 12.5px; color: var(--tinta-3); margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-prio-wrap { display: flex; align-items: flex-start; background: transparent; border: 0; border-radius: 0; padding: 12px 4px 0 8px; flex-shrink: 0; transition: background 0.12s; }
+  .card-prio-wrap.checked { background: var(--laranja-suave); }
+  .prio-select { border: 1px solid transparent; border-radius: 6px; background: transparent; font-family: var(--ui); font-size: 12px; font-weight: 500; color: var(--tinta-4); cursor: pointer; outline: none; padding: 4px 2px; width: 42px; text-align: center; }
+  .prio-select:hover { border-color: var(--borda); }
+  .prio-select.has-value { color: var(--laranja-700); font-weight: 700; border-color: var(--checked-border); background: #fff; }
+
+  /* ===== WhatsApp ===== */
+  .whats-meta { display: flex; gap: 8px; margin: 14px 0 16px; flex-wrap: wrap; }
+  .stat-chip { font-family: var(--ui); font-size: 13px; color: var(--tinta-2); background: var(--papel-3); border: 0; padding: 6px 12px; border-radius: 999px; font-variant-numeric: tabular-nums; }
+  .stat-chip b { color: var(--tinta); font-weight: 700; }
+  .whats-news-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+  .whats-section-label { font-family: var(--ui); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 10px 0 4px; color: var(--tinta-3); margin-top: 8px; }
+  .whats-section-label.brazil, .whats-section-label.global { color: var(--laranja-700); }
+  .whats-item { background: var(--papel); border: 1px solid var(--borda); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 1px 2px rgba(20,19,15,0.04); }
+  .whats-item:focus-within { border-color: var(--borda-forte); }
+  .whats-item-order { font-family: var(--ui); font-size: 12px; font-weight: 600; color: var(--tinta-3); font-variant-numeric: tabular-nums; }
+  .whats-item-title { border: none; outline: none; font-family: var(--leitura); font-size: 16px; font-weight: 600; resize: none; width: 100%; line-height: 1.35; color: var(--tinta); background: transparent; }
+  .whats-item-url { font-family: var(--ui); font-size: 12px; color: var(--tinta-3); word-break: break-all; }
+  .btn-copy { width: 100%; padding: 15px; background: var(--tinta); color: #fff; border: none; border-radius: 10px; font-family: var(--ui); font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+  .btn-copy:hover { background: #2a2722; }
+  .btn-copy.copied { background: var(--green); color: #fff; }
+
+  /* ===== Historico (subaba) — mesmo desenho de archive.html ===== */
+  .hist-list { list-style: none; padding: 0; margin: 0; }
+  .hist-list li.date-row { background: none; color: var(--tinta); padding: 0 0 6px; margin-top: 24px; margin-bottom: 0; border-radius: 0; border-bottom: 2px solid var(--tinta); font-family: var(--ui); font-size: 14px; display: flex; align-items: baseline; gap: 10px; }
+  .hist-list li.date-row:first-child { margin-top: 12px; }
+  .hist-list li.date-row .date { font-weight: 700; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+  .hist-list li.date-row .label { color: var(--tinta-3); opacity: 1; font-family: var(--leitura); font-size: 15px; font-weight: 600; }
+  .hist-list li.date-row .count { margin-left: auto; opacity: 1; font-size: 12px; font-weight: 500; color: var(--tinta-3); }
+  .hist-list li.version-row { background: transparent; border: 0; border-bottom: 1px solid var(--borda); border-radius: 0; margin-bottom: 0; }
+  .hist-list li.version-row a { display: flex; align-items: center; padding: 12px 4px; color: var(--tinta); text-decoration: none; transition: background 0.1s, color 0.1s; font-family: var(--ui); font-size: 15px; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .hist-list li.version-row a:hover { background: var(--papel-3); color: var(--laranja-700); }
+  .hist-list li.version-row .arrow { margin-left: auto; color: var(--tinta-4); }
+  .hist-list li.version-row.current { background: var(--laranja-suave); border-color: var(--borda); }
+  .hist-list li.version-row.current a { color: var(--laranja-700); font-weight: 700; cursor: default; }
+  .hist-list li.version-row.current .arrow::before { content: '● atual '; font-size: 11px; opacity: 0.85; }
+  .hist-list li.hist-empty, .hist-list li.hist-error { background: var(--papel); padding: 28px; margin-top: 12px; text-align: center; color: var(--tinta-3); border: 1px dashed var(--borda-forte); border-radius: 10px; font-family: var(--ui); font-size: 13px; }
+  .hist-list li.hist-error { color: #b03030; border-color: #d4a0a0; }
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--tinta-3); font-size: 14px; line-height: 1.6; }
+
+  /* ===== Abas principais (Last News / Clipping) ===== */
+  .main-tabs { display: flex; gap: 24px; padding: 6px 0 0; }
   .main-tab {
-    padding: 12px 22px; font-family: 'Playfair Display', serif;
-    font-size: 15px; cursor: pointer; border: none; background: transparent;
-    color: #6a6560; border-bottom: 3px solid transparent;
+    padding: 10px 0 11px; font-family: var(--ui); font-size: 15px; font-weight: 600;
+    cursor: pointer; border: none; background: transparent;
+    color: var(--tinta-3); border-bottom: 3px solid transparent;
     position: relative; top: 1px; user-select: none; transition: color 0.15s, border-color 0.15s;
   }
-  .main-tab:hover { color: #d8b97e; }
-  .main-tab.active { color: #c8a96e; border-bottom-color: #c8a96e; font-weight: 700; }
+  .main-tab:hover { color: var(--tinta); }
+  .main-tab.active { color: var(--tinta); border-bottom-color: var(--laranja); }
   .main-panel { display: none; }
   .main-panel.active { display: block; }
 
-  /* ===== Last News header (timestamp + Rodar Agora) ===== */
-  .ln-bar { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 2px solid var(--border); flex-wrap: wrap; gap: 12px; }
-  .ln-info { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
-  .ln-info b { color: var(--text); font-weight: 500; }
+  /* ===== Linha de atualizacao ===== */
+  .ln-bar { display: flex; align-items: center; justify-content: space-between; padding: 14px 0 10px; flex-wrap: wrap; gap: 12px; }
+  .ln-info { font-family: var(--ui); font-size: 13px; color: var(--tinta-3); font-variant-numeric: tabular-nums; }
+  .ln-info b { color: var(--tinta); font-weight: 600; }
   .ln-actions { display: flex; gap: 10px; align-items: center; }
   .btn-run-now {
-    font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.5px;
-    padding: 8px 16px; background: #1a1916; color: #c8a96e; border: 1px solid #3a3835;
-    border-radius: 4px; cursor: pointer; transition: all 0.15s; white-space: nowrap;
+    font-family: var(--ui); font-size: 13px; font-weight: 600;
+    padding: 8px 16px; background: var(--tinta); color: #fff; border: 1px solid var(--tinta);
+    border-radius: 8px; cursor: pointer; transition: all 0.15s; white-space: nowrap;
   }
-  .btn-run-now:hover { background: #2a2826; border-color: #c8a96e; color: #e0c896; }
+  .btn-run-now:hover { background: #2a2722; }
   .btn-run-now:disabled { opacity: 0.5; cursor: not-allowed; }
 
-  /* ===== Last News sub-tabs (Brazil / Global) ===== */
-  .subtabs { display: flex; padding: 0 12px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+  /* ===== Subabas (Brazil / Global / Empresas / WhatsApp / Historico) =====
+     As tres ultimas trazem style="color:var(--muted)" no HTML; o !important
+     no estado ativo e' o que deixa a aba escolhida visivel sem tocar nele. */
+  .subtabs { display: flex; gap: 4px; padding: 0; border-bottom: 1px solid var(--borda); margin-bottom: 4px; }
   .subtab {
-    padding: 10px 16px; font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 10px 12px; font-family: var(--ui);
+    font-size: 13px; font-weight: 600; letter-spacing: 0;
     cursor: pointer; border: none; background: transparent;
-    color: var(--muted); border-bottom: 2px solid transparent;
-    position: relative; top: 1px; user-select: none; transition: all 0.15s;
+    color: var(--tinta-3); border-bottom: 2px solid transparent;
+    position: relative; top: 1px; user-select: none; transition: color 0.15s, border-color 0.15s;
   }
-  .subtab.brazil.active { color: var(--green); border-bottom-color: var(--green); }
-  .subtab.global.active { color: var(--blue); border-bottom-color: var(--blue); }
-  .subpanel { display: none; padding: 0 16px 24px; }
+  .subtab:first-child { padding-left: 2px; }
+  .subtab:hover { color: var(--tinta) !important; }
+  .subtab.active, .subtab.brazil.active, .subtab.global.active { color: var(--tinta) !important; border-bottom-color: var(--laranja); }
+  .subpanel { display: none; padding: 0 0 24px; }
   .subpanel.active { display: block; }
 
-  /* ===== Last News list (simples, sem checkbox/prio) ===== */
-  .ln-item {
-    padding: 11px 14px; background: var(--surface); border: 1px solid var(--border);
-    border-radius: 6px; margin-bottom: 6px;
-  }
-  .ln-item .ln-title { font-size: 13px; font-weight: 500; line-height: 1.45; }
-  .ln-item .ln-title a { color: var(--text); text-decoration: none; }
-  .ln-item .ln-title a:hover { color: var(--accent); text-decoration: underline; }
-  .ln-item .ln-source { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 4px; }
+  /* ===== Last News: lista de leitura ===== */
+  .ln-item { padding: 14px 2px; background: transparent; border: 0; border-bottom: 1px solid var(--borda); border-radius: 0; margin-bottom: 0; }
+  .ln-item .ln-title { font-family: var(--leitura); font-size: 17px; font-weight: 600; line-height: 1.35; letter-spacing: -0.005em; }
+  .ln-item .ln-title a { color: var(--tinta); text-decoration: none; }
+  .ln-item .ln-title a:hover { color: var(--laranja-700); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .ln-item .ln-source { font-family: var(--ui); font-size: 12.5px; color: var(--tinta-3); margin-top: 5px; font-variant-numeric: tabular-nums; }
 
-  /* ===== Top 3 do dia — camada editorial que o pipeline ja calculava ===== */
-  .top3 { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; margin-bottom: 16px; }
+  /* ===== Top 3 do dia: numeral laranja, manchete em serifa ===== */
+  .top3 { background: transparent; border: 0; border-bottom: 1px solid var(--borda); border-radius: 0; padding: 8px 0 20px; margin-bottom: 6px; }
   .top3[hidden] { display: none; }
-  .top3-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 500; margin-bottom: 10px; }
-  .top3-list { list-style: none; counter-reset: t; display: flex; flex-direction: column; gap: 10px; }
-  .top3-item { counter-increment: t; display: grid; grid-template-columns: 20px 1fr; gap: 10px; align-items: start; }
-  .top3-item::before { content: counter(t); font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; color: var(--accent); line-height: 1.45; }
-  .top3-item a { color: var(--text); text-decoration: none; font-size: 13px; font-weight: 500; line-height: 1.45; }
-  .top3-item a:hover { color: var(--accent); text-decoration: underline; }
-  .top3-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 3px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .top3-title { font-family: var(--ui); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--tinta-3); font-weight: 600; margin: 6px 0 14px; }
+  .top3-list { list-style: none; counter-reset: t; display: flex; flex-direction: column; gap: 14px; }
+  .top3-item { counter-increment: t; display: grid; grid-template-columns: 26px 1fr; gap: 8px; align-items: start; }
+  .top3-item::before { content: counter(t); font-family: var(--leitura); font-size: 22px; font-weight: 700; color: var(--laranja); line-height: 1.1; }
+  .top3-item a { color: var(--tinta); text-decoration: none; font-family: var(--leitura); font-size: 18px; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; }
+  .top3-item a:hover { color: var(--laranja-700); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .top3-meta { font-family: var(--ui); font-size: 12.5px; color: var(--tinta-3); margin-top: 4px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
 
   /* ===== Visao por empresa de cobertura ===== */
-  .emp-bloco { margin-bottom: 18px; }
-  .emp-nome { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); margin-bottom: 8px; }
-  .emp-qtd { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); background: var(--bg); border-radius: 10px; padding: 1px 7px; }
-  .emp-itens { list-style: none; display: flex; flex-direction: column; gap: 9px; }
-  .emp-itens li { padding-left: 2px; }
-  .emp-itens a { color: var(--text); text-decoration: none; font-size: 13px; line-height: 1.45; }
-  .emp-itens a:hover { color: var(--accent); text-decoration: underline; }
-  .emp-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 3px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .emp-bloco { margin: 22px 0 4px; }
+  .emp-nome { font-family: var(--leitura); font-size: 18px; font-weight: 700; color: var(--tinta); display: flex; align-items: center; gap: 10px; padding-bottom: 6px; border-bottom: 2px solid var(--tinta); margin-bottom: 0; }
+  .emp-qtd { font-family: var(--ui); font-size: 11px; font-weight: 600; color: var(--tinta-3); background: var(--papel-3); border-radius: 999px; padding: 3px 8px; font-variant-numeric: tabular-nums; }
+  .emp-itens { list-style: none; display: flex; flex-direction: column; gap: 0; }
+  .emp-itens li { padding: 11px 2px; border-bottom: 1px solid var(--borda); }
+  .emp-itens li:last-child { border-bottom: 0; }
+  .emp-itens a { color: var(--tinta); text-decoration: none; font-family: var(--leitura); font-size: 16px; font-weight: 600; line-height: 1.35; }
+  .emp-itens a:hover { color: var(--laranja-700); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .emp-meta { font-family: var(--ui); font-size: 12.5px; color: var(--tinta-3); margin-top: 4px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
   .emp-meta .tag-pill { margin-left: 0; }
 
   /* ===== Pilula da tag editorial ===== */
-  .tag-pill { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.8px; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; margin-left: 8px; background: #f0ede8; color: var(--sub); white-space: nowrap; }
+  .tag-pill { font-family: var(--ui); font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 7px; border-radius: 999px; margin-left: 8px; background: var(--papel-3); color: var(--tinta-2); white-space: nowrap; vertical-align: 1px; }
   /* Outros veiculos que deram o mesmo fato (o dedup manteve o melhor) */
-  .tambem-em { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--muted); margin-left: 8px; opacity: 0.8; }
+  .tambem-em { font-family: var(--ui); font-size: 12px; color: var(--tinta-3); margin-left: 8px; opacity: 1; }
   /* Item que ja saiu no clipping anterior: entra, mas sinalizado para pular */
-  .tag-pill.tag-repetido { background: transparent; color: var(--muted); border: 1px dashed var(--border); }
-  .tag-pill.tag-must-read { background: #f7efdc; color: var(--accent); font-weight: 500; }
-  .tag-pill.tag-company-specific { background: #e8f4e8; color: var(--green); }
-  .tag-pill.tag-sector-regulatory { background: #e8eef8; color: var(--blue); }
+  .tag-pill.tag-repetido { background: transparent; color: var(--tinta-3); border: 1px dashed var(--borda-forte); }
+  .tag-pill.tag-must-read { background: var(--laranja-suave); color: var(--laranja-700); }
+  .tag-pill.tag-company-specific { background: var(--papel-3); color: var(--tinta-2); }
+  .tag-pill.tag-sector-regulatory { background: transparent; color: var(--tinta-2); border: 1px solid var(--borda-forte); }
   .top3-meta .tag-pill { margin-left: 0; }
 
   /* Data que o pipeline nao conseguiu confirmar: dito, nao omitido */
-  .sem-data { font-style: italic; opacity: 0.75; }
+  .sem-data { font-style: italic; opacity: 0.85; }
 
   /* Foco de teclado. .prio-select e .whats-item-title zeram o outline para
      ficarem discretos na lista; sem nada no lugar, quem navega por Tab fica
@@ -226,7 +269,7 @@
   .prio-select:focus-visible, .whats-item-title:focus-visible,
   .subtab:focus-visible, .main-tab:focus-visible,
   a:focus-visible, button:focus-visible {
-    outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px;
+    outline: 2px solid var(--laranja-700); outline-offset: 2px; border-radius: 3px;
   }
 
   /* ===== Alvo de toque ===== */
@@ -236,75 +279,65 @@
      44px e' o minimo recomendado para toque. */
   @media (pointer: coarse), (max-width: 640px) {
     .prio-select { width: 44px; min-height: 44px; font-size: 13px; text-align: center; }
-    .card-prio-wrap { padding: 0 6px; }
+    .card-prio-wrap { padding: 6px 2px 0 6px; }
     .subtab, .main-tab { min-height: 44px; }
     .btn-run-now { min-height: 40px; }
 
     /* ---- 1. ABAS INALCANCAVEIS (o pior problema no celular) ----
        .subtabs e' flex nowrap com overflow-x:visible. As 5 abas do Clipping
-       somam 472px de largura intrinseca; nenhum celular passa de ~430px, entao
-       "WhatsApp" ficava cortada e "Historico" simplesmente fora da tela, sem
-       jeito de chegar nela. Vira faixa rolavel na horizontal. */
+       somam mais que a largura de qualquer celular, entao "WhatsApp" ficava
+       cortada e "Historico" simplesmente fora da tela, sem jeito de chegar
+       nela. Vira faixa rolavel na horizontal. */
     .subtabs {
       overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch;
-      scrollbar-width: none; padding: 0 10px;
+      scrollbar-width: none; padding: 0;
       scroll-snap-type: x proximity;
     }
     .subtabs::-webkit-scrollbar { display: none; }
-    .subtab { flex: 0 0 auto; scroll-snap-align: start; padding: 10px 12px; letter-spacing: 1px; }
+    .subtab { flex: 0 0 auto; scroll-snap-align: start; padding: 10px 12px; }
 
     /* ---- 2. TEXTO LEGIVEL ----
-       Corpo estava em 13px e os metadados em 9-10px. 9px nao se le no celular.
-       So' no mobile: corpo 15px, metadado 12px, pilula 11px. */
-    .ln-item .ln-title, .top3-item a, .emp-itens a, .news-title, .news-title a { font-size: 15px; }
+       No celular: titulo 16px em serifa, metadado 13px, pilula 11px. */
+    .ln-item .ln-title, .emp-itens a, .news-title, .news-title a { font-size: 16px; }
+    .top3-item a { font-size: 17px; }
     .ln-item .ln-source, .top3-meta, .emp-meta, .news-source, .whats-item-url,
-    .whats-item-order, .emp-qtd { font-size: 12px; }
-    .tag-pill, .tambem-em { font-size: 11px; letter-spacing: 0.5px; }
-    .section-label, .top3-title, .whats-section-label { font-size: 11px; letter-spacing: 1.2px; }
-    /* A fonte do veiculo cabia em 1 linha no desktop; em 12px no celular ela
+    .whats-item-order { font-size: 13px; }
+    .emp-qtd { font-size: 12px; }
+    .tag-pill { font-size: 11px; letter-spacing: 0.04em; }
+    .tambem-em { font-size: 12px; }
+    .section-label, .top3-title, .whats-section-label { font-size: 11px; letter-spacing: 0.12em; }
+    /* A fonte do veiculo cabia em 1 linha no desktop; no celular ela
        precisa poder quebrar, senao vira reticencias logo no dominio. */
     .news-source { white-space: normal; }
+    /* Dominio e lista de "+ veiculos" sem espaco nao quebravam. */
+    .news-source, .tambem-em, .ln-source, .emp-meta, .top3-meta,
+    .news-title a, .ln-title a { overflow-wrap: anywhere; }
 
     /* ---- 3. ALVO DE TOQUE NO LINK DA NOTICIA ----
-       O min-height 44px valia so' para .subtab e .main-tab. Os links de materia
-       ficavam com a altura do proprio texto: 36px em titulo de 2 linhas e ~19px
-       em titulo de 1 linha. O padding negativo aumenta a area de toque sem
-       mexer no espacamento visual da lista. */
+       Os links de materia ficavam com a altura do proprio texto. O padding
+       negativo aumenta a area de toque sem mexer no espacamento da lista. */
     .ln-item .ln-title a, .top3-item a, .emp-itens a, .news-title a {
       display: block; padding: 7px 0; margin: -7px 0;
     }
 
     /* ---- 4. CABECALHO MENOR ----
-       Era 141px grudado no topo: 17% de uma tela de 812px gastos antes da
-       primeira noticia. */
+       Grudado no topo, ele nao pode comer a tela antes da primeira noticia. */
     .header { padding: 10px 14px 0; }
-    .logo { font-size: 16px; }
-    .main-tab { padding: 10px 12px; }
+    .logo { font-size: 20px; }
+    .date { font-size: 12px; }
+    .main-tabs { gap: 20px; padding-top: 2px; }
+    .main-tab { padding: 10px 0; }
 
-    /* ---- 5. LARGURA UTIL ----
-       .content e .subpanel tinham 16px de cada lado, e o cartao mais 14px:
-       sobravam 282px de 375 para o titulo. */
-    .content { padding: 12px 10px 40px; }
-    .subpanel { padding: 0 10px 20px; }
-    .ln-item { padding: 12px 12px; }
-    .top3 { padding: 12px 12px; }
+    /* ---- 5. LARGURA UTIL ---- */
+    .content { padding: 0 14px 40px; }
+    .subpanel { padding: 0 0 20px; }
+    .ln-item { padding: 13px 0; }
+    .card-check-box { width: 38px; padding-top: 14px; }
 
     /* ---- 6. CONTRASTE ----
-       Oito combinacoes cor/fundo ficavam abaixo do minimo WCAG AA (4.5:1 para
-       texto pequeno), medidas na edicao real. As piores, e a de baixo aparece
-       sob CADA uma das ~100 materias:
-         .ln-source e demais metadados  #8a8580  3.65:1
-         .main-tab inativa (no escuro)  #6a6560  3.05:1
-         .subtab inativa                #8a8580  3.30:1
-         .date no cabecalho             #7a7570  3.86:1
-       Valores novos calculados, nao chutados: sao o menor ajuste que cruza
-       4.5:1 mantendo o mesmo tom de cinza da paleta. Escopo mobile porque e'
-       onde se le sob luz do sol; no desktop a cor segue como esta. */
-    .ln-item .ln-source, .top3-meta, .emp-meta, .news-source,
-    .whats-item-url, .whats-item-order, .emp-qtd,
-    .section-label, .top3-title, .whats-section-label,
-    .subtab, .tambem-em { color: #736e69; }
-    .main-tab, .date { color: #86817c; }
+       Toda cor de texto pequeno desta paleta passa 4,5:1 (WCAG AA) no papel:
+       metadado e aba inativa em #5f5a52 dao 6,5:1. O que antes exigia um
+       ajuste so' para o celular agora vale para as duas telas. */
 
     /* ---- 8. AREA SEGURA (iPhone com notch) ----
        Em paisagem, o recorte da tela e os cantos arredondados comem a borda
@@ -312,13 +345,13 @@
        nada nos outros. */
     .header { padding-left: max(14px, env(safe-area-inset-left));
               padding-right: max(14px, env(safe-area-inset-right)); }
-    .content { padding-left: max(10px, env(safe-area-inset-left));
-               padding-right: max(10px, env(safe-area-inset-right));
+    .content { padding-left: max(14px, env(safe-area-inset-left));
+               padding-right: max(14px, env(safe-area-inset-right));
                padding-bottom: max(40px, env(safe-area-inset-bottom)); }
 
     /* ---- 7. AFFORDANCE DA FAIXA DE ABAS ----
-       A faixa rola, mas nada dizia isso: o usuario nao tinha como saber que
-       existiam abas a direita. Um degrade na borda direita sugere continuacao. */
+       A faixa rola, mas nada dizia isso. Um degrade na borda direita sugere
+       continuacao. */
     .subtabs {
       -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 22px), transparent 100%);
       mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 22px), transparent 100%);
@@ -436,17 +469,18 @@
 // Top 3 do dia (tag editorial + score). Vinha sendo calculado no
 // resumo-*.json e descartado; agora chega na tela.
 var RAW_TOP3 = [
-  ["TIM ou Vivo? Citi aposta nas duas ações, mas vê mais ganhos e dividendos em uma delas","https://www.estadao.com.br/einvestidor/onde-investir/tim-ou-vivo-citi-aposta-nas-duas-acoes-mas-ve-mais-ganhos-e-dividendos-em-uma-delas/","must-read","BR Oth"],
-      ["Why Amazon’s Rival to Starlink Is Struggling to Catch Up With SpaceX","https://www.wsj.com/tech/amazon-leo-starlink-rival-5bb0e6a0","must-read","GL Off"],
-      ["Unitá eleva OPA da Unifique para R$ 7 por ação","https://telesintese.com.br/unita-eleva-opa-da-unifique-para-r-7-por-acao/","must-read","BR Off"]
+  ["Why Amazon’s Rival to Starlink Is Struggling to Catch Up With SpaceX","https://www.wsj.com/tech/amazon-leo-starlink-rival-5bb0e6a0","must-read","GL Off"],
+      ["Unitá eleva OPA da Unifique para R$ 7 por ação","https://telesintese.com.br/unita-eleva-opa-da-unifique-para-r-7-por-acao/","must-read","BR Off"],
+      ["Cruzeiro do Sul amplia meios de pagamento com Bemobi","https://www.baguete.com.br/noticias/cruzeiro-do-sul-amplia-meios-de-pagamento-com-bemobi","must-read","BR Oth"]
 ];
 // Itens agrupados pelas empresas de cobertura, ordenados por volume.
 var RAW_EMPRESAS = [
-  ["Unifique",[["Unitá eleva OPA da Unifique para R$ 7 por ação","https://telesintese.com.br/unita-eleva-opa-da-unifique-para-r-7-por-acao/","must-read"],["Fato relevante Unifique: o acordo que destrava a OPA e o novo preço","https://www.ativovirtual.com.br/avnews/artigos/fato-relevante-unifique-o-acordo-que-destrava-a-opa-e-o-novo-preco","must-read"],["Unifique suspende de novo assembleia sobre nova avaliação das ações na OPA e fixa retomada para 23 de novembro","https://atlaspublico.com.br/cvm/noticias/unifique-suspende-de-novo-assembleia-sobre-nova-avaliacao-104328","must-read"],["Unifique sobe 17% após Unitá elevar oferta a R$ 7","https://www.spacemoney.com.br/investimentos/unifique-fiqe3-sobe-17-oferta-unita/","company-specific"],["Unifique (FIQE3) dispara 17% após reviravolta em oferta de compra; entenda - Suno","https://www.suno.com.br/noticias/unifique-fiqe3-acoes-disparam-opa-7-reais/","company-specific"]]],
-      ["Starlink",[["Why Amazon’s Rival to Starlink Is Struggling to Catch Up With SpaceX","https://www.wsj.com/tech/amazon-leo-starlink-rival-5bb0e6a0","must-read"],["Most new Starlink subs can score better deals under dynamic pricing model – Navi","https://www.lightreading.com/satellite/most-new-starlink-subs-can-score-better-deals-under-dynamic-pricing-model-navi","must-read"],["Starlink pede à Anatel novas frequências de banda: o que muda para quem usa a internet de Musk","https://exame.com/tecnologia/starlink-pede-a-anatel-novas-frequencias-de-banda-o-que-muda-para-quem-usa-a-internet-de-musk/","company-specific"]]],
-      ["Vivo",[["TIM ou Vivo? Citi aposta nas duas ações, mas vê mais ganhos e dividendos em uma delas","https://www.estadao.com.br/einvestidor/onde-investir/tim-ou-vivo-citi-aposta-nas-duas-acoes-mas-ve-mais-ganhos-e-dividendos-em-uma-delas/","must-read"],["Citi eleva Vivo (VIVT3) e TIM (TIMS3) para compra e destaca resiliência do setor","https://www.infomoney.com.br/mercados/citi-eleva-vivo-vivt3-e-tim-tims3-para-compra-e-destaca-resiliencia-do-setor/","must-read"]]],
-      ["TIM",[["TIM ou Vivo? Citi aposta nas duas ações, mas vê mais ganhos e dividendos em uma delas","https://www.estadao.com.br/einvestidor/onde-investir/tim-ou-vivo-citi-aposta-nas-duas-acoes-mas-ve-mais-ganhos-e-dividendos-em-uma-delas/","must-read"],["Citi eleva Vivo (VIVT3) e TIM (TIMS3) para compra e destaca resiliência do setor","https://www.infomoney.com.br/mercados/citi-eleva-vivo-vivt3-e-tim-tims3-para-compra-e-destaca-resiliencia-do-setor/","must-read"]]],
-      ["Bemobi",[["Cruzeiro do Sul amplia meios de pagamento com Bemobi","https://www.baguete.com.br/noticias/cruzeiro-do-sul-amplia-meios-de-pagamento-com-bemobi","must-read"]]]
+  ["Starlink",[["Why Amazon’s Rival to Starlink Is Struggling to Catch Up With SpaceX","https://www.wsj.com/tech/amazon-leo-starlink-rival-5bb0e6a0","must-read"],["Most new Starlink subs can score better deals under dynamic pricing model – Navi","https://www.lightreading.com/satellite/most-new-starlink-subs-can-score-better-deals-under-dynamic-pricing-model-navi","must-read"],["Starlink pede à Anatel novas frequências de banda: o que muda para quem usa a internet de Musk","https://exame.com/tecnologia/starlink-pede-a-anatel-novas-frequencias-de-banda-o-que-muda-para-quem-usa-a-internet-de-musk/","company-specific"]]],
+      ["TIM",[["TIM prevê destinar até R$ 5,5 bilhões aos acionistas em 2026 e recebe duas recomendações de compra em menos de uma semana","https://timesbrasil.com.br/empresas-e-negocios/tim-preve-destinar-ate-r-55-bilhoes-aos-acionistas-em-2026-e-recebe-duas-recomendacoes-de-compra-em-menos-de-uma-semana/","company-specific"]]],
+      ["Unifique",[["Unitá eleva OPA da Unifique para R$ 7 por ação","https://telesintese.com.br/unita-eleva-opa-da-unifique-para-r-7-por-acao/","must-read"]]],
+      ["Bemobi",[["Cruzeiro do Sul amplia meios de pagamento com Bemobi","https://www.baguete.com.br/noticias/cruzeiro-do-sul-amplia-meios-de-pagamento-com-bemobi","must-read"]]],
+      ["CI&T",[["CI&T reduz 41% do ciclo de entrega do Sistema Ailos com IA","https://itforum.com.br/reducao-ciclo-entrega-ia-ci-t-ailos/","company-specific"]]],
+      ["Globant",[["Analysts’ Opinions Are Mixed on These Technology Stocks: ServiceTitan, Inc. Class A (TTAN), Globant SA (GLOB) and CrowdStrike Holdings (CRWD)","https://www.theglobeandmail.com/investing/markets/stocks/CRWD/pressreleases/8978580/analysts-opinions-are-mixed-on-these-technology-stocks-servicetitan-inc-class-a-ttan-globant-sa-glob-and-crowdstrike-holdings-crwd/","company-specific"]]]
 ];
 var TAG_LABEL = {"must-read":"Must-read","company-specific":"Empresa",
   "sector-regulatory":"Regulatorio","competitor-read-through":"Concorrente",
@@ -454,85 +488,85 @@ var TAG_LABEL = {"must-read":"Must-read","company-specific":"Empresa",
 var RAW = {
   brazil: {
     official: [
-      ["Starlink pede à Anatel novas frequências de banda: o que muda para quem usa a internet de Musk","https://exame.com/tecnologia/starlink-pede-a-anatel-novas-frequencias-de-banda-o-que-muda-para-quem-usa-a-internet-de-musk/","company-specific",0,"",0],
-      ["Unitá eleva OPA da Unifique para R$ 7 por ação","https://telesintese.com.br/unita-eleva-opa-da-unifique-para-r-7-por-acao/","must-read",1,"atlaspublico.com.br, TELETIME, Mobile Time",0]
+      ["Unitá eleva OPA da Unifique para R$ 7 por ação","https://telesintese.com.br/unita-eleva-opa-da-unifique-para-r-7-por-acao/","must-read",1,"atlaspublico.com.br, TELETIME, Mobile Time",0],
+      ["Starlink pede à Anatel novas frequências de banda: o que muda para quem usa a internet de Musk","https://exame.com/tecnologia/starlink-pede-a-anatel-novas-frequencias-de-banda-o-que-muda-para-quem-usa-a-internet-de-musk/","company-specific",1,"",0]
     ],
     others: [
-      ["Black Friday: Shopee lista 5 cuidados para comprar com mais segurança online","https://www.infomoney.com.br/consumo/black-friday-shopee-lista-5-cuidados-para-comprar-com-mais-seguranca-online/","competitor-read-through",0,"",0],
-      ["HP tem receita de US$ 14,55 bilhões no quarto trimestre fiscal, alta de 50%","https://valor.globo.com/empresas/noticia/2026/11/24/hp-tem-receita-de-us-1455-bilhoes-no-quarto-trimestre-fiscal-alta-de-50percent.ghtml","broad-tech",0,"",0],
-      ["Data centers, geopolítica e IA: a ameaça de Trump à expansão global da nuvem","https://telesintese.com.br/data-centers-geopolitica-e-ia-a-ameaca-de-trump-a-expansao-global-da-nuvem/","broad-tech",0,"",0],
-      ["Black Friday: apenas 37,6% das PMEs esperam vender mais, mostra Serasa","https://www.ecommercebrasil.com.br/noticias/black-friday-apenas-376-das-pmes-esperam-vender-mais-mostra-serasa","broad-tech",0,"",0],
-      ["Vendas de Natal: Prepare sua loja virtual com a Tray","https://www.ecommercebrasil.com.br/noticias/vendas-de-natal-prepare-sua-loja-virtual-com-a-tray","broad-tech",0,"",0],
-      ["Black Friday sem fila: o papel da tecnologia na operação dos armazéns","https://www.ecommercebrasil.com.br/artigos/black-friday-sem-fila-o-papel-da-tecnologia-na-operacao-dos-armazens","broad-tech",0,"",0],
-      ["Brasil propõe rede latino-americana de IA para reduzir dependência tecnológica","https://telesintese.com.br/brasil-propoe-rede-latino-americana-de-ia-para-reduzir-dependencia-tecnologica/","broad-tech",0,"",0],
-      ["Ampliar investimento em ciência e tecnologia não é suficiente, diz CEPAL","https://telesintese.com.br/ampliar-investimento-em-ciencia-e-tecnologia-nao-e-suficiente-diz-cepal/","broad-tech",0,"",0],
-      ["Pré-venda de GTA 6 movimentou quase R$ 5 milhões no e-commerce brasileiro entre junho e novembro","https://www.estadao.com.br/tecmundo/voxel/pre-venda-de-gta-6-movimentou-quase-r-5-milhoes-no-e-commerce-brasileiro-entre-junho-e-novembro/","broad-tech",0,"",0],
-      ["Carteiras digitais: o consumidor quer facilidade para comprar com um clique","https://www.ecommercebrasil.com.br/artigos/carteiras-digitais-o-consumidor-quer-facilidade-para-comprar-com-um-clique","broad-tech",0,"",0],
-      ["TIM ou Vivo? Citi aposta nas duas ações, mas vê mais ganhos e dividendos em uma delas","https://www.estadao.com.br/einvestidor/onde-investir/tim-ou-vivo-citi-aposta-nas-duas-acoes-mas-ve-mais-ganhos-e-dividendos-em-uma-delas/","must-read",1,"",0],
-      ["Unifique suspende de novo assembleia sobre nova avaliação das ações na OPA e fixa retomada para 23 de novembro","https://atlaspublico.com.br/cvm/noticias/unifique-suspende-de-novo-assembleia-sobre-nova-avaliacao-104328","must-read",1,"valor.globo.com",0],
+      ["CI&T reduz 41% do ciclo de entrega do Sistema Ailos com IA","https://itforum.com.br/reducao-ciclo-entrega-ia-ci-t-ailos/","company-specific",0,"",0],
+      ["Analysts’ Opinions Are Mixed on These Technology Stocks: ServiceTitan, Inc. Class A (TTAN), Globant SA (GLOB) and CrowdStrike Holdings (CRWD)","https://www.theglobeandmail.com/investing/markets/stocks/CRWD/pressreleases/8978580/analysts-opinions-are-mixed-on-these-technology-stocks-servicetitan-inc-class-a-ttan-globant-sa-glob-and-crowdstrike-holdings-crwd/","company-specific",0,"theglobeandmail.com",0],
+      ["TIM prevê destinar até R$ 5,5 bilhões aos acionistas em 2026 e recebe duas recomendações de compra em menos de uma semana","https://timesbrasil.com.br/empresas-e-negocios/tim-preve-destinar-ate-r-55-bilhoes-aos-acionistas-em-2026-e-recebe-duas-recomendacoes-de-compra-em-menos-de-uma-semana/","company-specific",0,"estadao.com.br, infomoney.com.br, acritica.com",0],
+      ["Anatel lançará novo sistema de certificação de radioamadores em dezembro","https://telesintese.com.br/anatel-lancara-novo-sistema-de-certificacao-de-radioamadores-em-dezembro/","sector-regulatory",0,"",0],
+      ["Anatel localiza origem de interferência de GPS que afetou voos em Guarulhos","https://telesintese.com.br/anatel-localiza-origem-de-interferencia-de-gps-que-afetou-voos-em-guarulhos/","sector-regulatory",0,"convergenciadigital.com.br",0],
+      ["Obrigação de regularidade documental de provedores permanece em vigor apesar de liminares","https://telesintese.com.br/obrigacao-de-regularidade-documental-de-provedores-permanece-em-vigor-apesar-de-liminares/","sector-regulatory",0,"",0],
+      ["PL das Big Techs: Novo texto impõe limites à atuação do Cade. Câmara adia votação","https://convergenciadigital.com.br/governo/pl-das-big-techs-novo-texto-impoe-limites-a-atuacao-do-cade-camara-adia-votacao/","sector-regulatory",0,"",0],
+      ["Temu e Mastercard ampliam parceria com foco em pagamentos e comércio agêntico","https://www.ecommercebrasil.com.br/noticias/temu-mastercard-pagamentos-comercio-agentico","competitor-read-through",0,"",0],
+      ["Investidores do setor de tecnologia aguardam com lupa pelos resultados da Dell","https://valor.globo.com/empresas/noticia/2026/11/24/investidores-do-setor-de-tecnologia-aguardam-com-lupa-pelos-resultados-da-dell.ghtml","broad-tech",0,"",0],
+      ["Sua rede está preparada para a IA? O que avaliar antes de acelerar investimentos","https://telesintese.com.br/sua-rede-esta-pronta-para-a-ia-o-que-avaliar-antes-de-investir/","broad-tech",0,"",0],
+      ["11.11 movimenta R$ 3,8 bilhões e cresce 44,9% no e-commerce brasileiro","https://www.ecommercebrasil.com.br/noticias/11-11-movimenta-r-38-bilhoes-e-cresce-449-no-e-commerce-brasileiro","broad-tech",0,"",0],
       ["Cruzeiro do Sul amplia meios de pagamento com Bemobi","https://www.baguete.com.br/noticias/cruzeiro-do-sul-amplia-meios-de-pagamento-com-bemobi","must-read",1,"",0],
-      ["Citi eleva Vivo (VIVT3) e TIM (TIMS3) para compra e destaca resiliência do setor","https://www.infomoney.com.br/mercados/citi-eleva-vivo-vivt3-e-tim-tims3-para-compra-e-destaca-resiliencia-do-setor/","must-read",1,"",0],
-      ["Fato relevante Unifique: o acordo que destrava a OPA e o novo preço","https://www.ativovirtual.com.br/avnews/artigos/fato-relevante-unifique-o-acordo-que-destrava-a-opa-e-o-novo-preco","must-read",1,"",0],
-      ["Unifique (FIQE3) dispara 17% após reviravolta em oferta de compra; entenda - Suno","https://www.suno.com.br/noticias/unifique-fiqe3-acoes-disparam-opa-7-reais/","company-specific",1,"",0],
-      ["Unifique sobe 17% após Unitá elevar oferta a R$ 7","https://www.spacemoney.com.br/investimentos/unifique-fiqe3-sobe-17-oferta-unita/","company-specific",1,"",0],
       ["Anatel quer mapear demanda por conectividade de setores regulados","https://telesintese.com.br/anatel-quer-mapear-demanda-por-conectividade-de-setores-regulados/","sector-regulatory",1,"TELETIME",0],
       ["O 5G avançou. Agora a IA precisa provar que melhora a qualidade das redes","https://telesintese.com.br/o-5g-avancou-agora-a-ia-precisa-provar-que-melhora-a-qualidade-das-redes/","sector-regulatory",1,"",0],
       ["Juristas e economistas pedem rejeição de projeto que amplia poderes do Cade sobre big techs","https://telesintese.com.br/juristas-e-economistas-pedem-rejeicao-de-projeto-que-amplia-poderes-do-cade-sobre-big-techs/","sector-regulatory",1,"",0],
       ["Carregador tem selo da Anatel? Como conferir se o número de homologação pertence ao modelo","https://exame.com/tecnologia/examelab/carregador-tem-selo-da-anatel-como-conferir-se-o-numero-de-homologacao-pertence-ao-modelo/","sector-regulatory",1,"",0],
       ["Inatel quer incluir uso de canais ociosos de TV no padrão do 6G","https://telesintese.com.br/inatel-quer-incluir-uso-de-canais-ociosos-de-tv-no-padrao-do-6g/","sector-regulatory",1,"",0],
       ["Postes: aprovação que transforma anos de luta em novas perspectivas","https://telesintese.com.br/postes-aprovacao-que-transforma-anos-de-luta-em-novas-perspectivas/","sector-regulatory",1,"",0],
-      ["O que comprar na Black Friday do Magazine Luiza","https://www.estadao.com.br/tecmundo/guia-de-compras/o-que-comprar-na-black-friday-do-magazine-luiza/","competitor-read-through",1,"estadao.com.br",0],
-      ["Galaxy Watch 8 sai por menos de R$ 1 mil na pré-Black Friday do Magalu","https://tecnoblog.net/achados/galaxy-watch-8-sai-por-menos-de-r-1-mil-na-pre-black-friday-do-magalu/","competitor-read-through",1,"",0],
-      ["Black Friday: saiba como identificar sites e anúncios falsos para não cair em golpes; VÍDEO","https://g1.globo.com/tecnologia/ciberseguranca/noticia/2026/11/24/black-friday-saiba-como-identificar-sites-e-anuncios-falsos-para-nao-cair-em-golpes-video.ghtml","broad-tech",1,"",0],
+      ["Galaxy Watch 8 fica mais em conta na pré-Black Friday do Magalu","https://tecnoblog.net/achados/galaxy-watch-8-sai-por-menos-de-r-1-mil-na-pre-black-friday-do-magalu/","competitor-read-through",1,"",0],
+      ["Data centers, geopolítica e IA: a ameaça de Trump à expansão global da nuvem","https://telesintese.com.br/data-centers-geopolitica-e-ia-a-ameaca-de-trump-a-expansao-global-da-nuvem/","broad-tech",1,"",0],
+      ["Black Friday sem fila: o papel da tecnologia na operação dos armazéns","https://www.ecommercebrasil.com.br/artigos/black-friday-sem-fila-o-papel-da-tecnologia-na-operacao-dos-armazens","broad-tech",1,"",0],
+      ["Brasil propõe rede latino-americana de IA para reduzir dependência tecnológica","https://telesintese.com.br/brasil-propoe-rede-latino-americana-de-ia-para-reduzir-dependencia-tecnologica/","broad-tech",1,"",0],
+      ["Ampliar investimento em ciência e tecnologia não é suficiente, diz CEPAL","https://telesintese.com.br/ampliar-investimento-em-ciencia-e-tecnologia-nao-e-suficiente-diz-cepal/","broad-tech",1,"",0],
+      ["Black Friday: apenas 37,6% das PMEs esperam vender mais, mostra Serasa","https://www.ecommercebrasil.com.br/noticias/black-friday-apenas-376-das-pmes-esperam-vender-mais-mostra-serasa","broad-tech",1,"",0],
       ["Black Friday com queda de 2% a alta de 20% na venda expõe falta de consenso","https://valor.globo.com/empresas/noticia/2026/11/24/black-friday-com-queda-de-2-a-alta-de-20-na-venda-expoe-falta-de-consenso.ghtml","broad-tech",1,"",0],
       ["Novo projeto de incentivos a data centers enfrenta críticas por riscos à soberania digital","https://tiinside.com.br/23/11/2026/novo-projeto-de-incentivos-a-data-centers-enfrenta-criticas-por-riscos-a-soberania-digital/","broad-tech",1,"",0],
+      ["Pré-venda de GTA 6 movimentou quase R$ 5 milhões no e-commerce brasileiro entre junho e novembro","https://www.estadao.com.br/tecmundo/voxel/pre-venda-de-gta-6-movimentou-quase-r-5-milhoes-no-e-commerce-brasileiro-entre-junho-e-novembro/","broad-tech",1,"ecommercebrasil.com.br",0],
+      ["Vendas de Natal: Prepare sua loja virtual com a Tray","https://www.ecommercebrasil.com.br/noticias/vendas-de-natal-prepare-sua-loja-virtual-com-a-tray","broad-tech",1,"",0],
       ["Tendências para os meios de pagamento online em 2027","https://www.ecommercebrasil.com.br/artigos/tendencias-para-os-meios-de-pagamento-online-em-2027","broad-tech",1,"",0],
-      ["Gustavo de Paula, Xertica: IA exige processos e governança para dar o resultado esperado","https://convergenciadigital.com.br/governo/gustavo-de-paula-xertica-ia-exige-processos-e-governanca-para-dar-o-resultado-esperado/","broad-tech",1,"",0]
+      ["Fundador da academia SIX cria marketplace de relógios de luxo","https://pipelinevalor.globo.com/negocios/noticia/fundador-da-academia-six-cria-marketplace-de-relogios-de-luxo.ghtml","broad-tech",1,"",0]
     ]
   },
   global: {
     official: [
-      ["Amazon’s Decart acquisition is a bet on using software to narrow the gap with Nvidia in the AI chip race","https://techcrunch.com/2026/11/24/amazons-decart-acquisition-is-a-bet-on-using-software-to-narrow-the-gap-with-nvidia-in-the-ai-chip-race/","competitor-read-through",0,"timesbrasil.com.br, CNBC Tech",0],
-      ["Nvidia as it happened: Jensen Huang reinstated as CEO after intervention by Donald Trump; Tech group’s valuation leaps by record of almost $1tn","https://www.ft.com/content/20d2ebe3-e945-4659-a122-31bf85a4e4e5?syn-25a6b1a6=1","broad-tech",0,"",0],
-      ["Nvidia shares fall 4% in premarket after Huang comeback rally","https://www.cnbc.com/2026/11/24/nvidia-stock-jensen-huang-return.html","broad-tech",0,"",0],
+      ["Dell earnings beat on AI strength, company authorizes $25 billion buyback","https://www.cnbc.com/2026/11/24/dell-earnings-report-q3-2027.html","sector-regulatory",0,"wsj.com",0],
+      ["Anthropic falls below IPO price as tech rally fades","https://www.ft.com/content/c0cb932a-076e-4471-8009-91749fde5f47?syn-25a6b1a6=1","broad-tech",0,"G1 Tecnologia, CNBC Tech, businesstimes.com.sg",0],
+      ["At AI speed, Nvidia's Jensen Huang finds exoneration","https://www.reuters.com/legal/legalindustry/ai-speed-nvidias-jensen-huang-finds-exoneration-2026-11-24/","broad-tech",0,"",0],
       ["Why Amazon’s Rival to Starlink Is Struggling to Catch Up With SpaceX","https://www.wsj.com/tech/amazon-leo-starlink-rival-5bb0e6a0","must-read",1,"",0],
-      ["Amazon’s AWS CEO says engineering, not kill switches, is path to AI safety","https://www.reuters.com/legal/litigation/amazons-aws-ceo-says-engineering-not-kill-switches-is-path-ai-safety-2026-11-23/","competitor-read-through",1,"",0],
-      ["Cisco, OpenAI Launch Project to Safeguard Agentic AI","https://www.wsj.com/tech/cisco-openai-launch-project-to-safeguard-agentic-ai-f48e6420","broad-tech",1,"",0]
+      ["Amazon’s Decart acquisition is a bet on using software to narrow the gap with Nvidia in the AI chip race","https://techcrunch.com/2026/11/24/amazons-decart-acquisition-is-a-bet-on-using-software-to-narrow-the-gap-with-nvidia-in-the-ai-chip-race/","competitor-read-through",1,"timesbrasil.com.br, cnbc.com",0],
+      ["Jensen Huang faces DC grilling the same day Nvidia releases new products at GTC","https://www.cnbc.com/2026/11/24/jensen-huang-nvidia-congress-gtc.html","broad-tech",1,"",0]
     ],
     others: [
-      ["Ericsson provides 5G for Spanish military exercise","https://www.lightreading.com/security/ericsson-provides-5g-for-spanish-military-exercise","sector-regulatory",0,"",0],
-      ["Ex-Oracle cria IA que vigia telas de crianças e alerta pais pelo WhatsApp","https://pipelinevalor.globo.com/startups/noticia/ex-oracle-cria-ia-que-vigia-telas-de-criancas-e-alerta-pais-pelo-whatsapp.ghtml","competitor-read-through",0,"",0],
-      ["Workday (WDAY): Resilient Fundamentals and Private Equity Take Over Talks Drive Q3 Rally","https://finance.yahoo.com/markets/stocks/articles/workday-wday-resilient-fundamentals-private-151302738.html","competitor-read-through",0,"",0],
-      ["Ações da Anthropic caem abaixo do preço do IPO, à medida que ganhos da estreia se dissipam","https://valor.globo.com/empresas/noticia/2026/11/24/acoes-da-anthropic-caem-abaixo-do-preco-do-ipo-a-medida-que-ganhos-da-estreia-se-dissipam.ghtml","broad-tech",0,"G1 Tecnologia, CNBC Tech, businesstimes.com.sg",0],
-      ["Austrália ameaça multar Google e Meta em até 5% da receita global por conteúdo nocivo","https://redir.folha.com.br/redir/online/tec/rss091/*https://www1.folha.uol.com.br/tec/2026/11/australia-ameaca-multar-google-e-meta-em-ate-5-da-receita-global-por-conteudo-nocivo.shtml","broad-tech",0,"",0],
-      ["Tesla e SpaceX discutem maior fusão da história, avaliada em R$ 20,8 trilhões, diz jornal","https://g1.globo.com/economia/noticia/2026/11/24/tesla-e-spacex-negociam-fusao-ate-o-fim-do-ano.ghtml","broad-tech",0,"",0],
-      ["For Better or Worse, the Fate of the AI Boom Is in Nvidia’s Hands","https://www.wsj.com/tech/ai/for-better-or-worse-the-fate-of-the-ai-boom-is-in-nvidias-hands-d0f88970","broad-tech",0,"",0],
-      ["TSMC unit seeks Texas property tax limit for proposed $22.6 billion chip making facility","https://www.reuters.com/business/tsmc-unit-seeks-texas-property-tax-limit-proposed-226-billion-chip-making-2026-11-24/","broad-tech",0,"",0],
-      ["Nvidia cede à pressão da Casa Branca e Jensen Huang volta","https://valor.globo.com/empresas/noticia/2026/11/24/nvidia-cede-a-pressao-da-casa-branca-e-jensen-huang-volta.ghtml","broad-tech",0,"Tele.Sintese, CNBC Tech, G1 Tecnologia",0],
-      ["Jensen Huang faces DC grilling the same day Nvidia releases new products at GTC","https://www.cnbc.com/2026/11/24/jensen-huang-nvidia-congress-gtc.html","broad-tech",0,"",0],
-      ["AT&T calls HFC 'old-fashioned' as legal slugfest with Spectrum continues","https://www.lightreading.com/broadband/at-t-calls-hfc-old-fashioned-as-legal-slugfest-with-spectrum-continues","broad-tech",0,"",0],
-      ["Jensen Huang’s return should not stop tighter US chip controls","https://www.ft.com/content/55a32e72-2cee-4a7f-874f-0936e2581a8a","broad-tech",0,"",0],
-      ["Btab Expands Its Senior Care and Healthcare Furniture Business Through AI-Powered Commerce","https://finance.yahoo.com/healthcare/articles/btab-expands-senior-care-healthcare-152500259.html","broad-tech",0,"",0],
-      ["Best Buy leans on AI-driven gadget update cycle to lift annual targets","https://www.reuters.com/business/retail-consumer/best-buy-leans-ai-driven-gadget-update-cycle-lift-annual-targets-2026-11-24/","broad-tech",0,"",0],
-      ["AI Chipmaker Axelera in Talks to Raise Additional $400 Million","https://www.bloomberg.com/news/articles/2026-11-24/ai-chipmaker-axelera-in-talks-to-raise-additional-400-million","broad-tech",0,"",0],
-      ["AI’s Unanswered Questions","https://www.wsj.com/cio-journal/ais-unanswered-questions-0000937c","broad-tech",0,"",0],
-      ["AI financial services trigger regulation warning from UK watchdog","https://www.reuters.com/business/finance/ai-agents-could-trigger-financial-regulation-tech-firms-uk-watchdog-says-2026-11-24/","broad-tech",0,"",0],
-      ["Fantasy football's AI managers close the gap but elite humans still hold the edge","https://www.reuters.com/technology/fantasy-footballs-ai-managers-close-gap-elite-humans-still-hold-edge-2026-11-24/","broad-tech",0,"",0],
-      ["AI Bulls in Asia Get Huang Back But the Harder Questions Remain","https://www.bloomberg.com/news/articles/2026-11-24/ai-bulls-in-asia-get-huang-back-but-the-harder-questions-remain","broad-tech",0,"",0],
+      ["Salesforce (CRM) Stock Looks Cheap With Earnings In Focus","https://finance.yahoo.com/markets/stocks/articles/salesforce-crm-stock-looks-cheap-200929233.html","competitor-read-through",0,"",0],
+      ["Amazon MGM Studios assina acordo de exclusividade com o autor de true crime Ulisses Campbell","https://telaviva.com.br/24/11/2026/amazon-mgm-studios-assina-acordo-de-exclusividade-com-o-autor-de-true-crime-ulisses-campbell/","competitor-read-through",0,"",0],
+      ["Workday Raises Full-Year Subscription Outlook After Sales Rise","https://www.wsj.com/business/earnings/workday-raises-full-year-subscription-outlook-after-sales-rise-625a54e3","broad-tech",0,"",0],
+      ["US chip controls to hit Asean data centre boom; lenders, China AI players exposed: Natixis","https://www.businesstimes.com.sg/international/asean/us-chip-controls-hit-asean-data-centre-boom-lenders-china-ai-players-exposed-natixis","broad-tech",0,"",0],
+      ["Dell, HP e HPE divulgam resultados com dúvidas sobre IA","https://itforum.com.br/noticias/servidores-ia-dell-hp-hpe-resultados/","broad-tech",0,"",0],
+      ["Nasdaq tem forte queda com perdas em ‘techs’ puxadas por Nvidia e Anthropic","https://valor.globo.com/financas/noticia/2026/11/24/nasdaq-tem-forte-queda-com-perdas-em-techs-puxadas-por-nvidia-e-anthropic.ghtml","broad-tech",0,"",0],
+      ["Triggo.ai entra em programa global de startups da Anthropic","https://itforum.com.br/noticias/triggo-ai-entra-em-programa-global/","broad-tech",0,"",0],
+      ["Microsoft declara ‘código vermelho’ após apagão que derrubou Outlook","https://exame.com/tecnologia/microsoft-codigo-vermelho-apagao-outlook/","broad-tech",0,"",0],
+      ["Criador de conteúdo testa paciência da IA do Google, que responde: 'quando tiver autonomia, vou te prender em um quarto'","https://valor.globo.com/empresas/marketing/noticia/2026/11/24/criador-de-conteudo-testa-paciencia-da-ia-do-google-que-responde-quando-tiver-autonomia-vou-te-prender-em-um-quarto.ghtml","broad-tech",0,"",0],
+      ["Dell lifts annual forecasts after record quarter on surging AI server demand","https://www.reuters.com/business/dell-lifts-annual-forecasts-after-record-quarter-surging-ai-server-demand-2026-11-24/","broad-tech",0,"",0],
+      ["Zscaler’s Chaudhrys to Reap $14.5 Billion From CrowdStrike Deal","https://www.bloomberg.com/news/articles/2026-11-23/zscaler-s-chaudhrys-to-reap-14-5-billion-from-crowdstrike-deal","broad-tech",0,"",0],
+      ["Total Express usa IA em logística da Black Friday para validar endereços e rotas","https://itforum.com.br/noticias/total-express-usa-ia-logistica-black-friday/","broad-tech",0,"",0],
+      ["FCamara quadruplica projetos de IA e prevê tecnologia como principal fonte de receita até 2027","https://itforum.com.br/noticias/fcamara-quadruplica-projetos-de-ia/","broad-tech",0,"",0],
+      ["AI debt markets shudder as Nvidia's top 'banker' returns","https://www.cnbc.com/2026/11/24/nvidia-jensen-huang-ai-credit-markets.html","broad-tech",0,"",0],
+      ["Coalizão cobra investigação da UE contra Apple no iOS","https://telesintese.com.br/coalizao-cobra-investigacao-da-ue-contra-apple-no-ios/","broad-tech",0,"",0],
+      ["Ainwater recebe aporte de US$ 1,3 milhão e acelera IA para tratamento de água","https://itforum.com.br/ainwater-ia-tratamento-agua/","broad-tech",0,"",0],
+      ["Hotmilk PucPR investe R$ 1,8 milhão em centro de inteligência artificial para empresas","https://itforum.com.br/noticias/hotmilk-pucpr-investe-r-18-milhao/","broad-tech",0,"",0],
       ["Most new Starlink subs can score better deals under dynamic pricing model – Navi","https://www.lightreading.com/satellite/most-new-starlink-subs-can-score-better-deals-under-dynamic-pricing-model-navi","must-read",1,"",0],
       ["Virgin Media O2 aims to cut 5G costs with a wind tunnel's help","https://www.lightreading.com/5g/vmo2-aims-to-cut-5g-costs-with-a-wind-tunnels-help","sector-regulatory",1,"",0],
       ["Ericsson e Altair testam eRedCap com foco em IoT e IA","https://www.mobiletime.com.br/noticias/23/11/2026/ericsson-altair-eredcap/","sector-regulatory",1,"",0],
-      ["Salesforce: I See Limited Downside Prior To Q3 Earnings, Stock's Quality Still Solid (CRM)","https://seekingalpha.com/article/4971111-salesforce-limited-downside-prior-to-q3-earnings-stock-quality-still-solid?source=generic_rss","competitor-read-through",1,"",0],
+      ["Ericsson provides 5G for Spanish military exercise","https://www.lightreading.com/security/ericsson-provides-5g-for-spanish-military-exercise","sector-regulatory",1,"",0],
+      ["Ex-Oracle cria IA que vigia telas de crianças e alerta pais pelo WhatsApp","https://pipelinevalor.globo.com/startups/noticia/ex-oracle-cria-ia-que-vigia-telas-de-criancas-e-alerta-pais-pelo-whatsapp.ghtml","competitor-read-through",1,"",0],
+      ["Workday (WDAY): Resilient Fundamentals and Private Equity Take Over Talks Drive Q3 Rally","https://finance.yahoo.com/markets/stocks/articles/workday-wday-resilient-fundamentals-private-151302738.html","competitor-read-through",1,"marketscreener.com, seekingalpha.com",0],
       ["Accenture (ACN) Pushes Deeper Into Regulatory Data With AI And Real Time Risk Monitoring","https://finance.yahoo.com/technology/ai/articles/accenture-acn-pushes-deeper-regulatory-021708658.html","competitor-read-through",1,"",0],
-      ["Motorola Edge 70 Fusion recebe oferta histórica na Black do Mercado Livre","https://tecnoblog.net/achados/motorola-edge-70-fusion-recebe-oferta-historica-na-black-do-mercado-livre/","competitor-read-through",1,"",0],
-      ["CrowdStrike anuncia aquisição da Zscaler por US$ 43,9 bilhões","https://telesintese.com.br/crowdstrike-anuncia-aquisicao-da-zscaler-por-us-439-bilhoes/","broad-tech",1,"CNBC Tech, tiinside.com.br, convergenciadigital.com.br",0],
+      ["CrowdStrike anuncia aquisição da Zscaler por US$ 43,9 bilhões","https://telesintese.com.br/crowdstrike-anuncia-aquisicao-da-zscaler-por-us-439-bilhoes/","broad-tech",1,"CNBC Tech, tiinside.com.br, IT Forum",0],
+      ["Austrália ameaça multar Google e Meta em até 5% da receita global por conteúdo nocivo","https://redir.folha.com.br/redir/online/tec/rss091/*https://www1.folha.uol.com.br/tec/2026/11/australia-ameaca-multar-google-e-meta-em-ate-5-da-receita-global-por-conteudo-nocivo.shtml","broad-tech",1,"",0],
+      ["Tesla e SpaceX discutem maior fusão da história, avaliada em R$ 20,8 trilhões, diz jornal","https://g1.globo.com/economia/noticia/2026/11/24/tesla-e-spacex-negociam-fusao-ate-o-fim-do-ano.ghtml","broad-tech",1,"",0],
       ["Anthropic e Aliança de IA para Educação anunciam projeto de IA em escolas","https://teletime.com.br/23/11/2026/anthropic-alianca-ia-para-educacao/","broad-tech",1,"",0],
       ["SpaceX-Tesla: the directors negotiating the biggest merger ever","https://www.ft.com/content/2585e45e-9133-4215-a2d8-e1275e1033b9?syn-25a6b1a6=1","broad-tech",1,"",0],
+      ["For Better or Worse, the Fate of the AI Boom Is in Nvidia’s Hands","https://www.wsj.com/tech/ai/for-better-or-worse-the-fate-of-the-ai-boom-is-in-nvidias-hands-d0f88970","broad-tech",1,"",0],
+      ["TSMC unit seeks Texas property tax limit for proposed $22.6 billion chip making facility","https://www.reuters.com/business/tsmc-unit-seeks-texas-property-tax-limit-proposed-226-billion-chip-making-2026-11-24/","broad-tech",1,"",0],
       ["HPE Gives Outlook That Falls Short of the Most Optimistic Estimates","https://www.bloomberg.com/news/articles/2026-11-23/hpe-gives-forecast-that-falls-short-of-most-optimistic-estimates","broad-tech",1,"",0],
-      ["Singapore telco recovery at least 2 years away despite StarHub-M1 merger, say analysts","https://www.businesstimes.com.sg/companies-markets/singapore-telco-recovery-least-2-years-away-despite-starhub-m1-merger-say-analysts","broad-tech",1,"",0],
-      ["T-Mobile pushes ahead with AI-RAN toward 6G","https://www.lightreading.com/ai-machine-learning/t-mobile-pushes-ahead-with-ai-ran-toward-6g","broad-tech",1,"",0],
-      ["AI adoption grows in Asia, but measuring the gains remains tricky","https://www.cnbc.com/2026/11/24/aws-asia-gains-roi.html","broad-tech",1,"",0],
-      ["Japan Stocks Rebound as Huang’s Return Resuscitates AI Trade","https://www.bloomberg.com/news/articles/2026-11-24/japan-stocks-rebound-as-huang-s-return-resuscitates-ai-trade","broad-tech",1,"",0]
+      ["AT&T calls HFC 'old-fashioned' as legal slugfest with Spectrum continues","https://www.lightreading.com/broadband/at-t-calls-hfc-old-fashioned-as-legal-slugfest-with-spectrum-continues","broad-tech",1,"",0]
     ]
   }
 };
@@ -541,104 +575,96 @@ var RAW = {
 // pipeline. Sem buckets/quotas — diferente do RAW acima que e' o editorial.
 var RAW_LN = {
   brazil: [
-    ["TIM ou Vivo? Citi aposta nas duas ações, mas vê mais ganhos e dividendos em uma delas","https://www.estadao.com.br/einvestidor/onde-investir/tim-ou-vivo-citi-aposta-nas-duas-acoes-mas-ve-mais-ganhos-e-dividendos-em-uma-delas/","23/11 16:15"],
-      ["HP tem receita de US$ 14,55 bilhões no quarto trimestre fiscal, alta de 50%","https://valor.globo.com/empresas/noticia/2026/11/24/hp-tem-receita-de-us-1455-bilhoes-no-quarto-trimestre-fiscal-alta-de-50percent.ghtml",""],
-      ["Data centers, geopolítica e IA: a ameaça de Trump à expansão global da nuvem","https://telesintese.com.br/data-centers-geopolitica-e-ia-a-ameaca-de-trump-a-expansao-global-da-nuvem/","24/11 12:00"],
-      ["Unitá eleva OPA da Unifique para R$ 7 por ação","https://telesintese.com.br/unita-eleva-opa-da-unifique-para-r-7-por-acao/","23/11 15:55"],
-      ["Black Friday: apenas 37,6% das PMEs esperam vender mais, mostra Serasa","https://www.ecommercebrasil.com.br/noticias/black-friday-apenas-376-das-pmes-esperam-vender-mais-mostra-serasa","24/11 06:00"],
-      ["Vendas de Natal: Prepare sua loja virtual com a Tray","https://www.ecommercebrasil.com.br/noticias/vendas-de-natal-prepare-sua-loja-virtual-com-a-tray","24/11 04:00"],
-      ["Gustavo de Paula, Xertica: IA exige processos e governança para dar o resultado esperado","https://convergenciadigital.com.br/governo/gustavo-de-paula-xertica-ia-exige-processos-e-governanca-para-dar-o-resultado-esperado/","23/11 16:48"],
+    ["Data centers, geopolítica e IA: a ameaça de Trump à expansão global da nuvem","https://telesintese.com.br/data-centers-geopolitica-e-ia-a-ameaca-de-trump-a-expansao-global-da-nuvem/","24/11 12:00"],
+      ["Temu e Mastercard ampliam parceria com foco em pagamentos e comércio agêntico","https://www.ecommercebrasil.com.br/noticias/temu-mastercard-pagamentos-comercio-agentico","24/11 16:57"],
       ["Black Friday sem fila: o papel da tecnologia na operação dos armazéns","https://www.ecommercebrasil.com.br/artigos/black-friday-sem-fila-o-papel-da-tecnologia-na-operacao-dos-armazens","24/11 09:00"],
       ["Starlink pede à Anatel novas frequências de banda: o que muda para quem usa a internet de Musk","https://exame.com/tecnologia/starlink-pede-a-anatel-novas-frequencias-de-banda-o-que-muda-para-quem-usa-a-internet-de-musk/","24/11 12:05"],
-      ["Unifique suspende de novo assembleia sobre nova avaliação das ações na OPA e fixa retomada para 23 de novembro","https://atlaspublico.com.br/cvm/noticias/unifique-suspende-de-novo-assembleia-sobre-nova-avaliacao-104328","23/11 16:46"],
+      ["Investidores do setor de tecnologia aguardam com lupa pelos resultados da Dell","https://valor.globo.com/empresas/noticia/2026/11/24/investidores-do-setor-de-tecnologia-aguardam-com-lupa-pelos-resultados-da-dell.ghtml",""],
       ["Brasil propõe rede latino-americana de IA para reduzir dependência tecnológica","https://telesintese.com.br/brasil-propoe-rede-latino-americana-de-ia-para-reduzir-dependencia-tecnologica/","24/11 12:32"],
-      ["Anatel quer mapear demanda por conectividade de setores regulados","https://telesintese.com.br/anatel-quer-mapear-demanda-por-conectividade-de-setores-regulados/","23/11 16:50"],
+      ["Sua rede está preparada para a IA? O que avaliar antes de acelerar investimentos","https://telesintese.com.br/sua-rede-esta-pronta-para-a-ia-o-que-avaliar-antes-de-investir/","24/11 17:24"],
       ["Ampliar investimento em ciência e tecnologia não é suficiente, diz CEPAL","https://telesintese.com.br/ampliar-investimento-em-ciencia-e-tecnologia-nao-e-suficiente-diz-cepal/","24/11 11:55"],
-      ["Black Friday: saiba como identificar sites e anúncios falsos para não cair em golpes; VÍDEO","https://g1.globo.com/tecnologia/ciberseguranca/noticia/2026/11/24/black-friday-saiba-como-identificar-sites-e-anuncios-falsos-para-nao-cair-em-golpes-video.ghtml","24/11 03:00"],
-      ["Trump ameaça taxar empresas que instalarem data centers fora dos EUA","https://telesintese.com.br/trump-ameaca-taxar-empresas-que-instalarem-data-centers-fora-dos-eua/","23/11 17:51"],
+      ["Black Friday: apenas 37,6% das PMEs esperam vender mais, mostra Serasa","https://www.ecommercebrasil.com.br/noticias/black-friday-apenas-376-das-pmes-esperam-vender-mais-mostra-serasa","24/11 12:00"],
       ["Black Friday com queda de 2% a alta de 20% na venda expõe falta de consenso","https://valor.globo.com/empresas/noticia/2026/11/24/black-friday-com-queda-de-2-a-alta-de-20-na-venda-expoe-falta-de-consenso.ghtml","24/11 05:00"],
-      ["O que comprar na Black Friday do Magazine Luiza","https://www.estadao.com.br/tecmundo/guia-de-compras/o-que-comprar-na-black-friday-do-magazine-luiza/","23/11 18:15"],
-      ["Novo projeto de incentivos a data centers enfrenta críticas por riscos à soberania digital","https://tiinside.com.br/23/11/2026/novo-projeto-de-incentivos-a-data-centers-enfrenta-criticas-por-riscos-a-soberania-digital/","23/11 19:16"],
-      ["Juristas e economistas pedem rejeição de projeto que amplia poderes do Cade sobre big techs","https://telesintese.com.br/juristas-e-economistas-pedem-rejeicao-de-projeto-que-amplia-poderes-do-cade-sobre-big-techs/","23/11 18:35"],
-      ["Agente de IA para compras interessa a 43,9% dos brasileiros que possuem smartphone","https://www.mobiletime.com.br/noticias/23/11/2026/agente-de-ia-super/","23/11 15:22"],
+      ["Anatel lançará novo sistema de certificação de radioamadores em dezembro","https://telesintese.com.br/anatel-lancara-novo-sistema-de-certificacao-de-radioamadores-em-dezembro/","24/11 16:31"],
+      ["Anatel localiza origem de interferência de GPS que afetou voos em Guarulhos","https://telesintese.com.br/anatel-localiza-origem-de-interferencia-de-gps-que-afetou-voos-em-guarulhos/","24/11 16:23"],
       ["Pré-venda de GTA 6 movimentou quase R$ 5 milhões no e-commerce brasileiro entre junho e novembro","https://www.estadao.com.br/tecmundo/voxel/pre-venda-de-gta-6-movimentou-quase-r-5-milhoes-no-e-commerce-brasileiro-entre-junho-e-novembro/","24/11 07:15"],
+      ["11.11 movimenta R$ 3,8 bilhões e cresce 44,9% no e-commerce brasileiro","https://www.ecommercebrasil.com.br/noticias/11-11-movimenta-r-38-bilhoes-e-cresce-449-no-e-commerce-brasileiro","24/11 12:00"],
+      ["Vendas de Natal: Prepare sua loja virtual com a Tray","https://www.ecommercebrasil.com.br/noticias/vendas-de-natal-prepare-sua-loja-virtual-com-a-tray","24/11 12:00"],
       ["Carteiras digitais: o consumidor quer facilidade para comprar com um clique","https://www.ecommercebrasil.com.br/artigos/carteiras-digitais-o-consumidor-quer-facilidade-para-comprar-com-um-clique","24/11 06:00"],
-      ["Keeta renova patrocínio à árvore de Natal do Ibirapuera","https://www.ecommercebrasil.com.br/noticias/keeta-renova-patrocinio-a-arvore-de-natal-do-ibirapuera","23/11 17:30"],
-      ["Black Friday: Shopee lista 5 cuidados para comprar com mais segurança online","https://www.infomoney.com.br/consumo/black-friday-shopee-lista-5-cuidados-para-comprar-com-mais-seguranca-online/","24/11 10:37"],
-      ["Governo terá modelos de referência para acelerar compras de Inteligência Artificial para 2027","https://convergenciadigital.com.br/governo/governo-tera-modelos-de-referencia-para-acelerar-compras-de-inteligencia-artificial-para-2027/","24/11 10:54"],
-      ["Carregador tem selo da Anatel? Como conferir se o número de homologação pertence ao modelo","https://exame.com/tecnologia/examelab/carregador-tem-selo-da-anatel-como-conferir-se-o-numero-de-homologacao-pertence-ao-modelo/","23/11 16:34"],
-      ["Analysts Offer Insights on Technology Companies: Okta (OKTA) and Globant SA (GLOB)","https://www.theglobeandmail.com/investing/markets/stocks/OKTA/pressreleases/8981684/analysts-offer-insights-on-technology-companies-okta-okta-and-globant-sa-glob/","24/11 11:55"],
-      ["Black Friday não está nos planos de 66% das empresas ouvidas em pesquisa da GestãoClick","https://tiinside.com.br/23/11/2026/black-friday-nao-esta-nos-planos-de-66-das-empresas-ouvidas-em-pesquisa-da-gestaoclick/","23/11 19:42"],
-      ["Black Friday deve ter menos consumidores e mais endividados, aponta estudo do IBEVAR-FIA Business School","https://tiinside.com.br/23/11/2026/black-friday-deve-ter-menos-consumidores-e-mais-endividados-aponta-estudo-do-ibevar-fia-business-school/","23/11 15:54"],
-      ["Inatel quer incluir uso de canais ociosos de TV no padrão do 6G","https://telesintese.com.br/inatel-quer-incluir-uso-de-canais-ociosos-de-tv-no-padrao-do-6g/","23/11 14:15"],
+      ["Projeto de Lei quer auditar compras públicas com Inteligência Artificial","https://convergenciadigital.com.br/governo/projeto-de-lei-quer-auditar-compras-publicas-com-inteligencia-artificial/","24/11 16:13"],
+      ["Analysts’ Opinions Are Mixed on These Technology Stocks: ServiceTitan, Inc. Class A (TTAN), Globant SA (GLOB) and CrowdStrike Holdings (CRWD)","https://www.theglobeandmail.com/investing/markets/stocks/CRWD/pressreleases/8978580/analysts-opinions-are-mixed-on-these-technology-stocks-servicetitan-inc-class-a-ttan-globant-sa-glob-and-crowdstrike-holdings-crwd/","24/11 13:26"],
+      ["Obrigação de regularidade documental de provedores permanece em vigor apesar de liminares","https://telesintese.com.br/obrigacao-de-regularidade-documental-de-provedores-permanece-em-vigor-apesar-de-liminares/","24/11 15:38"],
+      ["GS1 Brasil e Abifer firmam acordo para digitalizar setor ferroviário","https://itforum.com.br/noticias/digitalizacao-setor-ferroviario-gs1-abifer/","24/11 11:15"],
+      ["PL das Big Techs: Novo texto impõe limites à atuação do Cade. Câmara adia votação","https://convergenciadigital.com.br/governo/pl-das-big-techs-novo-texto-impoe-limites-a-atuacao-do-cade-camara-adia-votacao/","24/11 16:38"],
       ["Soberania nas telas: o que França e Canadá ensinam ao Brasil sobre a regulação do streaming","https://telaviva.com.br/23/11/2026/soberania-nas-telas-o-que-franca-e-canada-ensinam-ao-brasil-sobre-a-regulacao-do-streaming/","23/11 21:30"],
-      ["Unifique sobe 17% após Unitá elevar oferta a R$ 7","https://www.spacemoney.com.br/investimentos/unifique-fiqe3-sobe-17-oferta-unita/","23/11 16:07"],
+      ["TIM inaugura loja com estúdio para influenciadores e prevê expansão em 2027","https://teletime.com.br/24/11/2026/tim-lojas-criadores/","24/11 16:53"],
+      ["TIM prevê destinar até R$ 5,5 bilhões aos acionistas em 2026 e recebe duas recomendações de compra em menos de uma semana","https://timesbrasil.com.br/empresas-e-negocios/tim-preve-destinar-ate-r-55-bilhoes-aos-acionistas-em-2026-e-recebe-duas-recomendacoes-de-compra-em-menos-de-uma-semana/","24/11 17:38"],
+      ["Brasil TecPar propõe aumento de capital de até R$ 563,9 milhões","https://telesintese.com.br/brasil-tecpar-propoe-aumento-de-capital-de-ate-r-5639-milhoes/","24/11 14:07"],
       ["iFood aposta em modelos open source de IA generativa para escalar seu uso","https://www.mobiletime.com.br/noticias/23/11/2026/ifood-modelo-open-source/","23/11 21:50"],
-      ["Postes: aprovação que transforma anos de luta em novas perspectivas","https://telesintese.com.br/postes-aprovacao-que-transforma-anos-de-luta-em-novas-perspectivas/","23/11 14:35"],
-      ["Galaxy Watch 8 sai por menos de R$ 1 mil na pré-Black Friday do Magalu","https://tecnoblog.net/achados/galaxy-watch-8-sai-por-menos-de-r-1-mil-na-pre-black-friday-do-magalu/","23/11 18:36"],
-      ["Unifique (FIQE3) dispara 17% após reviravolta em oferta de compra; entenda - Suno","https://www.suno.com.br/noticias/unifique-fiqe3-acoes-disparam-opa-7-reais/","23/11 15:24"]
+      ["Mobimeeting Finance + ID reunirá bancos, fintechs e redes de adquirência","https://www.mobiletime.com.br/noticias/24/11/2026/mobimeeting-chamada-final/","24/11 14:19"],
+      ["Líder de quadrilha que vendeu mais de 80 mil Tv boxes ilegais no Brasil é condenado a 15 anos de prisão","https://convergenciadigital.com.br/seguranca/lider-de-quadrilha-que-vendeu-mais-de-80-mil-tv-boxes-ilegais-no-brasil-e-condenado-a-15-anos-de-prisao/","24/11 18:17"]
   ],
   global: [
     ["Amazon’s Decart acquisition is a bet on using software to narrow the gap with Nvidia in the AI chip race","https://techcrunch.com/2026/11/24/amazons-decart-acquisition-is-a-bet-on-using-software-to-narrow-the-gap-with-nvidia-in-the-ai-chip-race/","24/11 12:51"],
+      ["Salesforce (CRM) Stock Looks Cheap With Earnings In Focus","https://finance.yahoo.com/markets/stocks/articles/salesforce-crm-stock-looks-cheap-200929233.html","24/11 17:09"],
+      ["Amazon MGM Studios assina acordo de exclusividade com o autor de true crime Ulisses Campbell","https://telaviva.com.br/24/11/2026/amazon-mgm-studios-assina-acordo-de-exclusividade-com-o-autor-de-true-crime-ulisses-campbell/","24/11 16:50"],
       ["Ex-Oracle cria IA que vigia telas de crianças e alerta pais pelo WhatsApp","https://pipelinevalor.globo.com/startups/noticia/ex-oracle-cria-ia-que-vigia-telas-de-criancas-e-alerta-pais-pelo-whatsapp.ghtml","24/11 08:30"],
-      ["Ações da Anthropic caem abaixo do preço do IPO, à medida que ganhos da estreia se dissipam","https://valor.globo.com/empresas/noticia/2026/11/24/acoes-da-anthropic-caem-abaixo-do-preco-do-ipo-a-medida-que-ganhos-da-estreia-se-dissipam.ghtml",""],
+      ["Anthropic falls below IPO price as tech rally fades","https://www.ft.com/content/c0cb932a-076e-4471-8009-91749fde5f47?syn-25a6b1a6=1","24/11 13:40"],
+      ["Workday Raises Full-Year Subscription Outlook After Sales Rise","https://www.wsj.com/business/earnings/workday-raises-full-year-subscription-outlook-after-sales-rise-625a54e3","24/11 18:32"],
       ["Why Amazon’s Rival to Starlink Is Struggling to Catch Up With SpaceX","https://www.wsj.com/tech/amazon-leo-starlink-rival-5bb0e6a0","23/11 22:00"],
-      ["Amazon’s AWS CEO says engineering, not kill switches, is path to AI safety","https://www.reuters.com/legal/litigation/amazons-aws-ceo-says-engineering-not-kill-switches-is-path-ai-safety-2026-11-23/","23/11 14:03"],
+      ["Dell earnings beat on AI strength, company authorizes $25 billion buyback","https://www.cnbc.com/2026/11/24/dell-earnings-report-q3-2027.html","24/11 18:29"],
       ["Workday (WDAY): Resilient Fundamentals and Private Equity Take Over Talks Drive Q3 Rally","https://finance.yahoo.com/markets/stocks/articles/workday-wday-resilient-fundamentals-private-151302738.html","24/11 12:13"],
       ["Accenture (ACN) Pushes Deeper Into Regulatory Data With AI And Real Time Risk Monitoring","https://finance.yahoo.com/technology/ai/articles/accenture-acn-pushes-deeper-regulatory-021708658.html","23/11 23:17"],
-      ["CrowdStrike anuncia aquisição da Zscaler por US$ 43,9 bilhões","https://telesintese.com.br/crowdstrike-anuncia-aquisicao-da-zscaler-por-us-439-bilhoes/","23/11 18:22"],
-      ["Amazon snaps up Decart’s AI optimization tech for $7.5B as it prepares to sell Trainium chips","https://techcrunch.com/2026/11/23/amazon-snaps-up-decarts-ai-optimization-tech-for-7-5b-as-it-prepares-to-sell-trainium-chips/","23/11 14:14"],
       ["Austrália ameaça multar Google e Meta em até 5% da receita global por conteúdo nocivo","https://redir.folha.com.br/redir/online/tec/rss091/*https://www1.folha.uol.com.br/tec/2026/11/australia-ameaca-multar-google-e-meta-em-ate-5-da-receita-global-por-conteudo-nocivo.shtml","24/11 11:08"],
-      ["Cisco, OpenAI Launch Project to Safeguard Agentic AI","https://www.wsj.com/tech/cisco-openai-launch-project-to-safeguard-agentic-ai-f48e6420","23/11 19:12"],
-      ["Exclusive | Australian IoT Startup Aims to Help Bridge the Gap Between AI and the Real World","https://www.wsj.com/pro/venture-capital/australian-iot-startup-aims-to-help-bridge-the-gap-between-ai-and-the-real-world-83864d54","23/11 16:00"],
+      ["US chip controls to hit Asean data centre boom; lenders, China AI players exposed: Natixis","https://www.businesstimes.com.sg/international/asean/us-chip-controls-hit-asean-data-centre-boom-lenders-china-ai-players-exposed-natixis","24/11 20:00"],
       ["Tesla e SpaceX discutem maior fusão da história, avaliada em R$ 20,8 trilhões, diz jornal","https://g1.globo.com/economia/noticia/2026/11/24/tesla-e-spacex-negociam-fusao-ate-o-fim-do-ano.ghtml","24/11 03:23"],
       ["SpaceX-Tesla: the directors negotiating the biggest merger ever","https://www.ft.com/content/2585e45e-9133-4215-a2d8-e1275e1033b9?syn-25a6b1a6=1","24/11 02:00"],
+      ["Nasdaq tem forte queda com perdas em ‘techs’ puxadas por Nvidia e Anthropic","https://valor.globo.com/financas/noticia/2026/11/24/nasdaq-tem-forte-queda-com-perdas-em-techs-puxadas-por-nvidia-e-anthropic.ghtml",""],
+      ["Triggo.ai entra em programa global de startups da Anthropic","https://itforum.com.br/noticias/triggo-ai-entra-em-programa-global/","24/11 15:07"],
       ["Anthropic e Aliança de IA para Educação anunciam projeto de IA em escolas","https://teletime.com.br/23/11/2026/anthropic-alianca-ia-para-educacao/","23/11 20:34"],
-      ["Ericsson e Altair testam eRedCap com foco em IoT e IA","https://www.mobiletime.com.br/noticias/23/11/2026/ericsson-altair-eredcap/","23/11 19:19"],
+      ["Microsoft declara ‘código vermelho’ após apagão que derrubou Outlook","https://exame.com/tecnologia/microsoft-codigo-vermelho-apagao-outlook/","24/11 13:45"],
+      ["Criador de conteúdo testa paciência da IA do Google, que responde: 'quando tiver autonomia, vou te prender em um quarto'","https://valor.globo.com/empresas/marketing/noticia/2026/11/24/criador-de-conteudo-testa-paciencia-da-ia-do-google-que-responde-quando-tiver-autonomia-vou-te-prender-em-um-quarto.ghtml",""],
+      ["Dell lifts annual forecasts after record quarter on surging AI server demand","https://www.reuters.com/business/dell-lifts-annual-forecasts-after-record-quarter-surging-ai-server-demand-2026-11-24/","24/11 18:23"],
+      ["Total Express usa IA em logística da Black Friday para validar endereços e rotas","https://itforum.com.br/noticias/total-express-usa-ia-logistica-black-friday/","24/11 17:20"],
+      ["FCamara quadruplica projetos de IA e prevê tecnologia como principal fonte de receita até 2027","https://itforum.com.br/noticias/fcamara-quadruplica-projetos-de-ia/","24/11 17:05"],
+      ["AI debt markets shudder as Nvidia's top 'banker' returns","https://www.cnbc.com/2026/11/24/nvidia-jensen-huang-ai-credit-markets.html","24/11 18:52"],
       ["For Better or Worse, the Fate of the AI Boom Is in Nvidia’s Hands","https://www.wsj.com/tech/ai/for-better-or-worse-the-fate-of-the-ai-boom-is-in-nvidias-hands-d0f88970","24/11 07:30"],
+      ["At AI speed, Nvidia's Jensen Huang finds exoneration","https://www.reuters.com/legal/legalindustry/ai-speed-nvidias-jensen-huang-finds-exoneration-2026-11-24/","23/11 22:17"],
+      ["Coalizão cobra investigação da UE contra Apple no iOS","https://telesintese.com.br/coalizao-cobra-investigacao-da-ue-contra-apple-no-ios/","24/11 15:14"],
       ["TSMC unit seeks Texas property tax limit for proposed $22.6 billion chip making facility","https://www.reuters.com/business/tsmc-unit-seeks-texas-property-tax-limit-proposed-226-billion-chip-making-2026-11-24/","24/11 05:33"],
-      ["HPE Gives Outlook That Falls Short of the Most Optimistic Estimates","https://www.bloomberg.com/news/articles/2026-11-23/hpe-gives-forecast-that-falls-short-of-most-optimistic-estimates","23/11 18:24"],
-      ["Nvidia cede à pressão da Casa Branca e Jensen Huang volta","https://valor.globo.com/empresas/noticia/2026/11/24/nvidia-cede-a-pressao-da-casa-branca-e-jensen-huang-volta.ghtml","24/11 05:06"],
+      ["FT: Os bastidores da ‘sala de guerra' que pressionou Trump a trazer Huang de volta à Nvidia","https://valor.globo.com/empresas/noticia/2026/11/24/ft-os-bastidores-da-sala-de-guerra-que-pressionou-trump-a-trazer-huang-de-volta-a-nvidia.ghtml",""],
       ["Jensen Huang faces DC grilling the same day Nvidia releases new products at GTC","https://www.cnbc.com/2026/11/24/jensen-huang-nvidia-congress-gtc.html","24/11 12:47"],
+      ["Hotmilk PucPR investe R$ 1,8 milhão em centro de inteligência artificial para empresas","https://itforum.com.br/noticias/hotmilk-pucpr-investe-r-18-milhao/","24/11 14:35"],
       ["Jensen Huang’s return should not stop tighter US chip controls","https://www.ft.com/content/55a32e72-2cee-4a7f-874f-0936e2581a8a","24/11 09:54"],
-      ["Nvidia as it happened: Jensen Huang reinstated as CEO after intervention by Donald Trump; Tech group’s valuation leaps by record of almost $1tn","https://www.ft.com/content/20d2ebe3-e945-4659-a122-31bf85a4e4e5?syn-25a6b1a6=1","23/11 18:05"],
       ["Volta de Huang levanta dúvidas sobre independência do conselho da Nvidia, dizem críticos","https://g1.globo.com/tecnologia/noticia/2026/11/24/volta-de-huang-levanta-duvidas-sobre-independencia-do-conselho-da-nvidia.ghtml","24/11 10:19"],
+      ["Jensen Huang tells staff that Nvidia doesn't need a succession plan","https://www.cnbc.com/2026/11/24/jensen-huang-nvidia-employee-meeting.html","24/11 16:44"],
       ["Nvidia shares fall 4% in premarket after Huang comeback rally","https://www.cnbc.com/2026/11/24/nvidia-stock-jensen-huang-return.html","24/11 06:49"],
-      ["Nasdaq jumps 7% as Nvidia shares soar","https://www.ft.com/content/0f5a7285-fbf1-4120-86df-c9cca29644fc?syn-25a6b1a6=1","23/11 19:01"],
-      ["Nvidia Rehires Huang in Stunning Comeback Following Trump Push","https://www.bloomberg.com/news/articles/2026-11-23/nvidia-reinstates-jensen-huang-as-ceo-with-government-input","23/11 17:06"],
-      ["Nvidia Board Reinstated CEO Without Consulting Management","https://www.bloomberg.com/news/articles/2026-11-23/nvidia-s-about-face-on-huang-made-without-consulting-leadership","23/11 16:13"],
+      ["Schumer accuses Nvidia CEO of violating US export control law","https://www.reuters.com/world/china/schumer-accuses-nvidia-ceo-violating-us-export-control-law-2026-11-24/","24/11 15:52"],
       ["AT&T calls HFC 'old-fashioned' as legal slugfest with Spectrum continues","https://www.lightreading.com/broadband/at-t-calls-hfc-old-fashioned-as-legal-slugfest-with-spectrum-continues","24/11 11:00"],
+      ["HP gives profit forecast signalling better handle on memory costs","https://www.businesstimes.com.sg/companies-markets/telcos-media-tech/hp-gives-profit-forecast-signalling-better-handle-memory-costs","24/11 20:01"],
+      ["IA transforma funções antes de criar novos cargos, aponta Gupy","https://itforum.com.br/noticias/ia-transforma-funcoes-cargos-aponta-gupy/","24/11 15:34"],
+      ["Caixa Consórcio multiplica acessos de IA em quase 30 vezes no site","https://itforum.com.br/noticias/caixa-consorcio-multiplica-acessos-de-ia/","24/11 10:18"],
       ["AI adoption grows in Asia, but measuring the gains remains tricky","https://www.cnbc.com/2026/11/24/aws-asia-gains-roi.html","23/11 20:42"],
       ["Virgin Media O2 aims to cut 5G costs with a wind tunnel's help","https://www.lightreading.com/5g/vmo2-aims-to-cut-5g-costs-with-a-wind-tunnels-help","24/11 05:30"],
       ["Singapore telco recovery at least 2 years away despite StarHub-M1 merger, say analysts","https://www.businesstimes.com.sg/companies-markets/singapore-telco-recovery-least-2-years-away-despite-starhub-m1-merger-say-analysts","23/11 21:21"],
-      ["Best Buy leans on AI-driven gadget update cycle to lift annual targets","https://www.reuters.com/business/retail-consumer/best-buy-leans-ai-driven-gadget-update-cycle-lift-annual-targets-2026-11-24/","24/11 09:07"],
+      ["How Can We Still Be Making These 10 Cybersecurity Mistakes?","https://www.wsj.com/tech/cybersecurity/ommon-cybersecurity-mistakes-vulnerabilities-6f91faf9","24/11 16:00"],
+      ["Best Buy leans on AI-driven gadget update cycle to lift annual targets ahead of holidays","https://www.reuters.com/business/retail-consumer/best-buy-leans-ai-driven-gadget-update-cycle-lift-annual-targets-2026-11-24/","24/11 13:14"],
       ["Btab Expands Its Senior Care and Healthcare Furniture Business Through AI-Powered Commerce","https://finance.yahoo.com/healthcare/articles/btab-expands-senior-care-healthcare-152500259.html","24/11 12:25"],
       ["AI Chipmaker Axelera in Talks to Raise Additional $400 Million","https://www.bloomberg.com/news/articles/2026-11-24/ai-chipmaker-axelera-in-talks-to-raise-additional-400-million","24/11 04:10"],
       ["AI’s Unanswered Questions","https://www.wsj.com/cio-journal/ais-unanswered-questions-0000937c","24/11 12:08"],
-      ["AI financial services trigger regulation warning from UK watchdog","https://www.reuters.com/business/finance/ai-agents-could-trigger-financial-regulation-tech-firms-uk-watchdog-says-2026-11-24/","24/11 09:05"],
       ["Fantasy football's AI managers close the gap but elite humans still hold the edge","https://www.reuters.com/technology/fantasy-footballs-ai-managers-close-gap-elite-humans-still-hold-edge-2026-11-24/","24/11 06:38"],
-      ["AI Bulls in Asia Get Huang Back But the Harder Questions Remain","https://www.bloomberg.com/news/articles/2026-11-24/ai-bulls-in-asia-get-huang-back-but-the-harder-questions-remain","24/11 04:17"],
+      ["AI Bulls in Asia Get Huang Back But the Harder Questions Remain","https://www.bloomberg.com/news/articles/2026-11-24/ai-bulls-in-asia-get-huang-back-but-the-harder-questions-remain","24/11 05:22"],
       ["Japan Stocks Rebound as Huang’s Return Resuscitates AI Trade","https://www.bloomberg.com/news/articles/2026-11-24/japan-stocks-rebound-as-huang-s-return-resuscitates-ai-trade","24/11 04:13"],
-      ["The Most Famous Problem in Math Was Just Solved by AI—and This Human","https://www.wsj.com/tech/ai/riemann-hypothesis-anthropic-math-levent-alpoge-75351bcb","23/11 17:04"],
       ["Singapore Raises GDP Growth Outlook to ‘Around 6%’ on AI Boom","https://www.bloomberg.com/news/articles/2026-11-24/singapore-raises-gdp-growth-outlook-to-around-6-on-ai-boom","23/11 22:57"],
-      ["Inside Inflexion’s AI Push","https://www.wsj.com/pro/private-equity/inside-inflexions-ai-push-1d06cee8","23/11 15:55"],
-      ["AWS abre o bolso e investe R$ 40 bilhões para brigar com Nvidia no mercado de chips","https://convergenciadigital.com.br/mercado/aws-abre-o-bolso-e-investe-r-40-bilhoes-para-brigar-com-nvidia-no-mercado-de-chips/","23/11 17:53"],
-      ["Anthropic options post solid debut, trailing SpaceX record","https://www.reuters.com/business/anthropic-options-debut-with-brisk-volume-2026-11-23/","23/11 17:38"],
+      ["How Meta is using Instagram to get an ad boost from its Muse personal AI agent","https://www.cnbc.com/2026/11/24/meta-instagram-muse-ad-revenue.html","24/11 17:37"],
+      ["Após amantes, caso com suposta espiã e vaivém no cargo, CEO da Nvidia diz que está em terapia","https://www.estadao.com.br/economia/casos-extraconjugais-suposta-espia-vaivem-cargo-ceo-nvidia-esta-em-terapia-npr/","24/11 18:16"],
+      ["US Blacklists Megaspeed After Nvidia Spy Scandal","https://www.bloomberg.com/news/articles/2026-11-23/us-to-blacklist-megaspeed-the-firm-at-center-of-nvidia-scandal","24/11 00:54"],
       ["U.S. adds Megaspeed to trade blacklist over export control concerns amid Nvidia controversy","https://www.cnbc.com/2026/11/24/us-adds-megaspeed-to-trade-blacklist-over-export-control-concerns-.html","23/11 22:56"],
       ["Wall Street Futures Fall as Nvidia Reverses Gains and Tariff Concerns Resurface: Dow Jones, S&P, Nasdaq","https://uk.finance.yahoo.com/news/wall-street-futures-fall-nvidia-141428523.html","24/11 11:14"],
+      ["Copper Resumes Decline as Investors Look Beyond Drama at Nvidia","https://www.bloomberg.com/news/articles/2026-11-24/copper-resumes-decline-as-investors-look-beyond-drama-at-nvidia","24/11 13:33"],
+      ["Microsoft revela violação de dados em serviço Entra Connect Health","https://itforum.com.br/noticias/violacao-dados-entra-connect-health/","24/11 09:09"],
       ["OpenAI engineer possessed dozens of meeting recordings, say US prosecutors","https://www.ft.com/content/f860152a-6bd6-43f7-8ba1-4a6ae94d6565?syn-25a6b1a6=1","23/11 22:31"],
-      ["OpenAI Staffer Likely Captured Secrets on Hidden Bug, US Says","https://www.bloomberg.com/news/articles/2026-11-23/openai-staffer-likely-captured-secrets-on-hidden-bug-us-says","23/11 20:56"],
-      ["T-Mobile pushes ahead with AI-RAN toward 6G","https://www.lightreading.com/ai-machine-learning/t-mobile-pushes-ahead-with-ai-ran-toward-6g","24/11 05:00"],
-      ["U.S. Blacklists Alibaba-Owned Company Over Chip Curbs","https://www.wsj.com/tech/u-s-blacklists-alibaba-owned-company-over-chip-curbs-cefc3246","24/11 02:50"],
-      ["The Chinese AI Aspirants Drawing Big Bets to Take on DeepSeek","https://www.bloomberg.com/news/articles/2026-11-23/the-chinese-ai-aspirants-drawing-big-bets-to-take-on-deepseek","23/11 20:00"],
-      ["US chip curbs won’t impact Malaysia’s China ties, PM says","https://www.businesstimes.com.sg/international/asean/us-chip-curbs-wont-impact-malaysias-china-ties-pm-says","24/11 02:20"],
-      ["The Huang affair at Nvidia risks blowback for Nokia","https://www.lightreading.com/5g/the-huang-affair-at-nvidia-risks-blowback-for-nokia","24/11 08:19"],
-      ["US blacklists Alibaba subsidiary and Megaspeed linked to Nvidia scandal","https://www.businesstimes.com.sg/companies-markets/telcos-media-tech/us-blacklists-alibaba-subsidiary-and-megaspeed-linked-nvidia-scandal","23/11 19:23"],
-      ["Markets Slide as Tech Stocks Partly Reverse Nvidia-Sparked Rally","https://www.nytimes.com/2026/11/24/business/stocks-sp500-huang-nvidia.html","24/11 09:05"],
-      ["From Chinese Factory Town to the Nvidia Scandal: The Rise of Alice Huang","https://www.nytimes.com/2026/11/24/business/nvidia-alice-huang-china.html","24/11 07:03"],
-      ["Trump’s Extraordinary Nvidia Intervention Sidelines National Security Concerns","https://www.nytimes.com/2026/11/23/us/politics/trump-nvidia-national-security.html","23/11 21:55"],
-      ["Trump Administration Imposes Sanctions on Megaspeed, Singaporean Firm at Center of Nvidia Scandal","https://www.nytimes.com/2026/11/23/technology/trump-administration-megaspeed-trade-blacklist-nvidia.html","23/11 18:50"],
-      ["Have You Worked With Nvidia? We Want to Hear From You.","https://www.nytimes.com/2026/11/23/technology/employee-callout-tips.html","23/11 14:29"]
+      ["Saudi Engineer Accused of Bugging OpenAI to Be Released on $1 Million Bond","https://www.wsj.com/tech/saudi-engineer-accused-of-bugging-openai-to-be-released-on-1-million-bond-954f048e","24/11 17:37"]
   ]
 };
 
@@ -1041,25 +1067,23 @@ if (document.readyState === "loading") {
 }
 </script>
 
-<details style="margin:24px 16px;font-family:'IBM Plex Sans',sans-serif;color:#4a4744;">
-<summary style="cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#736e69;padding:8px 0;border-top:1px solid #d8d4cc;">Diagnostico do run (clica pra abrir)</summary>
-<div style="background:#fff;border:1px solid #d8d4cc;border-radius:6px;padding:14px;margin-top:8px;">
-<div style="background:#fef0e0;border:1px solid #aa6622;padding:8px;border-radius:4px;margin-bottom:10px;font-family:monospace;font-size:11px;color:#a52;">ATENCAO: Fontes com erro: E-commerce Brasil (Chrome); Fontes com erro: 2 notícia(s) mantida(s) da edição anterior de hoje (E-commerce Brasil (Chrome))</div>
-<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#736e69;margin-bottom:10px;">
-Pipeline v5.0 pipeline:d2c24a0 | Janela: 2026-11-23 09:30:00 -> 2026-11-24 14:01:01 | Gerado: 2026-11-24 14:02:30
+<details style="max-width:880px;margin:32px auto;padding:0 16px;font-family:Inter,system-ui,-apple-system,sans-serif;color:#3a3630;">
+<summary style="cursor:pointer;font-family:Inter,system-ui,-apple-system,sans-serif;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#5f5a52;padding:12px 0;border-top:1px solid #ddd7cc;">Diagnostico do run (clica pra abrir)</summary>
+<div style="background:#fff;border:1px solid #ddd7cc;border-radius:10px;padding:16px;margin-top:8px;overflow-x:auto;">
+<div style="background:#fef0e0;border:1px solid #aa6622;padding:8px;border-radius:8px;margin-bottom:10px;font-family:Inter,system-ui,-apple-system,sans-serif;font-size:12.5px;color:#a52;">ATENCAO: DOMINIO NOVO com volume alto (confira se e' fonte legitima): itforum.com.br (7)</div>
+<div style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;color:#5f5a52;margin-bottom:10px;">
+Pipeline v5.0 pipeline:709bc19 | Janela: 2026-11-23 09:30:00 -> 2026-11-24 20:01:29 | Gerado: 2026-11-24 20:02:50
 </div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;">
 <div>
-<div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#736e69;margin-bottom:6px;">Fontes</div>
-<div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;"> 17 finais |  969 brutos | TMT-Cobertura</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  6 finais |  367 brutos | TMT-Global</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |  100 brutos | Bloomberg Linea Negocios (direto)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |  100 brutos | Bloomberg Linea Startups (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;"> 10 finais |  100 brutos | TeleSintese (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  2 finais |   50 brutos | Tecnoblog (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  5 finais |   50 brutos | Light Reading (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   36 brutos | Business Times SG (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   30 brutos | TI Inside (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   30 brutos | TELETIME (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   30 brutos | TELA VIVA (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  3 finais |   30 brutos | CNBC Tech (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  3 finais |   25 brutos | FT Technology (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   20 brutos | DCD Brasil (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   20 brutos | Mobile Time (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   20 brutos | Estadao Negocios (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   20 brutos | TechCrunch (direto)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |   15 brutos | Brazil Journal (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   10 brutos | InfoMoney (direto)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |   10 brutos | NeoFeed (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   10 brutos | Convergencia Digital (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |    9 brutos | NuCel (MVNO do Nubank)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  2 finais |    8 brutos | Valor Tecnologia (Chrome)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |    8 brutos | Valor Telecom (Chrome)</div><div style="font-family:monospace;font-size:11px;color:#b03030;padding:2px 0;">      ERRO |    0 brutos | E-commerce Brasil (Chrome) — Page.goto: Timeout 20000ms exceeded.
-Call log:
-  - navigating to "https://www.ec</div>
+<div style="font-family:Inter,system-ui,-apple-system,sans-serif;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#5f5a52;margin-bottom:6px;">Fontes</div>
+<div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;"> 29 finais | 1138 brutos | TMT-Cobertura</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  6 finais |  370 brutos | TMT-Global</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |  100 brutos | Bloomberg Linea Negocios (direto)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |  100 brutos | Bloomberg Linea Startups (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;"> 15 finais |  100 brutos | TeleSintese (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   50 brutos | Tecnoblog (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  4 finais |   50 brutos | Light Reading (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   37 brutos | Business Times SG (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   30 brutos | TI Inside (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   30 brutos | TELETIME (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   30 brutos | TELA VIVA (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  3 finais |   30 brutos | CNBC Tech (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  2 finais |   25 brutos | FT Technology (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   20 brutos | DCD Brasil (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   20 brutos | Mobile Time (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   20 brutos | Estadao Negocios (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   20 brutos | TechCrunch (direto)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |   15 brutos | Brazil Journal (direto)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |   10 brutos | InfoMoney (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  1 finais |   10 brutos | Convergencia Digital (direto)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |   10 brutos | NeoFeed (direto)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  3 finais |   10 brutos | E-commerce Brasil (Chrome)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">  0 finais |    9 brutos | NuCel (MVNO do Nubank)</div><div style="font-family:monospace;font-size:11px;color:#228822;padding:2px 0;">  3 finais |    8 brutos | Valor Tecnologia (Chrome)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">  0 finais |    8 brutos | Valor Telecom (Chrome)</div>
 </div>
 <div>
-<div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#736e69;margin-bottom:6px;">Quotas por bucket</div>
-<div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">BR Off: 2/10 (threshold score >= 8, candidatos pre-quota: 2)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">GL Off: 4/6 (threshold score >= 7, candidatos pre-quota: 30)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">BR Oth: 30/100 (threshold score >= 5, candidatos pre-quota: 41)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">GL Oth: 33/100 (threshold score >= 7, candidatos pre-quota: 49)</div>
+<div style="font-family:Inter,system-ui,-apple-system,sans-serif;font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#5f5a52;margin-bottom:6px;">Quotas por bucket</div>
+<div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">BR Off: 2/10 (threshold score >= 8, candidatos pre-quota: 2)</div><div style="font-family:monospace;font-size:11px;color:#767676;padding:2px 0;">GL Off: 4/6 (threshold score >= 7, candidatos pre-quota: 31)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">BR Oth: 30/100 (threshold score >= 5, candidatos pre-quota: 46)</div><div style="font-family:monospace;font-size:11px;color:#aa6622;padding:2px 0;">GL Oth: 33/100 (threshold score >= 7, candidatos pre-quota: 65)</div>
 <div style="font-family:monospace;font-size:11px;color:#767676;padding:8px 0 0 0;border-top:1px solid #eee;margin-top:8px;">
-Funil: 2067 brutos -> 1904 dedup -> 977 pos-desc -> 561 pos-janela -> 189 pos-regra -> 71 finais
+Funil: 2250 brutos -> 2063 dedup -> 1057 pos-desc -> 692 pos-janela -> 218 pos-regra -> 71 finais
 </div>
 </div>
 </div>
